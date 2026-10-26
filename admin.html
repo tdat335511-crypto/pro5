@@ -1,0 +1,1395 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Trị Media Thư Viện Giải Đấu - Trần Nam Đạt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #f59e0b;
+            --primary-dark: #d97706;
+            --accent: #3b82f6;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        .header-logo span {
+            color: var(--primary);
+        }
+
+        .badge-admin {
+            background: #fef3c7;
+            color: var(--primary-dark);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            border: 1px solid #fde68a;
+            text-transform: uppercase;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.25rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(245, 158, 11, 0.45);
+        }
+
+        .btn-dark {
+            background: var(--dark);
+            color: #ffffff;
+        }
+
+        .btn-dark:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: var(--dark);
+        }
+
+        .btn-danger {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .btn-danger:hover {
+            background: #fecaca;
+        }
+
+        .btn-hotline {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-hotline:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+            color: #ffffff;
+        }
+
+        .btn-zalo {
+            background: linear-gradient(135deg, #0068ff 0%, #0052cc 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(0, 104, 255, 0.35);
+        }
+
+        .btn-zalo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 104, 255, 0.45);
+            color: #ffffff;
+        }
+
+        .btn-fb {
+            background: #1877f2;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(24, 119, 242, 0.3);
+        }
+
+        .btn-fb:hover {
+            background: #0c5dc7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(24, 119, 242, 0.4);
+            color: #ffffff;
+        }
+
+        .main-container {
+            max-width: 1280px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        .page-title-box {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .page-title-box h1 {
+            font-size: 1.75rem;
+            color: var(--dark);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .page-title-box p {
+            color: var(--text-muted);
+            margin-top: 0.35rem;
+            font-size: 0.95rem;
+        }
+
+        /* 4 Tournament Tabs */
+        .category-tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-tab-btn {
+            background: #ffffff;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 1.25rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .category-tab-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+        }
+
+        .category-tab-btn.active {
+            border-color: var(--primary);
+            background: #fffbeb;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.15);
+        }
+
+        .tab-icon-wrap {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #f8fafc;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            transition: 0.25s;
+        }
+
+        .category-tab-btn.active .tab-icon-wrap {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .tab-title-text {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .tab-subtitle-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Category Editor Box */
+        .editor-section {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .section-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-header-row h2 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.2s;
+            background: #ffffff;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+        }
+
+        /* 4 Photos Editor Grid */
+        .photos-editor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .photo-card-box {
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: 0.25s;
+        }
+
+        .photo-card-box:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+        }
+
+        .photo-card-thumb {
+            position: relative;
+            height: 200px;
+            background: #0f172a;
+            overflow: hidden;
+        }
+
+        .photo-card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-index-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(6px);
+            color: #ffffff;
+            padding: 0.3rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .photo-card-body {
+            padding: 1.25rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .photo-card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: auto;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Multi-Image Batch Uploader Drawer */
+        .upload-section-box {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .upload-dropzone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-dropzone:hover, .upload-dropzone.dragover {
+            border-color: var(--primary);
+            background: #fffbeb;
+        }
+
+        .upload-dropzone i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .upload-dropzone h4 {
+            color: var(--dark);
+            font-size: 1.15rem;
+            margin-bottom: 0.35rem;
+            font-weight: 700;
+        }
+
+        .upload-dropzone p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast-item {
+            background: var(--dark);
+            color: #ffffff;
+            padding: 0.85rem 1.35rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            pointer-events: auto;
+            border-left: 4px solid var(--primary);
+            animation: slideInRight 0.3s ease;
+        }
+
+        .toast-item.success { border-left-color: var(--success); }
+        .toast-item.danger { border-left-color: var(--danger); }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        footer {
+            background: #ffffff;
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="header-logo">
+                <i class="fa-solid fa-camera-retro" style="color: var(--primary);"></i>
+                <div>Trần Nam <span>Đạt</span></div>
+                <div class="badge-admin">Media Admin Portal</div>
+            </a>
+            <div class="header-actions">
+                <a href="index.html" class="btn btn-outline">
+                    <i class="fa-solid fa-arrow-left"></i> Xem Trang Portfolio
+                </a>
+                <button type="button" class="btn btn-primary" id="btnSaveAllData">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu Thay Đổi
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+
+        <div class="page-title-box">
+            <div>
+                <h1><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> Quản Lý Thư Viện 4 Giải Đấu Tiêu Biểu</h1>
+                <p>Tải ảnh lên, cập nhật tiêu đề, và quản lý đúng 4 hình ảnh tiêu biểu cho mỗi giải đấu hiển thị trên trang chủ.</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <button type="button" class="btn btn-outline" id="btnExportJson">
+                    <i class="fa-solid fa-file-code"></i> Xuất JSON
+                </button>
+                <button type="button" class="btn btn-danger" id="btnResetDefaults">
+                    <i class="fa-solid fa-rotate-left"></i> Đặt Lại Mặc Định
+                </button>
+            </div>
+        </div>
+
+        <!-- 4 Tournament Category Tabs -->
+        <div class="category-tabs" id="categoryTabs">
+            <!-- Rendered by JS -->
+        </div>
+
+        <!-- Active Category Content Editor -->
+        <div class="editor-section" id="activeCategoryEditor">
+            <!-- Header of Category -->
+            <div class="section-header-row">
+                <h2 id="catEditorTitle">
+                    <i class="fa-solid fa-trophy" style="color: var(--primary);"></i>
+                    <span id="catEditorName">An Nhiệt Premier Cup</span>
+                </h2>
+                <span class="badge-admin" id="catEditorBadge">GIẢI ĐẤU DOANH NGHIỆP & CLB</span>
+            </div>
+
+            <!-- Category Metadata Inputs -->
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label" for="inputCatTitle">Tên giải đấu</label>
+                    <input type="text" id="inputCatTitle" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="inputCatBadge">Huy hiệu / Cấp độ giải đấu</label>
+                    <input type="text" id="inputCatBadge" class="form-input">
+                </div>
+            </div>
+
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label" for="inputCatRole">Vai trò tác nghiệp của bạn</label>
+                    <input type="text" id="inputCatRole" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="inputCatCover">Ảnh bìa đại diện Card (URL hoặc tên file)</label>
+                    <input type="text" id="inputCatCover" class="form-input">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="inputCatDesc">Mô tả tóm tắt kinh nghiệm thực chiến</label>
+                <textarea id="inputCatDesc" class="form-textarea" rows="2"></textarea>
+            </div>
+
+            <!-- 4 Featured Photos of this Category -->
+            <div style="margin-top: 2.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 style="font-size: 1.15rem; font-weight: 750; color: var(--dark);">
+                        <i class="fa-solid fa-images" style="color: var(--primary);"></i> 4 Hình Ảnh Tiêu Biểu Trong Popup Album
+                    </h3>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Khách truy cập sẽ thấy đúng 4 ảnh này khi click vào Card</span>
+                </div>
+
+                <div class="photos-editor-grid" id="photosEditorGrid">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Multi-Image Batch Upload Tool for this Category -->
+        <div class="upload-section-box">
+            <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--dark); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fa-solid fa-cloud-arrow-up" style="color: var(--primary);"></i> Tải Ảnh Mới Lên Cho Giải Đấu Này
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+                Chọn hoặc kéo thả ảnh mới từ máy tính. Bạn có thể thay thế ngay vào 1 trong 4 vị trí ảnh tiêu biểu ở trên.
+            </p>
+
+            <div class="upload-dropzone" id="uploadDropzone">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <h4>Kéo & thả ảnh vào đây hoặc nhấp để chọn tệp từ máy tính</h4>
+                <p>Hỗ trợ chọn nhiều file ảnh (JPG, PNG, WEBP). Tự động nén Canvas tối ưu dung lượng.</p>
+                <input type="file" id="multiFileInput" accept="image/*" multiple style="display: none;">
+            </div>
+
+            <!-- Staged photos queue if uploaded -->
+            <div id="stagedUploadBox" style="display: none;">
+                <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--dark);" id="stagedCountText">
+                    Đã tải lên 0 ảnh mới sẵn sàng:
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;" id="stagedGrid">
+                    <!-- Staged images with 'Gán vào vị trí 1, 2, 3, 4' buttons -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information & Channels Editor (Tab 5) -->
+        <div class="editor-section" id="contactEditorSection" style="display: none;">
+            <div class="section-header-row">
+                <h2>
+                    <i class="fa-solid fa-address-book" style="color: var(--primary);"></i>
+                    <span>Cấu Hình Thông Tin Liên Hệ & Kênh Mạng Xã Hội</span>
+                </h2>
+                <span class="badge-admin" style="background: #d1fae5; color: #065f46; border-color: #a7f3d0;">HOTLINE • ZALO • FACEBOOK</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">
+                Cập nhật số điện thoại, Zalo và link Facebook cá nhân của bạn. Mọi thay đổi khi lưu sẽ tự động đồng bộ ngay tức thì lên thanh Header, Hero, Section Liên Hệ và Nút Nổi góc màn hình trên trang Portfolio.
+            </p>
+
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label" for="inputContactPhone">
+                        <i class="fa-solid fa-phone" style="color: #10b981;"></i> Số Điện Thoại / Hotline Gọi Đến
+                    </label>
+                    <input type="text" id="inputContactPhone" class="form-input" placeholder="Ví dụ: 0988 123 456">
+                    <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.25rem; display: block;">
+                        Dùng cho nút bấm gọi trực tiếp (tel:) trên điện thoại và máy tính.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="inputContactZalo">
+                        <i class="fa-solid fa-comment-dots" style="color: #0068ff;"></i> Số Zalo Hoặc Link Chat Zalo
+                    </label>
+                    <input type="text" id="inputContactZalo" class="form-input" placeholder="Ví dụ: 0988123456 hoặc https://zalo.me/0988123456">
+                    <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.25rem; display: block;">
+                        Khách nhấp vào sẽ mở thẳng cửa sổ chat Zalo 1-1 với bạn.
+                    </small>
+                </div>
+            </div>
+
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label" for="inputContactFbUrl">
+                        <i class="fa-brands fa-facebook" style="color: #1877f2;"></i> Link Facebook Cá Nhân
+                    </label>
+                    <input type="text" id="inputContactFbUrl" class="form-input" placeholder="Ví dụ: https://www.facebook.com/profile.php?id=61591715682693">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="inputContactFbName">
+                        <i class="fa-solid fa-user-tag" style="color: var(--primary);"></i> Tên Hiển Thị Facebook
+                    </label>
+                    <input type="text" id="inputContactFbName" class="form-input" placeholder="Ví dụ: Trần Nam Đạt">
+                </div>
+            </div>
+
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label" for="inputContactEmail">
+                        <i class="fa-solid fa-envelope" style="color: #ef4444;"></i> Email Hợp Tác Công Việc
+                    </label>
+                    <input type="text" id="inputContactEmail" class="form-input" placeholder="Ví dụ: namdat.media@gmail.com">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="inputContactFb2Url">
+                        <i class="fa-brands fa-facebook-messenger" style="color: #0068ff;"></i> Link Facebook Phụ / Fanpage (Nếu có)
+                    </label>
+                    <input type="text" id="inputContactFb2Url" class="form-input" placeholder="Ví dụ: https://www.facebook.com/profile.php?id=61584374816308">
+                </div>
+            </div>
+
+            <!-- Live Preview of Contact Buttons -->
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-top: 1.5rem;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--dark); margin-bottom: 0.75rem;">
+                    <i class="fa-solid fa-eye" style="color: var(--primary);"></i> Xem Trước Nút Liên Hệ Thực Tế:
+                </h4>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;" id="adminContactPreviewRow">
+                    <a href="#" id="previewBtnPhone" class="btn btn-hotline" target="_blank" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                        <i class="fa-solid fa-phone"></i> Hotline: <span id="previewPhoneVal">09xx.xxx.xxx</span>
+                    </a>
+                    <a href="#" id="previewBtnZalo" class="btn btn-zalo" target="_blank" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                        <i class="fa-solid fa-comment-dots"></i> Chat Zalo: <span id="previewZaloVal">09xx.xxx.xxx</span>
+                    </a>
+                    <a href="#" id="previewBtnFb" class="btn btn-fb" target="_blank" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                        <i class="fa-brands fa-facebook"></i> Facebook: <span id="previewFbVal">Trần Nam Đạt</span>
+                    </a>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem;">
+                <button type="button" class="btn btn-primary" id="btnSaveContactData">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin Liên Hệ
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Hidden file input for replacing single photo -->
+    <input type="file" id="singleReplaceFileInput" accept="image/*" style="display: none;">
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <footer>
+        <p>&copy; 2026 Trần Nam Đạt - Media Executive Portfolio. Hệ thống quản trị Media cá nhân chuyên nghiệp.</p>
+    </footer>
+
+    <script>
+        (function() {
+            const STORAGE_KEY = "billiards_tournaments_v3";
+            const CONTACT_STORAGE_KEY = "billiards_contact_info_v1";
+
+            const DEFAULT_CONTACT_DATA = {
+                phone: "0900.000.000",
+                zalo: "0900.000.000",
+                zaloUrl: "",
+                facebookUrl: "https://www.facebook.com/profile.php?id=61591715682693",
+                facebookName: "Trần Nam Đạt",
+                email: "namdat.media@gmail.com",
+                facebook2Url: "https://www.facebook.com/profile.php?id=61584374816308"
+            };
+
+            let contactData = Object.assign({}, DEFAULT_CONTACT_DATA);
+
+            // Dữ liệu 4 giải đấu tiêu chuẩn chuyên nghiệp
+            const DEFAULT_TOURNAMENTS_DATA = {
+                "an-nhiet-cup": {
+                    id: "an-nhiet-cup",
+                    title: "An Nhiệt Premier Cup",
+                    badge: "GIẢI ĐẤU DOANH NGHIỆP & CLB",
+                    icon: "fa-trophy",
+                    role: "Trưởng ban Media & Sản xuất hình ảnh",
+                    description: "Trực tiếp chỉ đạo hình ảnh, thiết kế bộ nhận diện cúp, huy chương và ghi lại toàn bộ khoảnh khắc thi đấu kịch tính tại siêu giải đấu An Nhiệt Cup.",
+                    cover: "assets/images/image_974469.jpg",
+                    coverFallback: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=80",
+                    photos: [
+                        {
+                            id: "annhiet-1",
+                            src: "assets/images/image_974469.jpg",
+                            fallback: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Bộ cúp vô địch, huy chương vàng & áo đấu chính thức An Nhiệt Cup",
+                            subtitle: "Thiết kế & nhận diện sự kiện"
+                        },
+                        {
+                            id: "annhiet-2",
+                            src: "assets/images/image_9741b7.jpg",
+                            fallback: "https://images.unsplash.com/photo-1588497859490-85d1c17db96d?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Không gian thảm đấu và hệ thống ánh sáng chuẩn quốc tế tại An Nhiệt Cup",
+                            subtitle: "Hiện trường thi đấu"
+                        },
+                        {
+                            id: "annhiet-3",
+                            src: "assets/images/image_9739fd.jpg",
+                            fallback: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Trận chung kết nghẹt thở tranh cúp vô địch An Nhiệt Premier",
+                            subtitle: "Khoảnh khắc thi đấu"
+                        },
+                        {
+                            id: "annhiet-4",
+                            src: "assets/images/image_974143.jpg",
+                            fallback: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Lễ bế mạc và vinh danh trao cúp cho tân vương giải đấu",
+                            subtitle: "Lễ vinh danh"
+                        }
+                    ]
+                },
+                "setup-ky-thuat": {
+                    id: "setup-ky-thuat",
+                    title: "Setup & Kĩ Thuật",
+                    badge: "LIVE PRODUCTION & BROADCAST",
+                    icon: "fa-video",
+                    role: "Kỹ thuật viên Livestream & Vận hành OBS/vMix",
+                    description: "Vận hành hệ thống phát sóng trực tiếp đa góc máy chuyên nghiệp, điều phối luồng stream ổn định và cắt highlight triệu view thời gian thực.",
+                    cover: "assets/images/image_973dc0.jpg",
+                    coverFallback: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000&auto=format&fit=crop&q=80",
+                    photos: [
+                        {
+                            id: "setup-1",
+                            src: "assets/images/image_973dc0.jpg",
+                            fallback: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Bàn điều khiển kỹ thuật OBS Studio & vMix phát sóng trực tiếp",
+                            subtitle: "Control Desk Hiện Trường"
+                        },
+                        {
+                            id: "setup-2",
+                            src: "assets/images/image_974143.jpg",
+                            fallback: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Thiết lập góc máy quay cận cảnh bi cái và toàn cảnh bàn thi đấu",
+                            subtitle: "Căn chỉnh camera hiện trường"
+                        },
+                        {
+                            id: "setup-3",
+                            src: "assets/images/image_9741b7.jpg",
+                            fallback: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Điều phối luồng stream và kỹ thuật âm thanh bình luận viên trực tiếp",
+                            subtitle: "Hệ thống truyền dẫn luồng"
+                        },
+                        {
+                            id: "setup-4",
+                            src: "assets/images/image_974469.jpg",
+                            fallback: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Ekip Media phối hợp vận hành sự kiện và trực ban kỹ thuật 24/7",
+                            subtitle: "Ekip Production Hậu Trường"
+                        }
+                    ]
+                },
+                "wpa-the-gioi": {
+                    id: "wpa-the-gioi",
+                    title: "WPA Thế Giới",
+                    badge: "SIÊU GIẢI ĐẤU QUỐC TẾ",
+                    icon: "fa-globe",
+                    role: "Chuyên viên Tác nghiệp & Truyền thông Quốc tế",
+                    description: "Tác nghiệp báo chí hình ảnh và video ngắn bắt trend tại các chặng đấu thuộc Hiệp hội Billiards Thế giới (WPA) tổ chức tại Việt Nam.",
+                    cover: "assets/images/image_973a17.jpg",
+                    coverFallback: "https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=1000&auto=format&fit=crop&q=80",
+                    photos: [
+                        {
+                            id: "wpa-1",
+                            src: "assets/images/image_973a17.jpg",
+                            fallback: "https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Tác nghiệp chụp ảnh cơ thủ quốc tế tập trung cao độ tại WPA",
+                            subtitle: "Chân dung cơ thủ thế giới"
+                        },
+                        {
+                            id: "wpa-2",
+                            src: "assets/images/image_9739fd.jpg",
+                            fallback: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Pha giải bi cứu thua đẳng cấp thế giới được ghi hình trực tiếp",
+                            subtitle: "Highlight thi đấu đỉnh cao"
+                        },
+                        {
+                            id: "wpa-3",
+                            src: "assets/images/image_9741b7.jpg",
+                            fallback: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Đấu trường WPA sôi động với khán giả theo dõi chật kín khán đài",
+                            subtitle: "Không khí sự kiện WPA"
+                        },
+                        {
+                            id: "wpa-4",
+                            src: "assets/images/image_974143.jpg",
+                            fallback: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Phỏng vấn cơ thủ quốc tế sau khi giành chiến thắng vào vòng chung kết",
+                            subtitle: "Tác nghiệp phỏng vấn cơ thủ"
+                        }
+                    ]
+                },
+                "chau-a-quoc-gia": {
+                    id: "chau-a-quoc-gia",
+                    title: "Vô Địch Châu Á vs Quốc Gia",
+                    badge: "ĐẤU TRƯỜNG ĐỈNH CAO",
+                    icon: "fa-medal",
+                    role: "Media Partnership Sales & Nội dung TikTok",
+                    description: "Khai thác thương mại hóa hình ảnh, đồng hành cùng các đội tuyển tại giải Vô địch Châu Á (Asia Pool) và giải Vô địch Quốc gia (VĐQG).",
+                    cover: "assets/images/image_9741b7.jpg",
+                    coverFallback: "https://images.unsplash.com/photo-1588497859490-85d1c17db96d?w=1000&auto=format&fit=crop&q=80",
+                    photos: [
+                        {
+                            id: "asia-1",
+                            src: "assets/images/image_9741b7.jpg",
+                            fallback: "https://images.unsplash.com/photo-1588497859490-85d1c17db96d?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Toàn cảnh lễ khai mạc giải Vô địch Billiards Quốc Gia",
+                            subtitle: "Khai mạc Đấu Trường Quốc Gia"
+                        },
+                        {
+                            id: "asia-2",
+                            src: "assets/images/image_973a17.jpg",
+                            fallback: "https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Cơ thủ tuyển Việt Nam tranh tài cùng các đối thủ hàng đầu Châu Á",
+                            subtitle: "Đại chiến Châu Á (Asia Pool)"
+                        },
+                        {
+                            id: "asia-3",
+                            src: "assets/images/image_973dc0.jpg",
+                            fallback: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Phòng truyền thông tác nghiệp cắt clip highlight triệu view cho TikTok",
+                            subtitle: "Sáng tạo nội dung viral"
+                        },
+                        {
+                            id: "asia-4",
+                            src: "assets/images/image_974469.jpg",
+                            fallback: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Lễ trao huy chương vàng danh giá tại giải Vô địch Quốc Gia",
+                            subtitle: "Vinh quang bục nhận thưởng"
+                        }
+                    ]
+                }
+            };
+
+            const SVG_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22400%22%20viewBox%3D%220%200%20600%20400%22%3E%3Crect%20fill%3D%22%230f172a%22%20width%3D%22600%22%20height%3D%22400%22%2F%3E%3Ccircle%20cx%3D%22300%22%20cy%3D%22180%22%20r%3D%2250%22%20fill%3D%22%23f59e0b%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22192%22%20font-family%3D%22Arial%22%20font-size%3D%2234%22%20font-weight%3D%22bold%22%20fill%3D%22%230f172a%22%20text-anchor%3D%22middle%22%3E8%3C%2Ftext%3E%3Ctext%20x%3D%22300%22%20y%3D%22265%22%20font-family%3D%22Arial%22%20font-size%3D%2220%22%20font-weight%3D%22600%22%20fill%3D%22%2394a3b8%22%20text-anchor%3D%22middle%22%3EBilliards%20Media%20Photo%3C%2Ftext%3E%3C%2Fsvg%3E";
+
+            let tournamentsData = {};
+            let activeCatKey = "an-nhiet-cup";
+            let replacingPhotoIndex = -1;
+            let stagedUploads = [];
+
+            // Toast helper
+            function showToast(msg, type = "info") {
+                const c = document.getElementById("toastContainer");
+                const item = document.createElement("div");
+                item.className = "toast-item " + type;
+                let icon = '<i class="fa-solid fa-circle-check" style="color: #10b981;"></i>';
+                if (type === "danger") icon = '<i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i>';
+                item.innerHTML = icon + '<span>' + msg + '</span>';
+                c.appendChild(item);
+                setTimeout(() => item.remove(), 3200);
+            }
+
+            // Load from LocalStorage
+            function loadData() {
+                try {
+                    const saved = localStorage.getItem(STORAGE_KEY);
+                    if (saved) {
+                        tournamentsData = JSON.parse(saved);
+                    } else {
+                        tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
+                    }
+                } catch (e) {
+                    tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
+                }
+
+                // Tự động chuẩn hóa đường dẫn ảnh từ phiên bản cũ
+                if (tournamentsData && typeof tournamentsData === "object") {
+                    Object.keys(tournamentsData).forEach(k => {
+                        const cat = tournamentsData[k];
+                        if (cat && cat.cover && cat.cover.startsWith("image_")) {
+                            cat.cover = "assets/images/" + cat.cover;
+                        }
+                        if (cat && cat.photos && Array.isArray(cat.photos)) {
+                            cat.photos.forEach(p => {
+                                if (p.src && p.src.startsWith("image_")) {
+                                    p.src = "assets/images/" + p.src;
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+
+            function saveData() {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(tournamentsData));
+                    showToast("Đã lưu tất cả thay đổi thành công!", "success");
+                } catch (e) {
+                    showToast("Bộ nhớ trình duyệt đầy, vui lòng nén ảnh nhỏ hơn!", "danger");
+                }
+            }
+
+            // Image Compression
+            function compressImageFile(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            const MAX_WIDTH = 1200;
+                            let w = img.width;
+                            let h = img.height;
+                            if (w > MAX_WIDTH) {
+                                h = Math.round((h * MAX_WIDTH) / w);
+                                w = MAX_WIDTH;
+                            }
+                            const canvas = document.createElement("canvas");
+                            canvas.width = w;
+                            canvas.height = h;
+                            const ctx = canvas.getContext("2d");
+                            ctx.drawImage(img, 0, 0, w, h);
+                            resolve(canvas.toDataURL("image/jpeg", 0.82));
+                        };
+                        img.onerror = () => resolve(e.target.result);
+                        img.src = e.target.result;
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            // Render Category & Contact Tabs
+            function renderTabs() {
+                const tabsContainer = document.getElementById("categoryTabs");
+                tabsContainer.innerHTML = "";
+
+                const keys = ["an-nhiet-cup", "setup-ky-thuat", "wpa-the-gioi", "chau-a-quoc-gia"];
+                keys.forEach(key => {
+                    const cat = tournamentsData[key];
+                    if (!cat) return;
+
+                    const btn = document.createElement("div");
+                    btn.className = "category-tab-btn " + (activeCatKey === key ? "active" : "");
+                    btn.innerHTML = `
+                        <div class="tab-icon-wrap"><i class="fa-solid ${cat.icon}"></i></div>
+                        <div>
+                            <div class="tab-title-text">${cat.title}</div>
+                            <div class="tab-subtitle-text">${cat.badge} • 4 ảnh</div>
+                        </div>
+                    `;
+                    btn.onclick = () => {
+                        saveActiveInputsToMemory();
+                        activeCatKey = key;
+                        renderTabs();
+                        renderActiveCategory();
+                    };
+                    tabsContainer.appendChild(btn);
+                });
+
+                // Tab 5: Contact Info
+                const contactBtn = document.createElement("div");
+                contactBtn.className = "category-tab-btn " + (activeCatKey === "contact-info" ? "active" : "");
+                contactBtn.innerHTML = `
+                    <div class="tab-icon-wrap" style="${activeCatKey === "contact-info" ? 'background: #10b981; color: #fff;' : 'color: #10b981;'}">
+                        <i class="fa-solid fa-address-book"></i>
+                    </div>
+                    <div>
+                        <div class="tab-title-text">Liên Hệ & Kênh Media</div>
+                        <div class="tab-subtitle-text">Hotline • Zalo • Facebook</div>
+                    </div>
+                `;
+                contactBtn.onclick = () => {
+                    saveActiveInputsToMemory();
+                    activeCatKey = "contact-info";
+                    renderTabs();
+                    renderActiveCategory();
+                };
+                tabsContainer.appendChild(contactBtn);
+            }
+
+            // Save active text inputs to memory
+            function saveActiveInputsToMemory() {
+                if (activeCatKey === "contact-info") {
+                    saveContactInputsToMemory();
+                    return;
+                }
+                const cat = tournamentsData[activeCatKey];
+                if (!cat) return;
+                cat.title = document.getElementById("inputCatTitle").value.trim() || cat.title;
+                cat.badge = document.getElementById("inputCatBadge").value.trim() || cat.badge;
+                cat.role = document.getElementById("inputCatRole").value.trim() || cat.role;
+                cat.cover = document.getElementById("inputCatCover").value.trim() || cat.cover;
+                cat.description = document.getElementById("inputCatDesc").value.trim() || cat.description;
+            }
+
+            // Render Active Category Editor or Contact Editor
+            function renderActiveCategory() {
+                const catEditor = document.getElementById("activeCategoryEditor");
+                const uploadBox = document.querySelector(".upload-section-box");
+                const contactEditor = document.getElementById("contactEditorSection");
+
+                if (activeCatKey === "contact-info") {
+                    catEditor.style.display = "none";
+                    uploadBox.style.display = "none";
+                    contactEditor.style.display = "block";
+                    populateContactEditor();
+                    return;
+                }
+
+                catEditor.style.display = "block";
+                uploadBox.style.display = "block";
+                contactEditor.style.display = "none";
+
+                const cat = tournamentsData[activeCatKey];
+                if (!cat) return;
+
+                document.getElementById("catEditorName").textContent = cat.title;
+                document.getElementById("catEditorBadge").textContent = cat.badge;
+
+                document.getElementById("inputCatTitle").value = cat.title;
+                document.getElementById("inputCatBadge").value = cat.badge;
+                document.getElementById("inputCatRole").value = cat.role;
+                document.getElementById("inputCatCover").value = cat.cover;
+                document.getElementById("inputCatDesc").value = cat.description;
+
+                // Render 4 Photos Editor Grid
+                const photosGrid = document.getElementById("photosEditorGrid");
+                photosGrid.innerHTML = "";
+
+                cat.photos.forEach((photo, idx) => {
+                    const card = document.createElement("div");
+                    card.className = "photo-card-box";
+
+                    card.innerHTML = `
+                        <div class="photo-card-thumb">
+                            <span class="photo-index-badge">Ảnh #${idx + 1} Tiêu Biểu</span>
+                            <img src="${photo.src}" alt="Photo ${idx + 1}" onerror="this.src='${photo.fallback || SVG_FALLBACK}'">
+                        </div>
+                        <div class="photo-card-body">
+                            <div>
+                                <label class="form-label" style="font-size: 0.8rem; margin-bottom: 0.25rem;">Tiêu đề / Chú thích ảnh</label>
+                                <input type="text" class="form-input photo-caption-input" data-index="${idx}" value="${photo.caption || ''}" placeholder="Nhập chú thích ảnh...">
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size: 0.8rem; margin-bottom: 0.25rem;">Nhãn phụ / Vị trí</label>
+                                <input type="text" class="form-input photo-sub-input" data-index="${idx}" value="${photo.subtitle || ''}" placeholder="VD: Khai mạc, Trao giải...">
+                            </div>
+                            <div class="photo-card-actions">
+                                <button type="button" class="btn btn-outline btn-replace-photo" data-index="${idx}" style="flex: 1; padding: 0.45rem 0.5rem; font-size: 0.82rem;">
+                                    <i class="fa-solid fa-upload"></i> Đổi Ảnh Mới
+                                </button>
+                                <button type="button" class="btn btn-outline btn-set-cover" data-index="${idx}" title="Đặt làm ảnh bìa Card giải đấu" style="padding: 0.45rem 0.65rem; font-size: 0.82rem;">
+                                    <i class="fa-solid fa-star"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    photosGrid.appendChild(card);
+                });
+
+                // Attach events to photo inputs
+                document.querySelectorAll(".photo-caption-input").forEach(input => {
+                    input.oninput = (e) => {
+                        const idx = parseInt(e.target.dataset.index);
+                        cat.photos[idx].caption = e.target.value;
+                    };
+                });
+
+                document.querySelectorAll(".photo-sub-input").forEach(input => {
+                    input.oninput = (e) => {
+                        const idx = parseInt(e.target.dataset.index);
+                        cat.photos[idx].subtitle = e.target.value;
+                    };
+                });
+
+                document.querySelectorAll(".btn-replace-photo").forEach(btn => {
+                    btn.onclick = (e) => {
+                        replacingPhotoIndex = parseInt(btn.dataset.index);
+                        document.getElementById("singleReplaceFileInput").click();
+                    };
+                });
+
+                document.querySelectorAll(".btn-set-cover").forEach(btn => {
+                    btn.onclick = () => {
+                        const idx = parseInt(btn.dataset.index);
+                        cat.cover = cat.photos[idx].src;
+                        document.getElementById("inputCatCover").value = cat.cover;
+                        showToast(`Đã đặt Ảnh #${idx + 1} làm ảnh bìa Card giải đấu!`, "success");
+                    };
+                });
+            }
+
+            // Single Photo Replacement
+            const singleReplaceFileInput = document.getElementById("singleReplaceFileInput");
+            singleReplaceFileInput.onchange = async (e) => {
+                if (e.target.files && e.target.files[0] && replacingPhotoIndex >= 0) {
+                    try {
+                        const compressed = await compressImageFile(e.target.files[0]);
+                        const cat = tournamentsData[activeCatKey];
+                        cat.photos[replacingPhotoIndex].src = compressed;
+                        renderActiveCategory();
+                        showToast(`Đã thay thế thành công Ảnh #${replacingPhotoIndex + 1}!`, "success");
+                    } catch (err) {
+                        showToast("Không thể tải ảnh!", "danger");
+                    }
+                    singleReplaceFileInput.value = "";
+                }
+            };
+
+            // Multi-Image Upload Dropzone
+            const uploadDropzone = document.getElementById("uploadDropzone");
+            const multiFileInput = document.getElementById("multiFileInput");
+            uploadDropzone.onclick = () => multiFileInput.click();
+
+            uploadDropzone.ondragover = (e) => { e.preventDefault(); uploadDropzone.classList.add("dragover"); };
+            uploadDropzone.ondragleave = () => uploadDropzone.classList.remove("dragover");
+            uploadDropzone.ondrop = async (e) => {
+                e.preventDefault();
+                uploadDropzone.classList.remove("dragover");
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    await handleStagedFiles(Array.from(e.dataTransfer.files));
+                }
+            };
+
+            multiFileInput.onchange = async (e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                    await handleStagedFiles(Array.from(e.target.files));
+                    multiFileInput.value = "";
+                }
+            };
+
+            async function handleStagedFiles(files) {
+                const imgFiles = files.filter(f => f.type.startsWith("image/"));
+                if (imgFiles.length === 0) {
+                    showToast("Vui lòng chọn file hình ảnh hợp lệ!", "danger");
+                    return;
+                }
+
+                showToast(`Đang nén ${imgFiles.length} ảnh...`, "info");
+                for (let file of imgFiles) {
+                    try {
+                        const base64 = await compressImageFile(file);
+                        stagedUploads.push({
+                            src: base64,
+                            name: file.name
+                        });
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }
+                renderStagedGrid();
+                showToast(`Đã nén xong ${imgFiles.length} ảnh mới!`, "success");
+            }
+
+            function renderStagedGrid() {
+                const box = document.getElementById("stagedUploadBox");
+                const grid = document.getElementById("stagedGrid");
+                const countText = document.getElementById("stagedCountText");
+
+                if (stagedUploads.length === 0) {
+                    box.style.display = "none";
+                    return;
+                }
+
+                box.style.display = "block";
+                countText.textContent = `Đã tải lên ${stagedUploads.length} ảnh mới chờ gán:`;
+                grid.innerHTML = "";
+
+                stagedUploads.forEach((item, sIdx) => {
+                    const card = document.createElement("div");
+                    card.style.background = "#ffffff";
+                    card.style.border = "1px solid var(--border)";
+                    card.style.borderRadius = "12px";
+                    card.style.padding = "0.75rem";
+                    card.style.textAlign = "center";
+
+                    card.innerHTML = `
+                        <img src="${item.src}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 0.5rem;">
+                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${item.name}</div>
+                        <div style="display: flex; gap: 0.25rem; flex-wrap: wrap; justify-content: center;">
+                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="${sIdx}" data-pos="0" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Gán Vị Trí #1</button>
+                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="${sIdx}" data-pos="1" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Gán Vị Trí #2</button>
+                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="${sIdx}" data-pos="2" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Gán Vị Trí #3</button>
+                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="${sIdx}" data-pos="3" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Gán Vị Trí #4</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+                document.querySelectorAll(".btn-assign-pos").forEach(btn => {
+                    btn.onclick = () => {
+                        const sIdx = parseInt(btn.dataset.sidx);
+                        const pos = parseInt(btn.dataset.pos);
+                        const cat = tournamentsData[activeCatKey];
+                        cat.photos[pos].src = stagedUploads[sIdx].src;
+                        renderActiveCategory();
+                        showToast(`Đã gán ảnh vào Vị trí #${pos + 1} của ${cat.title}!`, "success");
+                    };
+                });
+            }
+
+            // Contact Data Functions
+            function loadContactData() {
+                try {
+                    const saved = localStorage.getItem(CONTACT_STORAGE_KEY);
+                    if (saved) {
+                        contactData = Object.assign({}, DEFAULT_CONTACT_DATA, JSON.parse(saved));
+                    } else {
+                        contactData = Object.assign({}, DEFAULT_CONTACT_DATA);
+                    }
+                } catch (e) {
+                    contactData = Object.assign({}, DEFAULT_CONTACT_DATA);
+                }
+            }
+
+            function saveContactData() {
+                saveContactInputsToMemory();
+                try {
+                    localStorage.setItem(CONTACT_STORAGE_KEY, JSON.stringify(contactData));
+                    showToast("Đã lưu thông tin liên hệ thành công!", "success");
+                } catch(e) {
+                    showToast("Lỗi khi lưu thông tin liên hệ: " + e.message, "error");
+                }
+            }
+
+            function populateContactEditor() {
+                document.getElementById("inputContactPhone").value = contactData.phone || "";
+                document.getElementById("inputContactZalo").value = contactData.zalo || "";
+                document.getElementById("inputContactFbUrl").value = contactData.facebookUrl || "";
+                document.getElementById("inputContactFbName").value = contactData.facebookName || "";
+                document.getElementById("inputContactEmail").value = contactData.email || "";
+                document.getElementById("inputContactFb2Url").value = contactData.facebook2Url || "";
+                updateContactPreview();
+            }
+
+            function saveContactInputsToMemory() {
+                contactData.phone = document.getElementById("inputContactPhone").value.trim() || contactData.phone;
+                contactData.zalo = document.getElementById("inputContactZalo").value.trim() || contactData.zalo;
+                contactData.facebookUrl = document.getElementById("inputContactFbUrl").value.trim() || contactData.facebookUrl;
+                contactData.facebookName = document.getElementById("inputContactFbName").value.trim() || contactData.facebookName;
+                contactData.email = document.getElementById("inputContactEmail").value.trim() || contactData.email;
+                contactData.facebook2Url = document.getElementById("inputContactFb2Url").value.trim() || contactData.facebook2Url;
+            }
+
+            function updateContactPreview() {
+                const phone = document.getElementById("inputContactPhone").value.trim() || contactData.phone || "09xx.xxx.xxx";
+                const zalo = document.getElementById("inputContactZalo").value.trim() || contactData.zalo || "09xx.xxx.xxx";
+                const fbName = document.getElementById("inputContactFbName").value.trim() || contactData.facebookName || "Trần Nam Đạt";
+                const fbUrl = document.getElementById("inputContactFbUrl").value.trim() || contactData.facebookUrl || "#";
+
+                const rawPhone = phone.replace(/[^0-9+]/g, "");
+                const rawZalo = zalo.replace(/[^0-9]/g, "");
+                const zaloLink = zalo.startsWith("http") ? zalo : (rawZalo ? ("https://zalo.me/" + rawZalo) : "#");
+
+                document.getElementById("previewPhoneVal").textContent = phone;
+                document.getElementById("previewBtnPhone").href = "tel:" + rawPhone;
+
+                document.getElementById("previewZaloVal").textContent = zalo;
+                document.getElementById("previewBtnZalo").href = zaloLink;
+
+                document.getElementById("previewFbVal").textContent = fbName;
+                document.getElementById("previewBtnFb").href = fbUrl;
+            }
+
+            // Contact input live preview listeners
+            ["inputContactPhone", "inputContactZalo", "inputContactFbUrl", "inputContactFbName"].forEach(id => {
+                document.getElementById(id).addEventListener("input", updateContactPreview);
+            });
+
+            document.getElementById("btnSaveContactData").onclick = saveContactData;
+
+            // Save All Button
+            document.getElementById("btnSaveAllData").onclick = () => {
+                saveActiveInputsToMemory();
+                saveData();
+                if (activeCatKey === "contact-info") {
+                    saveContactData();
+                }
+            };
+
+            // Reset Defaults Button
+            document.getElementById("btnResetDefaults").onclick = () => {
+                if (confirm("Khôi phục toàn bộ 4 giải đấu và 16 ảnh về dữ liệu mẫu ban đầu?")) {
+                    tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
+                    saveData();
+                    renderTabs();
+                    renderActiveCategory();
+                    showToast("Đã khôi phục dữ liệu ban đầu!", "success");
+                }
+            };
+
+            // Export JSON
+            document.getElementById("btnExportJson").onclick = () => {
+                saveActiveInputsToMemory();
+                const jsonStr = JSON.stringify(tournamentsData, null, 2);
+                navigator.clipboard.writeText(jsonStr).then(() => {
+                    showToast("Đã sao chép dữ liệu JSON vào Clipboard!", "success");
+                });
+            };
+
+            // Input change listeners
+            ["inputCatTitle", "inputCatBadge", "inputCatRole", "inputCatCover", "inputCatDesc"].forEach(id => {
+                document.getElementById(id).onchange = () => {
+                    saveActiveInputsToMemory();
+                    renderTabs();
+                };
+            });
+
+            // Init
+            loadData();
+            loadContactData();
+            renderTabs();
+            renderActiveCategory();
+        })();
+    </script>
+</body>
+
+</html>

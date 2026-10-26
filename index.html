@@ -1,0 +1,1716 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trần Nam Đạt - Media Portfolio | Billiards Specialist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #f59e0b;
+            --primary-dark: #d97706;
+            --accent: #3b82f6;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            padding: 160px 2rem 100px;
+            background: linear-gradient(135deg, #fef3c7 0%, #e0f2fe 100%);
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .hero h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.1rem;
+            color: var(--text-main);
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--dark);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .btn-dark {
+            background: var(--dark);
+            color: #ffffff;
+        }
+
+        .btn-dark:hover {
+            background: #1e293b;
+        }
+
+        .btn-tiktok {
+            background: #000;
+            color: #fff;
+        }
+
+        .btn-tiktok:hover {
+            background: #25f4ee;
+            color: #000;
+        }
+
+        .btn-fb {
+            background: #1877f2;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(24, 119, 242, 0.3);
+        }
+
+        .btn-fb:hover {
+            background: #0c5dc7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(24, 119, 242, 0.4);
+            color: #ffffff;
+        }
+
+        .btn-hotline {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-hotline:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+            color: #ffffff;
+        }
+
+        .btn-zalo {
+            background: linear-gradient(135deg, #0068ff 0%, #0052cc 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(0, 104, 255, 0.35);
+        }
+
+        .btn-zalo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 104, 255, 0.45);
+            color: #ffffff;
+        }
+
+        .nav-contact-badge {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff !important;
+            padding: 0.45rem 1.15rem;
+            border-radius: 9999px;
+            font-weight: 700 !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .nav-contact-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.45);
+        }
+
+        /* Contact Section & Cards */
+        .contact-section-wrapper {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 4rem 2.5rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            margin-top: 1rem;
+        }
+
+        .contact-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.75rem;
+            margin-top: 2.5rem;
+        }
+
+        .contact-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.25rem 1.75rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-6px);
+            background: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+        }
+
+        .contact-card-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-card:hover .contact-card-icon {
+            transform: scale(1.1);
+        }
+
+        .contact-card-icon.phone {
+            background: #ecfdf5;
+            color: #10b981;
+            border: 1px solid #a7f3d0;
+        }
+
+        .contact-card-icon.zalo {
+            background: #eff6ff;
+            color: #0068ff;
+            border: 1px solid #bfdbfe;
+        }
+
+        .contact-card-icon.fb {
+            background: #eff6ff;
+            color: #1877f2;
+            border: 1px solid #bfdbfe;
+        }
+
+        .contact-card-icon.tiktok {
+            background: #0f172a;
+            color: #25f4ee;
+            border: 1px solid #334155;
+        }
+
+        .contact-card h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
+            min-height: 42px;
+        }
+
+        .contact-card-val {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.5px;
+            font-family: inherit;
+        }
+
+        .contact-card .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 0.75rem 1rem;
+        }
+
+        /* Floating Quick-Contact Widget */
+        .floating-contact-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            z-index: 999;
+        }
+
+        .floating-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.4rem;
+            text-decoration: none;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.25);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .floating-btn.floating-phone {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            animation: pulse-phone 2.5s infinite;
+        }
+
+        .floating-btn.floating-zalo {
+            background: linear-gradient(135deg, #0068ff 0%, #0052cc 100%);
+            box-shadow: 0 8px 25px rgba(0, 104, 255, 0.4);
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.12) translateY(-4px);
+        }
+
+        .floating-tooltip {
+            position: absolute;
+            right: 68px;
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 0.45rem 0.85rem;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            transform: translateX(8px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+        }
+
+        .floating-tooltip::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 6px 0 6px 6px;
+            border-style: solid;
+            border-color: transparent transparent transparent #0f172a;
+        }
+
+        .floating-btn:hover .floating-tooltip {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @keyframes pulse-phone {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.65);
+            }
+            70% {
+                box-shadow: 0 0 0 16px rgba(16, 185, 129, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            margin: 0.75rem auto 0;
+            border-radius: 2px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card h3 i {
+            color: var(--primary);
+        }
+
+        .card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .card ul li {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .card ul li i {
+            color: var(--primary);
+            margin-top: 5px;
+        }
+
+        /* 4 Tournament Showcase Cards */
+        .tournaments-wrapper {
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 24px;
+            padding: 3.5rem 2rem;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .tournament-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+            gap: 2rem;
+        }
+
+        .tournament-card {
+            background: #0f172a;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .tournament-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 45px rgba(245, 158, 11, 0.22);
+        }
+
+        .tournament-card-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1;
+        }
+
+        .tournament-card:hover .tournament-card-bg {
+            transform: scale(1.08);
+        }
+
+        .tournament-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.25) 0%, rgba(15, 23, 42, 0.75) 50%, rgba(15, 23, 42, 0.96) 100%);
+            z-index: 2;
+            transition: background 0.3s ease;
+        }
+
+        .tournament-card:hover .tournament-card-overlay {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.15) 0%, rgba(15, 23, 42, 0.7) 45%, rgba(15, 23, 42, 0.98) 100%);
+        }
+
+        .tournament-card-top {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .tournament-badge {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            color: #fef08a;
+            border: 1px solid rgba(254, 240, 138, 0.3);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            text-transform: uppercase;
+        }
+
+        .tournament-icon-pill {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .tournament-card:hover .tournament-icon-pill {
+            background: var(--primary);
+            color: var(--dark);
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .tournament-card-content {
+            position: relative;
+            z-index: 3;
+            color: #ffffff;
+        }
+
+        .tournament-card-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.35rem;
+            line-height: 1.3;
+        }
+
+        .tournament-card-role {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .tournament-card-desc {
+            font-size: 0.92rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .tournament-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .tournament-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.82rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .tournament-action-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #ffffff;
+            transition: all 0.25s ease;
+        }
+
+        .tournament-card:hover .tournament-action-cta {
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        /* Category Album 4-Photo Modal */
+        .category-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .category-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .category-modal-box {
+            background: #ffffff;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 980px;
+            max-height: 92vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalFadeIn {
+            from { transform: scale(0.96) translateY(12px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .category-modal-header {
+            padding: 1.75rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: #f8fafc;
+            border-radius: 24px 24px 0 0;
+        }
+
+        .category-modal-badge {
+            display: inline-block;
+            background: #fef3c7;
+            color: var(--primary-dark);
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .category-modal-header p {
+            font-size: 0.95rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        .category-modal-close {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+
+        .category-modal-close:hover {
+            color: var(--dark);
+            background: #f1f5f9;
+            transform: scale(1.1);
+        }
+
+        .category-modal-body {
+            padding: 2rem;
+        }
+
+        /* 4 Photos Grid inside Popup */
+        .modal-photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .modal-photo-item {
+            background: #f8fafc;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-photo-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.1);
+        }
+
+        .modal-photo-thumb {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            background: #0f172a;
+        }
+
+        .modal-photo-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            display: block;
+        }
+
+        .modal-photo-item:hover .modal-photo-thumb img {
+            transform: scale(1.08);
+        }
+
+        .modal-photo-subtitle {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(6px);
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            z-index: 2;
+        }
+
+        .modal-photo-zoom-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.25s ease;
+            z-index: 2;
+        }
+
+        .modal-photo-item:hover .modal-photo-zoom-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .modal-photo-caption {
+            padding: 1rem 1.25rem;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--dark);
+            line-height: 1.45;
+            background: #ffffff;
+            border-top: 1px solid var(--border);
+            flex: 1;
+        }
+
+        .category-modal-footer {
+            padding: 1.25rem 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            border-radius: 0 0 24px 24px;
+        }
+
+        /* Lightbox Viewer */
+        .lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 3000;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-header {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffffff;
+            padding: 0.5rem 0;
+        }
+
+        .lightbox-badge {
+            background: var(--primary);
+            color: var(--dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.8rem;
+        }
+
+        .lightbox-close {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: #ffffff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .lightbox-body {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 1100px;
+            max-height: 75vh;
+            width: 100%;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border: none;
+            color: #ffffff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .lightbox-nav-btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-50%) scale(1.15);
+        }
+
+        .lightbox-nav-btn.prev { left: -10px; }
+        .lightbox-nav-btn.next { right: -10px; }
+
+        .lightbox-footer {
+            width: 100%;
+            max-width: 1100px;
+            text-align: center;
+            color: #ffffff;
+            padding: 1rem 0;
+        }
+
+        .lightbox-caption {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .lightbox-counter {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .footer-admin-link {
+            color: #64748b;
+            font-size: 0.82rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .footer-admin-link:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        footer {
+            background: var(--dark);
+            color: #fff;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        @media(max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .tournament-cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-photos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-modal-box {
+                margin: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">Trần Nam <span>Đạt</span></div>
+            <ul class="nav-links">
+                <li><a href="#about">Tổng Quan</a></li>
+                <li><a href="#experience">Kinh Nghiệm</a></li>
+                <li><a href="#tournaments">Dấu Ấn Giải Đấu</a></li>
+                <li><a href="#socials">Mạng Xã Hội</a></li>
+                <li><a href="#contact" class="nav-contact-badge"><i class="fa-solid fa-phone"></i> Liên Hệ</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero" id="about">
+        <div class="hero-badge">Professional Media Portfolio</div>
+        <h1>TRẦN NAM ĐẠT</h1>
+        <h2>Media Executive | TikTok Content Creator | Media Partnership Sales</h2>
+        <p>Chuyên viên Media, Sáng tạo nội dung TikTok & Phát triển Đối tác Truyền thông với 1 năm kinh nghiệm thực
+            chiến chuyên sâu trong ngành Billiards tại Xbilliards & BSG – Billiards Sài Gòn. Trực tiếp tác nghiệp tại
+            các siêu giải đấu WPA Thế Giới, Asia Pool, VĐQG và An Nhiệt Cup.</p>
+
+        <!-- Kênh Liên Hệ Nhanh (Hotline, Zalo, Facebook) -->
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+            <a href="tel:0325321006" class="btn btn-hotline contact-phone-link">
+                <i class="fa-solid fa-phone-volume"></i> Hotline: <span class="contact-phone-val">0325.321.006</span>
+            </a>
+            <a href="https://zalo.me/0559326660" target="_blank" class="btn btn-zalo contact-zalo-link">
+                <i class="fa-solid fa-comment-dots"></i> Chat Zalo: <span class="contact-zalo-val">0559.326.660</span>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=100083205826444" target="_blank" class="btn btn-fb contact-fb-link">
+                <i class="fa-brands fa-facebook"></i> Facebook: <span class="contact-fb-val">Trần Nam Đạt</span>
+            </a>
+        </div>
+
+        <div class="social-buttons" id="socials">
+            <span style="font-size: 0.85rem; color: var(--text-muted); display: block; width: 100%; margin-bottom: 0.5rem; font-weight: 600;">
+                <i class="fa-brands fa-tiktok"></i> Hệ thống kênh TikTok Media & Sáng tạo nội dung:
+            </span>
+            <a href="https://www.tiktok.com/@diemonz1" target="_blank" class="btn btn-tiktok"><i
+                    class="fa-brands fa-tiktok"></i> TikTok: @diemonz1</a>
+            <a href="https://www.tiktok.com/@lamrau93" target="_blank" class="btn btn-tiktok"><i
+                    class="fa-brands fa-tiktok"></i> TikTok: @lamrau93</a>
+            <a href="https://www.tiktok.com/@xbilliardthuduc?lang=vi-VN" target="_blank" class="btn btn-tiktok"><i
+                    class="fa-brands fa-tiktok"></i> TikTok: @xbilliardthuduc</a>
+        </div>
+    </section>
+
+    <div class="container" id="experience">
+        <div class="section-title">Năng Lực & Kinh Nghiệm</div>
+        <div class="grid-2">
+            <div class="card">
+                <h3><i class="fa-solid fa-briefcase"></i> Đơn Vị Từng Công Tác</h3>
+                <p><b>Xbilliards & BSG – Billiards Sài Gòn</b> (1 Năm kinh nghiệm thực chiến Media Billiards)</p>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Xây dựng, quản lý và phát triển hệ thống kênh TikTok thương
+                        hiệu và cá nhân.</li>
+                    <li><i class="fa-solid fa-check"></i> Đảm nhận vai trò Media Partnership Sales, kết nối nhãn hàng và
+                        thương mại hóa giải đấu.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3><i class="fa-solid fa-bullseye"></i> Chuyên Môn Cốt Lõi</h3>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> <b>TikTok Content Creation:</b> Lên kịch bản, quay dựng, bắt
+                        trend, cắt highlight trận đấu triệu view.</li>
+                    <li><i class="fa-solid fa-check"></i> <b>Live Production & Setup:</b> Vận hành phần mềm phát sóng
+                        chuyên nghiệp (OBS/vMix), điều phối kỹ thuật hiện trường.</li>
+                    <li><i class="fa-solid fa-check"></i> <b>Media Partnership Sales:</b> Đàm phán, khai thác tài trợ và
+                        giám sát thực thi quyền lợi thương hiệu.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- THƯ VIỆN ẢNH THỰC TẾ GIẢI ĐẤU (4 SHOWCASE CARDS) -->
+    <div class="container" id="tournaments">
+        <div class="tournaments-wrapper">
+            <div class="section-title" style="margin-bottom: 0.75rem;">Thư Viện Ảnh Thực Tế Giải Đấu</div>
+            <p style="text-align: center; color: var(--text-muted); max-width: 680px; margin: 0 auto 3rem; font-size: 1.05rem;">
+                Hồ sơ tác nghiệp thực chiến tại 4 đấu trường Billiards tiêu biểu. Nhấp vào từng giải đấu để xem bộ sưu tập 4 hình ảnh tiêu biểu.
+            </p>
+
+            <!-- 4 Tournament Showcase Cards Grid -->
+            <div class="tournament-cards-grid" id="tournamentCardsGrid">
+                <!-- Rendered dynamically by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ALBUM 4 ẢNH TIÊU BIỂU CỦA GIẢI ĐẤU (Category 4-Photo Modal) -->
+    <div class="category-modal-overlay" id="categoryModal">
+        <div class="category-modal-box">
+            <div class="category-modal-header">
+                <div>
+                    <span class="category-modal-badge" id="modalCatBadge">GIẢI ĐẤU</span>
+                    <h3 id="modalCatTitle">Tên giải đấu</h3>
+                    <p id="modalCatRole">Vai trò tác nghiệp</p>
+                </div>
+                <button type="button" class="category-modal-close" id="btnCloseCatModal" title="Đóng (Esc)">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="category-modal-body">
+                <p id="modalCatDesc" style="color: var(--text-main); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;"></p>
+                
+                <!-- 4 Photos Showcase Grid -->
+                <div class="modal-photos-grid" id="modalPhotosGrid">
+                    <!-- 4 photo cards rendered by JS -->
+                </div>
+            </div>
+            <div class="category-modal-footer">
+                <span style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem;">
+                    <i class="fa-solid fa-circle-info"></i> Nhấp vào ảnh bất kỳ để xem phóng to toàn màn hình
+                </span>
+                <button type="button" class="btn btn-dark" id="btnCloseCatModalBtn" style="padding: 0.5rem 1.25rem;">
+                    Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: XEM PHÓNG TO ẢNH (Fullscreen Lightbox) -->
+    <div class="lightbox-overlay" id="lightboxModal">
+        <div class="lightbox-header">
+            <div>
+                <span class="lightbox-badge" id="lightboxCategory">Giải đấu</span>
+                <span style="font-size: 0.85rem; color: #94a3b8; margin-left: 0.75rem;" id="lightboxSubtitle">Phóng to</span>
+            </div>
+            <button type="button" class="lightbox-close" id="btnCloseLightbox" title="Đóng (Esc)">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="lightbox-body">
+            <button type="button" class="lightbox-nav-btn prev" id="btnLightboxPrev" title="Ảnh trước (Mũi tên trái)">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <img class="lightbox-img" id="lightboxImg" src="" alt="Phóng to">
+            <button type="button" class="lightbox-nav-btn next" id="btnLightboxNext" title="Ảnh sau (Mũi tên phải)">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+        <div class="lightbox-footer">
+            <div class="lightbox-caption" id="lightboxCaption">Chú thích ảnh</div>
+            <div class="lightbox-counter" id="lightboxCounter">Ảnh 1 / 4</div>
+        </div>
+    </div>
+
+    <!-- SECTION: LIÊN HỆ & HỢP TÁC TRUYỀN THÔNG -->
+    <div class="container" id="contact">
+        <div class="contact-section-wrapper">
+            <div class="section-title" style="margin-bottom: 0.75rem;">Liên Hệ & Hợp Tác Truyền Thông</div>
+            <p style="text-align: center; color: var(--text-muted); max-width: 680px; margin: 0 auto 2.5rem; font-size: 1.05rem;">
+                Sẵn sàng đồng hành cùng các Ban Tổ Chức giải đấu, CLB Billiards và Nhãn hàng để thực thi chiến dịch truyền thông đa nền tảng, viral TikTok & sản xuất phát sóng trực tiếp chuyên nghiệp.
+            </p>
+
+            <div class="contact-cards-grid">
+                <!-- Card 1: Hotline -->
+                <div class="contact-card">
+                    <div class="contact-card-icon phone"><i class="fa-solid fa-phone-volume"></i></div>
+                    <h3>Hotline Trực Tiếp</h3>
+                    <p>Trao đổi công việc, lịch trình sự kiện & báo giá hợp tác nhanh nhất</p>
+                    <div class="contact-card-val contact-phone-val">0325.321.006</div>
+                    <a href="tel:0325321006" class="btn btn-hotline contact-phone-link">
+                        <i class="fa-solid fa-phone"></i> Gọi Điện Ngay
+                    </a>
+                </div>
+
+                <!-- Card 2: Zalo Chat -->
+                <div class="contact-card">
+                    <div class="contact-card-icon zalo"><i class="fa-solid fa-comment-dots"></i></div>
+                    <h3>Zalo Chat 1-1</h3>
+                    <p>Gửi kịch bản, trao đổi tài liệu giải đấu & quyền lợi thương hiệu 24/7</p>
+                    <div class="contact-card-val contact-zalo-val">0559.326.660</div>
+                    <a href="https://zalo.me/0559326660" target="_blank" class="btn btn-zalo contact-zalo-link">
+                        <i class="fa-solid fa-paper-plane"></i> Nhắn Tin Zalo
+                    </a>
+                </div>
+
+                <!-- Card 3: Facebook Cá Nhân -->
+                <div class="contact-card">
+                    <div class="contact-card-icon fb"><i class="fa-brands fa-facebook-f"></i></div>
+                    <h3>Facebook Cá Nhân</h3>
+                    <p>Kết nối mạng xã hội, hồ sơ uy tín và trao đổi hợp tác truyền thông</p>
+                    <div class="contact-card-val contact-fb-val">Trần Nam Đạt</div>
+                    <a href="https://www.facebook.com/profile.php?id=100083205826444" target="_blank" class="btn btn-fb contact-fb-link">
+                        <i class="fa-brands fa-facebook"></i> Xem Facebook
+                    </a>
+                </div>
+
+                <!-- Card 4: Kênh TikTok -->
+                <div class="contact-card">
+                    <div class="contact-card-icon tiktok"><i class="fa-brands fa-tiktok"></i></div>
+                    <h3>Hệ Thống Kênh TikTok</h3>
+                    <p>Các kênh phát triển thương hiệu triệu view & nội dung giải đấu Billiards</p>
+                    <div class="contact-card-val">@diemonz1 & BSG</div>
+                    <a href="https://www.tiktok.com/@diemonz1" target="_blank" class="btn btn-tiktok">
+                        <i class="fa-brands fa-tiktok"></i> Khám Phá TikTok
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING QUICK-CONTACT WIDGET (Góc Phải Màn Hình) -->
+    <div class="floating-contact-widget">
+        <a href="https://zalo.me/0559326660" target="_blank" class="floating-btn floating-zalo contact-zalo-link" title="Chat Zalo">
+            <i class="fa-solid fa-comment-dots"></i>
+            <span class="floating-tooltip">Chat Zalo</span>
+        </a>
+        <a href="tel:0325321006" class="floating-btn floating-phone contact-phone-link" title="Gọi Hotline">
+            <i class="fa-solid fa-phone"></i>
+            <span class="floating-tooltip">Gọi Hotline</span>
+        </a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Trần Nam Đạt. All Rights Reserved. Designed for Professional Media Career.</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="admin.html" class="footer-admin-link" title="Đến trang quản trị thư viện giải đấu">
+                <i class="fa-solid fa-lock"></i> Quản Trị Thư Viện Ảnh (Admin)
+            </a>
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT: LOGIC RENDER 4 CARDS, POPUP ALBUM 4 ẢNH & LIGHTBOX -->
+    <script>
+        (function() {
+            const STORAGE_KEY = "billiards_tournaments_v3";
+
+            // Dữ liệu 4 giải đấu tiêu chuẩn thực chiến
+            const DEFAULT_TOURNAMENTS_DATA = {
+                "an-nhiet-cup": {
+                    id: "an-nhiet-cup",
+                    title: "An Nhiệt Premier Cup",
+                    badge: "GIẢI ĐẤU DOANH NGHIỆP & CLB",
+                    icon: "fa-trophy",
+                    role: "Trưởng ban Media & Sản xuất hình ảnh",
+                    description: "Trực tiếp chỉ đạo hình ảnh, thiết kế bộ nhận diện cúp, huy chương và ghi lại toàn bộ khoảnh khắc thi đấu kịch tính tại siêu giải đấu An Nhiệt Cup.",
+                    cover: "assets/images/image_974469.jpg",
+                    coverFallback: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=80",
+                    photos: [
+                        {
+                            id: "annhiet-1",
+                            src: "assets/images/image_974469.jpg",
+                            fallback: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Bộ cúp vô địch, huy chương vàng & áo đấu chính thức An Nhiệt Cup",
+                            subtitle: "Thiết kế & nhận diện sự kiện"
+                        },
+                        {
+                            id: "annhiet-2",
+                            src: "assets/images/image_9741b7.jpg",
+                            fallback: "https://images.unsplash.com/photo-1588497859490-85d1c17db96d?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Không gian thảm đấu và hệ thống ánh sáng chuẩn quốc tế tại An Nhiệt Cup",
+                            subtitle: "Hiện trường thi đấu"
+                        },
+                        {
+                            id: "annhiet-3",
+                            src: "assets/images/image_9739fd.jpg",
+                            fallback: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Trận chung kết nghẹt thở tranh cúp vô địch An Nhiệt Premier",
+                            subtitle: "Khoảnh khắc thi đấu"
+                        },
+                        {
+                            id: "annhiet-4",
+                            src: "assets/images/image_974143.jpg",
+                            fallback: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Lễ bế mạc và vinh danh trao cúp cho tân vương giải đấu",
+                            subtitle: "Lễ vinh danh"
+                        }
+                    ]
+                },
+                "setup-ky-thuat": {
+                    id: "setup-ky-thuat",
+                    title: "Setup & Kĩ Thuật",
+                    badge: "LIVE PRODUCTION & BROADCAST",
+                    icon: "fa-video",
+                    role: "Kỹ thuật viên Livestream & Vận hành OBS/vMix",
+                    description: "Vận hành hệ thống phát sóng trực tiếp đa góc máy chuyên nghiệp, điều phối luồng stream ổn định và cắt highlight triệu view thời gian thực.",
+                    cover: "assets/images/image_973dc0.jpg",
+                    coverFallback: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000&auto=format&fit=crop&q=80",
+                    photos: [
+                        {
+                            id: "setup-1",
+                            src: "assets/images/image_973dc0.jpg",
+                            fallback: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Bàn điều khiển kỹ thuật OBS Studio & vMix phát sóng trực tiếp",
+                            subtitle: "Control Desk Hiện Trường"
+                        },
+                        {
+                            id: "setup-2",
+                            src: "assets/images/image_974143.jpg",
+                            fallback: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Thiết lập góc máy quay cận cảnh bi cái và toàn cảnh bàn thi đấu",
+                            subtitle: "Căn chỉnh camera hiện trường"
+                        },
+                        {
+                            id: "setup-3",
+                            src: "assets/images/image_9741b7.jpg",
+                            fallback: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Điều phối luồng stream và kỹ thuật âm thanh bình luận viên trực tiếp",
+                            subtitle: "Hệ thống truyền dẫn luồng"
+                        },
+                        {
+                            id: "setup-4",
+                            src: "assets/images/image_974469.jpg",
+                            fallback: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Ekip Media phối hợp vận hành sự kiện và trực ban kỹ thuật 24/7",
+                            subtitle: "Ekip Production Hậu Trường"
+                        }
+                    ]
+                },
+                "wpa-the-gioi": {
+                    id: "wpa-the-gioi",
+                    title: "WPA Thế Giới",
+                    badge: "SIÊU GIẢI ĐẤU QUỐC TẾ",
+                    icon: "fa-globe",
+                    role: "Chuyên viên Tác nghiệp & Truyền thông Quốc tế",
+                    description: "Tác nghiệp báo chí hình ảnh và video ngắn bắt trend tại các chặng đấu thuộc Hiệp hội Billiards Thế giới (WPA) tổ chức tại Việt Nam.",
+                    cover: "assets/images/image_973a17.jpg",
+                    coverFallback: "https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=1000&auto=format&fit=crop&q=80",
+                    photos: [
+                        {
+                            id: "wpa-1",
+                            src: "assets/images/image_973a17.jpg",
+                            fallback: "https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Tác nghiệp chụp ảnh cơ thủ quốc tế tập trung cao độ tại WPA",
+                            subtitle: "Chân dung cơ thủ thế giới"
+                        },
+                        {
+                            id: "wpa-2",
+                            src: "assets/images/image_9739fd.jpg",
+                            fallback: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Pha giải bi cứu thua đẳng cấp thế giới được ghi hình trực tiếp",
+                            subtitle: "Highlight thi đấu đỉnh cao"
+                        },
+                        {
+                            id: "wpa-3",
+                            src: "assets/images/image_9741b7.jpg",
+                            fallback: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Đấu trường WPA sôi động với khán giả theo dõi chật kín khán đài",
+                            subtitle: "Không khí sự kiện WPA"
+                        },
+                        {
+                            id: "wpa-4",
+                            src: "assets/images/image_974143.jpg",
+                            fallback: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Phỏng vấn cơ thủ quốc tế sau khi giành chiến thắng vào vòng chung kết",
+                            subtitle: "Tác nghiệp phỏng vấn cơ thủ"
+                        }
+                    ]
+                },
+                "chau-a-quoc-gia": {
+                    id: "chau-a-quoc-gia",
+                    title: "Vô Địch Châu Á vs Quốc Gia",
+                    badge: "ĐẤU TRƯỜNG ĐỈNH CAO",
+                    icon: "fa-medal",
+                    role: "Media Partnership Sales & Nội dung TikTok",
+                    description: "Khai thác thương mại hóa hình ảnh, đồng hành cùng các đội tuyển tại giải Vô địch Châu Á (Asia Pool) và giải Vô địch Quốc gia (VĐQG).",
+                    cover: "assets/images/image_9741b7.jpg",
+                    coverFallback: "https://images.unsplash.com/photo-1588497859490-85d1c17db96d?w=1000&auto=format&fit=crop&q=80",
+                    photos: [
+                        {
+                            id: "asia-1",
+                            src: "assets/images/image_9741b7.jpg",
+                            fallback: "https://images.unsplash.com/photo-1588497859490-85d1c17db96d?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Toàn cảnh lễ khai mạc giải Vô địch Billiards Quốc Gia",
+                            subtitle: "Khai mạc Đấu Trường Quốc Gia"
+                        },
+                        {
+                            id: "asia-2",
+                            src: "assets/images/image_973a17.jpg",
+                            fallback: "https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Cơ thủ tuyển Việt Nam tranh tài cùng các đối thủ hàng đầu Châu Á",
+                            subtitle: "Đại chiến Châu Á (Asia Pool)"
+                        },
+                        {
+                            id: "asia-3",
+                            src: "assets/images/image_973dc0.jpg",
+                            fallback: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Phòng truyền thông tác nghiệp cắt clip highlight triệu view cho TikTok",
+                            subtitle: "Sáng tạo nội dung viral"
+                        },
+                        {
+                            id: "asia-4",
+                            src: "assets/images/image_974469.jpg",
+                            fallback: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&auto=format&fit=crop&q=80",
+                            caption: "Lễ trao huy chương vàng danh giá tại giải Vô địch Quốc Gia",
+                            subtitle: "Vinh quang bục nhận thưởng"
+                        }
+                    ]
+                }
+            };
+
+            const SVG_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22400%22%20viewBox%3D%220%200%20600%20400%22%3E%3Crect%20fill%3D%22%230f172a%22%20width%3D%22600%22%20height%3D%22400%22%2F%3E%3Ccircle%20cx%3D%22300%22%20cy%3D%22180%22%20r%3D%2250%22%20fill%3D%22%23f59e0b%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22192%22%20font-family%3D%22Arial%22%20font-size%3D%2234%22%20font-weight%3D%22bold%22%20fill%3D%22%230f172a%22%20text-anchor%3D%22middle%22%3E8%3C%2Ftext%3E%3Ctext%20x%3D%22300%22%20y%3D%22265%22%20font-family%3D%22Arial%22%20font-size%3D%2220%22%20font-weight%3D%22600%22%20fill%3D%22%2394a3b8%22%20text-anchor%3D%22middle%22%3EBilliards%20Media%20Photo%3C%2Ftext%3E%3C%2Fsvg%3E";
+
+            let tournamentsData = {};
+            let activeCategoryPhotos = [];
+            let currentLightboxIndex = 0;
+
+            function loadData() {
+                try {
+                    const saved = localStorage.getItem(STORAGE_KEY);
+                    if (saved) {
+                        tournamentsData = JSON.parse(saved);
+                    } else {
+                        tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
+                    }
+                } catch (e) {
+                    tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
+                }
+
+                // Tự động chuẩn hóa đường dẫn ảnh từ phiên bản cũ
+                if (tournamentsData && typeof tournamentsData === "object") {
+                    Object.keys(tournamentsData).forEach(k => {
+                        const cat = tournamentsData[k];
+                        if (cat && cat.cover && cat.cover.startsWith("image_")) {
+                            cat.cover = "assets/images/" + cat.cover;
+                        }
+                        if (cat && cat.photos && Array.isArray(cat.photos)) {
+                            cat.photos.forEach(p => {
+                                if (p.src && p.src.startsWith("image_")) {
+                                    p.src = "assets/images/" + p.src;
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+
+            // Render 4 Tournament Cards
+            function renderTournamentCards() {
+                const grid = document.getElementById("tournamentCardsGrid");
+                grid.innerHTML = "";
+
+                const categoryKeys = ["an-nhiet-cup", "setup-ky-thuat", "wpa-the-gioi", "chau-a-quoc-gia"];
+
+                categoryKeys.forEach(key => {
+                    const cat = tournamentsData[key];
+                    if (!cat) return;
+
+                    const card = document.createElement("div");
+                    card.className = "tournament-card";
+                    card.onclick = () => openCategoryModal(key);
+
+                    const coverSrc = cat.cover || (cat.photos && cat.photos[0] ? cat.photos[0].src : "");
+                    const fallbackSrc = cat.coverFallback || (cat.photos && cat.photos[0] ? cat.photos[0].fallback : SVG_FALLBACK);
+
+                    card.innerHTML = `
+                        <img class="tournament-card-bg" src="${coverSrc}" alt="${cat.title}" onerror="this.src='${fallbackSrc}'">
+                        <div class="tournament-card-overlay"></div>
+                        <div class="tournament-card-top">
+                            <span class="tournament-badge">${cat.badge}</span>
+                            <div class="tournament-icon-pill"><i class="fa-solid ${cat.icon}"></i></div>
+                        </div>
+                        <div class="tournament-card-content">
+                            <h3 class="tournament-card-title">${cat.title}</h3>
+                            <div class="tournament-card-role"><i class="fa-solid fa-bullseye"></i> ${cat.role}</div>
+                            <p class="tournament-card-desc">${cat.description}</p>
+                            <div class="tournament-card-footer">
+                                <span class="tournament-chip"><i class="fa-solid fa-images"></i> 4 Hình ảnh tiêu biểu</span>
+                                <span class="tournament-action-cta">Khám phá album <i class="fa-solid fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            // Category Album Modal
+            const categoryModal = document.getElementById("categoryModal");
+            const btnCloseCatModal = document.getElementById("btnCloseCatModal");
+            const btnCloseCatModalBtn = document.getElementById("btnCloseCatModalBtn");
+            const modalCatBadge = document.getElementById("modalCatBadge");
+            const modalCatTitle = document.getElementById("modalCatTitle");
+            const modalCatRole = document.getElementById("modalCatRole");
+            const modalCatDesc = document.getElementById("modalCatDesc");
+            const modalPhotosGrid = document.getElementById("modalPhotosGrid");
+
+            function openCategoryModal(catKey) {
+                const cat = tournamentsData[catKey];
+                if (!cat) return;
+
+                modalCatBadge.textContent = cat.badge;
+                modalCatTitle.textContent = cat.title;
+                modalCatRole.textContent = cat.role;
+                modalCatDesc.textContent = cat.description;
+
+                activeCategoryPhotos = cat.photos || [];
+                modalPhotosGrid.innerHTML = "";
+
+                activeCategoryPhotos.forEach((photo, idx) => {
+                    const item = document.createElement("div");
+                    item.className = "modal-photo-item";
+                    item.onclick = () => openLightbox(activeCategoryPhotos, idx, cat.title);
+
+                    item.innerHTML = `
+                        <div class="modal-photo-thumb">
+                            <span class="modal-photo-subtitle">${photo.subtitle || ('Ảnh #' + (idx + 1))}</span>
+                            <img src="${photo.src}" alt="${photo.caption}" onerror="this.src='${photo.fallback || SVG_FALLBACK}'">
+                            <div class="modal-photo-zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                        </div>
+                        <div class="modal-photo-caption">
+                            ${photo.caption}
+                        </div>
+                    `;
+                    modalPhotosGrid.appendChild(item);
+                });
+
+                categoryModal.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }
+
+            function closeCategoryModal() {
+                categoryModal.classList.remove("active");
+                document.body.style.overflow = "";
+            }
+
+            btnCloseCatModal.onclick = closeCategoryModal;
+            btnCloseCatModalBtn.onclick = closeCategoryModal;
+            categoryModal.onclick = (e) => {
+                if (e.target === categoryModal) closeCategoryModal();
+            };
+
+            // Fullscreen Lightbox
+            const lightboxModal = document.getElementById("lightboxModal");
+            const btnCloseLightbox = document.getElementById("btnCloseLightbox");
+            const lightboxImg = document.getElementById("lightboxImg");
+            const lightboxCaption = document.getElementById("lightboxCaption");
+            const lightboxCategory = document.getElementById("lightboxCategory");
+            const lightboxSubtitle = document.getElementById("lightboxSubtitle");
+            const lightboxCounter = document.getElementById("lightboxCounter");
+            const btnLightboxPrev = document.getElementById("btnLightboxPrev");
+            const btnLightboxNext = document.getElementById("btnLightboxNext");
+
+            let currentLightboxPhotos = [];
+            let currentCategoryName = "";
+
+            function openLightbox(photos, index, categoryName = "Giải đấu") {
+                currentLightboxPhotos = photos;
+                currentLightboxIndex = index;
+                currentCategoryName = categoryName;
+
+                updateLightboxView();
+                lightboxModal.classList.add("active");
+            }
+
+            function closeLightbox() {
+                lightboxModal.classList.remove("active");
+            }
+
+            function updateLightboxView() {
+                if (!currentLightboxPhotos || currentLightboxPhotos.length === 0) return;
+                const photo = currentLightboxPhotos[currentLightboxIndex];
+
+                lightboxImg.src = photo.src;
+                lightboxImg.onerror = function() {
+                    this.src = photo.fallback || SVG_FALLBACK;
+                };
+
+                lightboxCaption.textContent = photo.caption;
+                lightboxCategory.textContent = currentCategoryName;
+                lightboxSubtitle.textContent = photo.subtitle || "";
+                lightboxCounter.textContent = `Ảnh ${currentLightboxIndex + 1} / ${currentLightboxPhotos.length}`;
+            }
+
+            function lightboxNext() {
+                currentLightboxIndex = (currentLightboxIndex + 1) % currentLightboxPhotos.length;
+                updateLightboxView();
+            }
+
+            function lightboxPrev() {
+                currentLightboxIndex = (currentLightboxIndex - 1 + currentLightboxPhotos.length) % currentLightboxPhotos.length;
+                updateLightboxView();
+            }
+
+            btnCloseLightbox.onclick = closeLightbox;
+            btnLightboxNext.onclick = (e) => { e.stopPropagation(); lightboxNext(); };
+            btnLightboxPrev.onclick = (e) => { e.stopPropagation(); lightboxPrev(); };
+            lightboxModal.onclick = (e) => {
+                if (e.target === lightboxModal || e.target.classList.contains("lightbox-body")) closeLightbox();
+            };
+
+            // Keyboard navigation
+            document.addEventListener("keydown", (e) => {
+                if (lightboxModal.classList.contains("active")) {
+                    if (e.key === "Escape") closeLightbox();
+                    if (e.key === "ArrowRight") lightboxNext();
+                    if (e.key === "ArrowLeft") lightboxPrev();
+                } else if (categoryModal.classList.contains("active")) {
+                    if (e.key === "Escape") closeCategoryModal();
+                }
+            });
+
+            const CONTACT_STORAGE_KEY = "billiards_contact_info_v1";
+
+            const DEFAULT_CONTACT_DATA = {
+                phone: "0325.321.006",
+                zalo: "0559.326.660",
+                zaloUrl: "https://zalo.me/0559326660",
+                facebookUrl: "https://www.facebook.com/profile.php?id=100083205826444",
+                facebookName: "Trần Nam Đạt",
+                email: "namdat.media@gmail.com"
+            };
+
+            function loadContactData() {
+                let data = DEFAULT_CONTACT_DATA;
+                try {
+                    const saved = localStorage.getItem(CONTACT_STORAGE_KEY);
+                    if (saved) {
+                        data = Object.assign({}, DEFAULT_CONTACT_DATA, JSON.parse(saved));
+                    }
+                } catch(e) {
+                    data = DEFAULT_CONTACT_DATA;
+                }
+
+                const rawPhone = (data.phone || "").replace(/[^0-9+]/g, "");
+                const rawZalo = (data.zalo || "").replace(/[^0-9]/g, "");
+                const zaloLink = data.zaloUrl && data.zaloUrl.startsWith("http") ? data.zaloUrl : (rawZalo ? ("https://zalo.me/" + rawZalo) : "https://zalo.me/");
+
+                document.querySelectorAll(".contact-phone-val").forEach(el => el.textContent = data.phone || "09xx.xxx.xxx");
+                document.querySelectorAll(".contact-phone-link").forEach(el => el.href = "tel:" + rawPhone);
+
+                document.querySelectorAll(".contact-zalo-val").forEach(el => el.textContent = data.zalo || "09xx.xxx.xxx");
+                document.querySelectorAll(".contact-zalo-link").forEach(el => el.href = zaloLink);
+
+                document.querySelectorAll(".contact-fb-val").forEach(el => el.textContent = data.facebookName || "Trần Nam Đạt");
+                document.querySelectorAll(".contact-fb-link").forEach(el => el.href = data.facebookUrl || "https://facebook.com");
+            }
+
+            // Listen for changes from admin.html via storage event
+            window.addEventListener("storage", (e) => {
+                if (e.key === STORAGE_KEY) {
+                    loadData();
+                    renderTournamentCards();
+                } else if (e.key === CONTACT_STORAGE_KEY) {
+                    loadContactData();
+                }
+            });
+
+            // Init
+            loadData();
+            loadContactData();
+            renderTournamentCards();
+        })();
+    </script>
+</body>
+
+</html>
