@@ -510,21 +510,26 @@
         </div>
 
         <!-- Project Asset Sync Status Bar -->
-        <div id="fsSyncBanner" style="background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <div id="fsStatusDot" style="width: 12px; height: 12px; border-radius: 50%; background: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);"></div>
+        <div id="fsSyncBanner" style="background: #ffffff; border: 1px solid var(--border); border-radius: 14px; padding: 1.1rem 1.4rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+            <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <div id="fsStatusDot" style="width: 13px; height: 13px; border-radius: 50%; background: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.5); flex-shrink: 0;"></div>
                 <div>
-                    <div style="font-weight: 700; font-size: 0.95rem; color: var(--dark);" id="fsStatusTitle">
-                        Chế độ lưu: Trình duyệt & Bộ nhớ tạm (Chưa kết nối thư mục dự án)
+                    <div style="font-weight: 750; font-size: 0.95rem; color: var(--dark);" id="fsStatusTitle">
+                        Đang dò tìm Local Sync Engine (Port 5555)...
                     </div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);" id="fsStatusDesc">
-                        Kết nối thư mục dự án <code>pro5</code> để ảnh mới và dữ liệu tự động ghi thẳng vào thư mục <code>assets/</code> trên máy tính.
+                    <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.15rem;" id="fsStatusDesc">
+                        Hệ thống tự động ghi đè file ảnh vào <code>assets/images/tournaments/</code> và <code>tournaments.json</code> trên máy tính.
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-outline" id="btnConnectFolder" style="background: #ffffff; border-color: var(--primary); color: var(--primary); font-weight: 600;">
-                <i class="fa-solid fa-folder-open"></i> Kết Nối Thư Mục Dự Án (Auto-Save vào Asset)
-            </button>
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn btn-outline" id="btnCheckSyncServer" style="font-size: 0.82rem; padding: 0.5rem 0.85rem;">
+                    <i class="fa-solid fa-arrows-rotate"></i> Kiểm Tra Server
+                </button>
+                <button type="button" class="btn btn-outline" id="btnConnectFolder" style="background: #ffffff; border-color: var(--primary); color: var(--primary); font-weight: 600; font-size: 0.85rem; padding: 0.5rem 1rem;">
+                    <i class="fa-solid fa-folder-open"></i> Kết Nối Thư Mục Dự Án (FSA)
+                </button>
+            </div>
         </div>
 
         <!-- 4 Tournament Category Tabs -->
@@ -1048,8 +1053,12 @@
             }
 
             // ==========================================
-            // HTML5 FILE SYSTEM ACCESS API SYNC ENGINE
+            // DUAL-ENGINE ENTERPRISE AUTO-SYNC SYSTEM
+            // Engine 1: Local HTTP Sync Server (Port 5555) - Direct Disk Overwrite
+            // Engine 2: HTML5 File System Access API (window.showDirectoryPicker)
             // ==========================================
+            const LOCAL_SYNC_URL = "http://127.0.0.1:5555";
+            let isSyncServerOnline = false;
             let projectDirHandle = null;
 
             // Chuyển DataURL thành Blob nhị phân
@@ -1065,7 +1074,7 @@
                 return new Blob([u8arr], { type: mime });
             }
 
-            // Ghi file trực tiếp vào thư mục asset trên đĩa cứng
+            // Ghi file trực tiếp qua File System Access API
             async function writeAssetFileDirectly(relativePath, blobOrDataUrl) {
                 if (!projectDirHandle) return false;
                 try {
@@ -1074,7 +1083,6 @@
                         blob = dataUrlToBlob(blobOrDataUrl);
                     }
 
-                    // Tách đường dẫn tương đối thành các thư mục con: ví dụ assets/images/tournaments/annhiet-1.jpg
                     const parts = relativePath.split("/").filter(Boolean);
                     const filename = parts.pop();
 
@@ -1089,58 +1097,185 @@
                     await writable.close();
                     return true;
                 } catch (err) {
-                    console.error("Error writing asset file:", err);
+                    console.error("Error writing asset file via FSA:", err);
                     return false;
                 }
             }
 
-            // Ghi đè file tournaments.json trực tiếp vào đĩa cứng
-            async function writeTournamentsJsonDirectly() {
-                if (!projectDirHandle) return false;
+            // Kiểm tra kết nối với Local Sync Server (Port 5555)
+            async function checkLocalSyncServer(silent = true) {
                 try {
-                    const exportCopy = JSON.parse(JSON.stringify(tournamentsData));
-                    delete exportCopy._customizedByAdmin;
-                    delete exportCopy._lastUpdated;
-
-                    const categoryKeys = ["an-nhiet-cup", "setup-ky-thuat", "wpa-the-gioi", "chau-a-quoc-gia"];
-                    categoryKeys.forEach(catKey => {
-                        const cat = exportCopy[catKey];
-                        if (cat) {
-                            if (cat.cover && cat.cover.startsWith("data:")) {
-                                cat.cover = cat.coverAssetPath || `assets/images/tournaments/${getAssetPrefix(catKey)}-cover.jpg`;
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 1200);
+                    const res = await fetch(`${LOCAL_SYNC_URL}/api/status`, {
+                        cache: "no-store",
+                        signal: controller.signal
+                    });
+                    clearTimeout(timeoutId);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.status === "online") {
+                            isSyncServerOnline = true;
+                            updateFsStatusUI(true, "Auto-Sync Server (Port 5555)", "server");
+                            if (!silent) {
+                                showToast("Đã kết nối Sync Server (Port 5555)! Mọi thay đổi sẽ ghi đè trực tiếp vào ổ cứng.", "success");
                             }
-                            delete cat.coverAssetPath;
-                            if (cat.photos && Array.isArray(cat.photos)) {
-                                cat.photos.forEach((p, pIdx) => {
-                                    if (p.src && p.src.startsWith("data:")) {
-                                        p.src = p.assetPath || getStandardAssetPath(catKey, pIdx);
-                                    }
-                                    delete p.assetPath;
-                                });
+                            return true;
+                        }
+                    }
+                } catch (e) {}
+
+                isSyncServerOnline = false;
+                if (!projectDirHandle) {
+                    updateFsStatusUI(false);
+                    if (!silent) {
+                        showToast("Chưa kết nối được Sync Server. Vui lòng chạy file start_sync_server.bat trong thư mục dự án!", "danger");
+                    }
+                }
+                return false;
+            }
+
+            // DUAL-ENGINE: Tự động lưu/ghi đè file ảnh vào đĩa cứng (Engine 1 -> Engine 2 -> Fallback download)
+            async function saveAssetFileEnterprise(relativePath, blobOrDataUrl) {
+                let base64 = "";
+                if (typeof blobOrDataUrl === "string" && blobOrDataUrl.startsWith("data:")) {
+                    base64 = blobOrDataUrl;
+                } else if (blobOrDataUrl instanceof Blob || blobOrDataUrl instanceof File) {
+                    base64 = await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onloadend = () => resolve(reader.result);
+                        reader.readAsDataURL(blobOrDataUrl);
+                    });
+                }
+
+                // 1. Primary Engine: Ghi trực tiếp qua Local Sync Server (Port 5555)
+                if (isSyncServerOnline) {
+                    try {
+                        const res = await fetch(`${LOCAL_SYNC_URL}/api/save-image`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                path: relativePath,
+                                base64: base64
+                            })
+                        });
+                        if (res.ok) {
+                            const json = await res.json();
+                            if (json.success) {
+                                return { success: true, method: "server", path: json.path };
                             }
                         }
-                    });
-
-                    const jsonStr = JSON.stringify(exportCopy, null, 2);
-                    const blob = new Blob([jsonStr], { type: "application/json" });
-                    return await writeAssetFileDirectly("assets/data/tournaments.json", blob);
-                } catch (err) {
-                    console.error("Error writing tournaments.json:", err);
-                    return false;
+                    } catch (e) {
+                        console.warn("Sync server write failed, checking secondary engine...", e);
+                    }
                 }
+
+                // 2. Secondary Engine: Ghi qua File System Access API
+                if (projectDirHandle) {
+                    const ok = await writeAssetFileDirectly(relativePath, blobOrDataUrl);
+                    if (ok) return { success: true, method: "fsa", path: relativePath };
+                }
+
+                // 3. Fallback: Tải file về máy
+                const filename = relativePath.split("/").pop();
+                if (blobOrDataUrl instanceof Blob || blobOrDataUrl instanceof File) {
+                    triggerDownloadAsset(blobOrDataUrl, filename);
+                } else if (base64) {
+                    const blob = dataUrlToBlob(base64);
+                    triggerDownloadAsset(blob, filename);
+                }
+                return { success: false, method: "download", path: relativePath };
             }
 
-            // Ghi đè contact.json trực tiếp vào đĩa cứng
-            async function writeContactJsonDirectly() {
-                if (!projectDirHandle) return false;
-                try {
-                    const jsonStr = JSON.stringify(contactData, null, 2);
+            // Chuẩn hóa dữ liệu JSON sạch (không dính base64) để ghi đè vào tournaments.json
+            function prepareTournamentsExportJson() {
+                const exportCopy = JSON.parse(JSON.stringify(tournamentsData));
+                delete exportCopy._customizedByAdmin;
+                delete exportCopy._lastUpdated;
+
+                const categoryKeys = ["an-nhiet-cup", "setup-ky-thuat", "wpa-the-gioi", "chau-a-quoc-gia"];
+                categoryKeys.forEach(catKey => {
+                    const cat = exportCopy[catKey];
+                    if (cat) {
+                        if (cat.cover && cat.cover.startsWith("data:")) {
+                            cat.cover = cat.coverAssetPath || `assets/images/tournaments/${getAssetPrefix(catKey)}-cover.jpg`;
+                        }
+                        delete cat.coverAssetPath;
+                        if (cat.photos && Array.isArray(cat.photos)) {
+                            cat.photos.forEach((p, pIdx) => {
+                                if (p.src && p.src.startsWith("data:")) {
+                                    p.src = p.assetPath || getStandardAssetPath(catKey, pIdx);
+                                }
+                                delete p.assetPath;
+                            });
+                        }
+                    }
+                });
+                return JSON.stringify(exportCopy, null, 2);
+            }
+
+            // DUAL-ENGINE: Tự động ghi đè file tournaments.json trực tiếp vào ổ cứng
+            async function saveTournamentsJsonEnterprise() {
+                const jsonStr = prepareTournamentsExportJson();
+
+                // 1. Primary Engine: Sync Server (Port 5555)
+                if (isSyncServerOnline) {
+                    try {
+                        const res = await fetch(`${LOCAL_SYNC_URL}/api/save-json`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                path: "assets/data/tournaments.json",
+                                content: jsonStr
+                            })
+                        });
+                        if (res.ok) {
+                            const json = await res.json();
+                            if (json.success) return true;
+                        }
+                    } catch (e) {
+                        console.warn("Sync server save tournaments.json failed:", e);
+                    }
+                }
+
+                // 2. Secondary Engine: FSA
+                if (projectDirHandle) {
+                    const blob = new Blob([jsonStr], { type: "application/json" });
+                    return await writeAssetFileDirectly("assets/data/tournaments.json", blob);
+                }
+
+                return false;
+            }
+
+            // DUAL-ENGINE: Tự động ghi đè contact.json trực tiếp vào ổ cứng
+            async function saveContactJsonEnterprise() {
+                const jsonStr = JSON.stringify(contactData, null, 2);
+
+                if (isSyncServerOnline) {
+                    try {
+                        const res = await fetch(`${LOCAL_SYNC_URL}/api/save-json`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                path: "assets/data/contact.json",
+                                content: jsonStr
+                            })
+                        });
+                        if (res.ok) {
+                            const json = await res.json();
+                            if (json.success) return true;
+                        }
+                    } catch (e) {
+                        console.warn("Sync server save contact.json failed:", e);
+                    }
+                }
+
+                if (projectDirHandle) {
                     const blob = new Blob([jsonStr], { type: "application/json" });
                     return await writeAssetFileDirectly("assets/data/contact.json", blob);
-                } catch (err) {
-                    console.error("Error writing contact.json:", err);
-                    return false;
                 }
+
+                return false;
             }
 
             async function connectProjectDirectory(interactive = true) {
@@ -1155,7 +1290,7 @@
                     if (!handle) return false;
 
                     projectDirHandle = handle;
-                    updateFsStatusUI(true, handle.name);
+                    updateFsStatusUI(true, handle.name, "fsa");
                     showToast(`Đã kết nối thư mục dự án [${handle.name}] thành công! Mọi ảnh mới và dữ liệu sẽ được tự động ghi thẳng vào assets/ trên máy tính.`, "success");
                     return true;
                 } catch (err) {
@@ -1167,7 +1302,7 @@
                 }
             }
 
-            function updateFsStatusUI(connected, folderName = "") {
+            function updateFsStatusUI(connected, info = "", mode = "fsa") {
                 const dot = document.getElementById("fsStatusDot");
                 const title = document.getElementById("fsStatusTitle");
                 const desc = document.getElementById("fsStatusDesc");
@@ -1176,24 +1311,38 @@
                 if (connected) {
                     if (dot) {
                         dot.style.background = "#10b981";
-                        dot.style.boxShadow = "0 0 8px rgba(16, 185, 129, 0.6)";
+                        dot.style.boxShadow = "0 0 10px rgba(16, 185, 129, 0.8)";
                     }
-                    if (title) title.innerHTML = `<span style="color: #10b981;">● Đã kết nối thư mục dự án [${folderName}]</span> (Tự động ghi đĩa cứng)`;
-                    if (desc) desc.textContent = "Mọi ảnh bìa, ảnh giải đấu và tournaments.json được tự động lưu trực tiếp vào ổ cứng!";
+                    if (title) {
+                        if (mode === "server") {
+                            title.innerHTML = `<span style="color: #10b981;">● Local Sync Engine: ĐANG KẾT NỐI (Port 5555)</span> - Tự Động Ghi Đĩa Cứng`;
+                        } else {
+                            title.innerHTML = `<span style="color: #10b981;">● Đã kết nối thư mục [${info}]</span> - Tự Động Ghi Đĩa Cứng`;
+                        }
+                    }
+                    if (desc) {
+                        desc.innerHTML = `Mọi ảnh bìa, 4 ảnh giải đấu và <code>tournaments.json</code> được <b>tự động ghi thẳng vào thư mục project</b> trên ổ cứng ngay khi bạn đổi ảnh!`;
+                    }
                     if (btn) {
-                        btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> Đổi Thư Mục Kết Nối`;
-                        btn.style.color = "#10b981";
-                        btn.style.borderColor = "#10b981";
+                        if (mode === "server") {
+                            btn.innerHTML = `<i class="fa-solid fa-bolt" style="color: #10b981;"></i> Auto-Sync Server Đang Chạy`;
+                            btn.style.color = "#10b981";
+                            btn.style.borderColor = "#10b981";
+                        } else {
+                            btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> Đổi Thư Mục Kết Nối`;
+                            btn.style.color = "#10b981";
+                            btn.style.borderColor = "#10b981";
+                        }
                     }
                 } else {
                     if (dot) {
                         dot.style.background = "#f59e0b";
                         dot.style.boxShadow = "0 0 8px rgba(245, 158, 11, 0.5)";
                     }
-                    if (title) title.textContent = "Chế độ lưu: Trình duyệt & Bộ nhớ tạm (Chưa kết nối thư mục dự án)";
-                    if (desc) desc.innerHTML = "Kết nối thư mục dự án <code>pro5</code> để ảnh mới và dữ liệu tự động ghi thẳng vào thư mục <code>assets/</code> trên máy tính.";
+                    if (title) title.textContent = "Chế độ lưu: Trình duyệt & Bộ nhớ tạm (Chưa phát hiện Sync Server)";
+                    if (desc) desc.innerHTML = "Nhấp đúp vào <code>start_sync_server.bat</code> trong thư mục dự án để tự động ghi đè ổ cứng, hoặc kết nối thư mục bên dưới.";
                     if (btn) {
-                        btn.innerHTML = `<i class="fa-solid fa-folder-open"></i> Kết Nối Thư Mục Dự Án (Auto-Save vào Asset)`;
+                        btn.innerHTML = `<i class="fa-solid fa-folder-open"></i> Kết Nối Thư Mục Dự Án (FSA)`;
                         btn.style.color = "var(--primary)";
                         btn.style.borderColor = "var(--primary)";
                     }
@@ -1485,15 +1634,14 @@
                         const inputCover = document.getElementById("inputCatCover");
                         if (inputCover) inputCover.value = standardCoverPath;
 
-                        let fsSaved = false;
-                        if (projectDirHandle) {
-                            fsSaved = await writeAssetFileDirectly(standardCoverPath, cat.cover);
-                            await writeTournamentsJsonDirectly();
-                        }
-
+                        const saveRes = await saveAssetFileEnterprise(standardCoverPath, cat.cover);
+                        await saveTournamentsJsonEnterprise();
                         saveData();
-                        if (fsSaved) {
-                            showToast(`Đã đặt ảnh #${idx + 1} làm ảnh bìa Card và ghi trực tiếp vào ${standardCoverPath}!`, "success");
+
+                        if (saveRes.success && saveRes.method === "server") {
+                            showToast(`Đã đặt ảnh #${idx + 1} làm ảnh bìa Card và ghi đè trực tiếp vào ${standardCoverPath} trên ổ cứng!`, "success");
+                        } else if (saveRes.success) {
+                            showToast(`Đã đặt ảnh #${idx + 1} làm ảnh bìa Card và ghi vào ${standardCoverPath}!`, "success");
                         } else {
                             showToast(`Đã đặt ảnh #${idx + 1} làm ảnh bìa Card giải đấu và đồng bộ!`, "success");
                         }
@@ -1513,7 +1661,6 @@
                             const cat = tournamentsData[activeCatKey];
                             const prefix = getAssetPrefix(activeCatKey);
                             const standardCoverPath = `assets/images/tournaments/${prefix}-cover.jpg`;
-                            const standardCoverFileName = `${prefix}-cover.jpg`;
 
                             showToast(`Đang nén ảnh bìa [${file.name}]...`, "info");
                             const compressed = await compressImageFile(file);
@@ -1527,18 +1674,14 @@
                             const inputCover = document.getElementById("inputCatCover");
                             if (inputCover) inputCover.value = standardCoverPath;
 
-                            let fsSaved = false;
-                            if (projectDirHandle) {
-                                fsSaved = await writeAssetFileDirectly(standardCoverPath, compressed);
-                                await writeTournamentsJsonDirectly();
-                            } else {
-                                triggerDownloadAsset(file, standardCoverFileName);
-                            }
-
+                            const saveRes = await saveAssetFileEnterprise(standardCoverPath, compressed);
+                            await saveTournamentsJsonEnterprise();
                             saveData();
 
-                            if (fsSaved) {
-                                showToast(`Đổi ảnh bìa thành công! Đã tự động ghi vào ${standardCoverPath} trên ổ cứng.`, "success");
+                            if (saveRes.success && saveRes.method === "server") {
+                                showToast(`Đổi ảnh bìa thành công! Đã tự động ghi đè file ${standardCoverPath} và tournaments.json trên máy tính.`, "success");
+                            } else if (saveRes.success) {
+                                showToast(`Đổi ảnh bìa thành công! Đã ghi vào ${standardCoverPath} trên ổ cứng.`, "success");
                             } else {
                                 showToast(`Đổi ảnh bìa thành công! Đã tự động cập nhật và đồng bộ sang Trang chủ.`, "success");
                             }
@@ -1558,7 +1701,6 @@
                     try {
                         const cat = tournamentsData[activeCatKey];
                         const standardAssetPath = getStandardAssetPath(activeCatKey, replacingPhotoIndex);
-                        const standardFileName = standardAssetPath.split("/").pop();
 
                         showToast(`Đang xử lý và nén ảnh [${file.name}]...`, "info");
                         // Nén ảnh để xem trước tức thì và tối ưu dung lượng LocalStorage
@@ -1568,14 +1710,9 @@
                         cat.photos[replacingPhotoIndex].src = compressed;
                         cat.photos[replacingPhotoIndex].assetPath = standardAssetPath;
 
-                        let fsSaved = false;
-                        if (projectDirHandle) {
-                            fsSaved = await writeAssetFileDirectly(standardAssetPath, compressed);
-                            await writeTournamentsJsonDirectly();
-                        } else {
-                            // Tự động tải về file ảnh chuẩn hóa để người dùng lưu vào thư mục assets
-                            triggerDownloadAsset(file, standardFileName);
-                        }
+                        // Dual-Engine: Ghi đè file ảnh và tournaments.json vào đĩa cứng
+                        const saveRes = await saveAssetFileEnterprise(standardAssetPath, compressed);
+                        await saveTournamentsJsonEnterprise();
 
                         // Lưu dữ liệu vào LocalStorage và phát tín hiệu Realtime Sync tới index.html
                         saveData();
@@ -1583,7 +1720,9 @@
                         // Render lại giao diện Admin để cập nhật card và thumbnail
                         renderActiveCategory();
 
-                        if (fsSaved) {
+                        if (saveRes.success && saveRes.method === "server") {
+                            showToast(`Đổi ảnh #${replacingPhotoIndex + 1} thành công! Đã ghi đè trực tiếp vào ${standardAssetPath} và tournaments.json trên máy tính.`, "success");
+                        } else if (saveRes.success) {
                             showToast(`Đổi ảnh #${replacingPhotoIndex + 1} thành công! Đã ghi vào ${standardAssetPath} và tournaments.json trên máy tính.`, "success");
                         } else {
                             showToast(`Đổi ảnh #${replacingPhotoIndex + 1} thành công! Đã tự động cập nhật và đồng bộ sang Trang chủ.`, "success");
@@ -1685,27 +1824,24 @@
                         if (!cat || !item) return;
 
                         const standardAssetPath = getStandardAssetPath(activeCatKey, pos);
-                        const standardFileName = standardAssetPath.split("/").pop();
 
                         // Gán ảnh nén vào src để hiển thị tức thì mọi nơi
                         cat.photos[pos].src = item.src;
                         cat.photos[pos].assetPath = standardAssetPath;
 
-                        let fsSaved = false;
-                        if (projectDirHandle) {
-                            fsSaved = await writeAssetFileDirectly(standardAssetPath, item.src);
-                            await writeTournamentsJsonDirectly();
-                        } else if (item.file) {
-                            triggerDownloadAsset(item.file, standardFileName);
-                        }
+                        // Dual-Engine: Ghi trực tiếp vào file asset và tournaments.json
+                        const saveRes = await saveAssetFileEnterprise(standardAssetPath, item.src);
+                        await saveTournamentsJsonEnterprise();
 
                         saveData();
                         renderActiveCategory();
 
-                        if (fsSaved) {
-                            showToast(`Đã gán ảnh mới vào Vị trí #${pos + 1} và ghi trực tiếp vào ${standardAssetPath}!`, "success");
+                        if (saveRes.success && saveRes.method === "server") {
+                            showToast(`Đã gán và ghi đè trực tiếp ảnh #${pos + 1} vào ${standardAssetPath} trên máy tính!`, "success");
+                        } else if (saveRes.success) {
+                            showToast(`Đã gán ảnh mới vào Vị trí #${pos + 1} (${standardAssetPath})!`, "success");
                         } else {
-                            showToast(`Đã gán ảnh mới vào Vị trí #${pos + 1} (${standardAssetPath}) và đồng bộ sang Trang chủ!`, "success");
+                            showToast(`Đã gán ảnh mới vào Vị trí #${pos + 1} và đồng bộ sang Trang chủ!`, "success");
                         }
                     };
                 });
@@ -1735,11 +1871,12 @@
                 }
             }
 
-            function saveContactData() {
+            async function saveContactData() {
                 saveContactInputsToMemory();
                 try {
                     localStorage.setItem(CONTACT_STORAGE_KEY, JSON.stringify(contactData));
                     notifySync("contact");
+                    await saveContactJsonEnterprise();
                     showToast("Đã lưu thông tin liên hệ và đồng bộ sang Trang chủ thành công!", "success");
                 } catch(e) {
                     showToast("Lỗi khi lưu thông tin liên hệ: " + e.message, "danger");
@@ -1792,7 +1929,7 @@
             });
 
             const btnSaveContact = document.getElementById("btnSaveContactData");
-            if (btnSaveContact) btnSaveContact.onclick = saveContactData;
+            if (btnSaveContact) btnSaveContact.onclick = () => saveContactData();
 
             // Save All Button
             const btnSaveAll = document.getElementById("btnSaveAllData");
@@ -1801,12 +1938,14 @@
                     saveActiveInputsToMemory();
                     saveData();
                     if (activeCatKey === "contact-info") {
-                        saveContactData();
+                        await saveContactData();
                     }
-                    if (projectDirHandle) {
-                        await writeTournamentsJsonDirectly();
-                        await writeContactJsonDirectly();
-                        showToast("Đã lưu và ghi trực tiếp vào tournaments.json và contact.json trên máy tính!", "success");
+                    const tourSaved = await saveTournamentsJsonEnterprise();
+                    const contactSaved = await saveContactJsonEnterprise();
+                    if (tourSaved || contactSaved) {
+                        showToast("Đã lưu và ghi đè trực tiếp vào tournaments.json và contact.json trên máy tính!", "success");
+                    } else {
+                        showToast("Đã lưu dữ liệu và đồng bộ sang Trang chủ!", "success");
                     }
                 };
             }
@@ -1818,12 +1957,10 @@
                     if (confirm("Khôi phục toàn bộ 4 giải đấu và 16 ảnh về dữ liệu mẫu ban đầu?")) {
                         tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
                         saveData();
-                        if (projectDirHandle) {
-                            await writeTournamentsJsonDirectly();
-                        }
+                        await saveTournamentsJsonEnterprise();
                         renderTabs();
                         renderActiveCategory();
-                        showToast("Đã khôi phục dữ liệu ban đầu!", "success");
+                        showToast("Đã khôi phục dữ liệu ban đầu và ghi đè tournaments.json!", "success");
                     }
                 };
             }
@@ -1833,31 +1970,7 @@
             if (btnExport) {
                 btnExport.onclick = () => {
                     saveActiveInputsToMemory();
-                    const exportCopy = JSON.parse(JSON.stringify(tournamentsData));
-                    delete exportCopy._customizedByAdmin;
-                    delete exportCopy._lastUpdated;
-
-                    // Clean all base64 data URLs to clean asset paths for Git/Vercel
-                    const categoryKeys = ["an-nhiet-cup", "setup-ky-thuat", "wpa-the-gioi", "chau-a-quoc-gia"];
-                    categoryKeys.forEach(catKey => {
-                        const cat = exportCopy[catKey];
-                        if (cat) {
-                            if (cat.cover && cat.cover.startsWith("data:")) {
-                                cat.cover = cat.coverAssetPath || `assets/images/tournaments/${getAssetPrefix(catKey)}-cover.jpg`;
-                            }
-                            delete cat.coverAssetPath;
-                            if (cat.photos && Array.isArray(cat.photos)) {
-                                cat.photos.forEach((p, pIdx) => {
-                                    if (p.src && p.src.startsWith("data:")) {
-                                        p.src = p.assetPath || getStandardAssetPath(catKey, pIdx);
-                                    }
-                                    delete p.assetPath;
-                                });
-                            }
-                        }
-                    });
-
-                    const jsonStr = JSON.stringify(exportCopy, null, 2);
+                    const jsonStr = prepareTournamentsExportJson();
 
                     // Copy vào Clipboard
                     navigator.clipboard.writeText(jsonStr).then(() => {
@@ -1886,9 +1999,7 @@
                     el.onchange = async () => {
                         saveActiveInputsToMemory();
                         saveData();
-                        if (projectDirHandle) {
-                            await writeTournamentsJsonDirectly();
-                        }
+                        await saveTournamentsJsonEnterprise();
                         renderTabs();
                     };
                 }
@@ -1907,9 +2018,7 @@
                         const coverPreview = document.getElementById("catCoverPreview");
                         if (coverPreview) coverPreview.src = val;
                         saveData();
-                        if (projectDirHandle) {
-                            await writeTournamentsJsonDirectly();
-                        }
+                        await saveTournamentsJsonEnterprise();
                     }
                     showToast(`Đã cập nhật ảnh bìa: ${val}`, "success");
                 };
@@ -1921,8 +2030,16 @@
                 btnConnect.onclick = () => connectProjectDirectory(true);
             }
 
+            // Bind Check Sync Server button
+            const btnCheckServer = document.getElementById("btnCheckSyncServer");
+            if (btnCheckServer) {
+                btnCheckServer.onclick = () => checkLocalSyncServer(false);
+            }
+
             // Async Initialization
             async function init() {
+                await checkLocalSyncServer(true);
+                setInterval(() => checkLocalSyncServer(true), 4000);
                 await loadContactData();
                 await loadData();
                 renderTabs();
