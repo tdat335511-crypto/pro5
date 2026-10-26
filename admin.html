@@ -509,6 +509,24 @@
             </div>
         </div>
 
+        <!-- Project Asset Sync Status Bar -->
+        <div id="fsSyncBanner" style="background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div id="fsStatusDot" style="width: 12px; height: 12px; border-radius: 50%; background: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);"></div>
+                <div>
+                    <div style="font-weight: 700; font-size: 0.95rem; color: var(--dark);" id="fsStatusTitle">
+                        Chế độ lưu: Trình duyệt & Bộ nhớ tạm (Chưa kết nối thư mục dự án)
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);" id="fsStatusDesc">
+                        Kết nối thư mục dự án <code>pro5</code> để ảnh mới và dữ liệu tự động ghi thẳng vào thư mục <code>assets/</code> trên máy tính.
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-outline" id="btnConnectFolder" style="background: #ffffff; border-color: var(--primary); color: var(--primary); font-weight: 600;">
+                <i class="fa-solid fa-folder-open"></i> Kết Nối Thư Mục Dự Án (Auto-Save vào Asset)
+            </button>
+        </div>
+
         <!-- 4 Tournament Category Tabs -->
         <div class="category-tabs" id="categoryTabs">
             <!-- Rendered by JS -->
@@ -537,14 +555,36 @@
                 </div>
             </div>
 
-            <div class="form-grid-2">
-                <div class="form-group">
-                    <label class="form-label" for="inputCatRole">Vai trò tác nghiệp của bạn</label>
-                    <input type="text" id="inputCatRole" class="form-input">
+            <div class="form-group">
+                <label class="form-label" for="inputCatRole">Vai trò tác nghiệp của bạn</label>
+                <input type="text" id="inputCatRole" class="form-input">
+            </div>
+
+            <!-- Tournament Cover Studio Component -->
+            <div class="cover-editor-container" style="background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                    <label class="form-label" style="margin-bottom: 0; font-weight: 750; color: var(--dark); font-size: 0.95rem;">
+                        <i class="fa-solid fa-star" style="color: var(--primary);"></i> Ảnh Bìa Đại Diện Card Giải Đấu (Tournament Cover)
+                    </label>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Hiển thị làm ảnh nền Card giải đấu ngoài Trang Chủ</span>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="inputCatCover">Ảnh bìa đại diện Card (URL hoặc tên file)</label>
-                    <input type="text" id="inputCatCover" class="form-input">
+                <div style="display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap;">
+                    <div style="position: relative; width: 180px; height: 110px; border-radius: 10px; overflow: hidden; border: 2px solid var(--border); flex-shrink: 0; background: #0f172a; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                        <img id="catCoverPreview" src="" alt="Ảnh bìa preview" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src=SVG_FALLBACK">
+                        <span style="position: absolute; bottom: 4px; left: 4px; font-size: 0.68rem; background: rgba(0,0,0,0.75); color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: 600;">Ảnh Bìa Hiện Tại</span>
+                    </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap;">
+                            <button type="button" class="btn btn-primary" id="btnUploadCatCover" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Tải Ảnh Bìa Mới Từ Máy Tính
+                            </button>
+                            <input type="file" id="coverFileInput" accept="image/*" style="display: none;">
+                        </div>
+                        <div>
+                            <label class="form-label" style="font-size: 0.8rem; margin-bottom: 0.25rem; color: var(--text-muted);">Đường dẫn asset của ảnh bìa:</label>
+                            <input type="text" id="inputCatCover" class="form-input" placeholder="assets/images/tournaments/annhiet-cover.jpg" style="font-size: 0.85rem;">
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1007,6 +1047,159 @@
                 }
             }
 
+            // ==========================================
+            // HTML5 FILE SYSTEM ACCESS API SYNC ENGINE
+            // ==========================================
+            let projectDirHandle = null;
+
+            // Chuyển DataURL thành Blob nhị phân
+            function dataUrlToBlob(dataUrl) {
+                const arr = dataUrl.split(",");
+                const mime = arr[0].match(/:(.*?);/)[1];
+                const bstr = atob(arr[1]);
+                let n = bstr.length;
+                const u8arr = new Uint8Array(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+                return new Blob([u8arr], { type: mime });
+            }
+
+            // Ghi file trực tiếp vào thư mục asset trên đĩa cứng
+            async function writeAssetFileDirectly(relativePath, blobOrDataUrl) {
+                if (!projectDirHandle) return false;
+                try {
+                    let blob = blobOrDataUrl;
+                    if (typeof blobOrDataUrl === "string" && blobOrDataUrl.startsWith("data:")) {
+                        blob = dataUrlToBlob(blobOrDataUrl);
+                    }
+
+                    // Tách đường dẫn tương đối thành các thư mục con: ví dụ assets/images/tournaments/annhiet-1.jpg
+                    const parts = relativePath.split("/").filter(Boolean);
+                    const filename = parts.pop();
+
+                    let currentDir = projectDirHandle;
+                    for (const folder of parts) {
+                        currentDir = await currentDir.getDirectoryHandle(folder, { create: true });
+                    }
+
+                    const fileHandle = await currentDir.getFileHandle(filename, { create: true });
+                    const writable = await fileHandle.createWritable();
+                    await writable.write(blob);
+                    await writable.close();
+                    return true;
+                } catch (err) {
+                    console.error("Error writing asset file:", err);
+                    return false;
+                }
+            }
+
+            // Ghi đè file tournaments.json trực tiếp vào đĩa cứng
+            async function writeTournamentsJsonDirectly() {
+                if (!projectDirHandle) return false;
+                try {
+                    const exportCopy = JSON.parse(JSON.stringify(tournamentsData));
+                    delete exportCopy._customizedByAdmin;
+                    delete exportCopy._lastUpdated;
+
+                    const categoryKeys = ["an-nhiet-cup", "setup-ky-thuat", "wpa-the-gioi", "chau-a-quoc-gia"];
+                    categoryKeys.forEach(catKey => {
+                        const cat = exportCopy[catKey];
+                        if (cat) {
+                            if (cat.cover && cat.cover.startsWith("data:")) {
+                                cat.cover = cat.coverAssetPath || `assets/images/tournaments/${getAssetPrefix(catKey)}-cover.jpg`;
+                            }
+                            delete cat.coverAssetPath;
+                            if (cat.photos && Array.isArray(cat.photos)) {
+                                cat.photos.forEach((p, pIdx) => {
+                                    if (p.src && p.src.startsWith("data:")) {
+                                        p.src = p.assetPath || getStandardAssetPath(catKey, pIdx);
+                                    }
+                                    delete p.assetPath;
+                                });
+                            }
+                        }
+                    });
+
+                    const jsonStr = JSON.stringify(exportCopy, null, 2);
+                    const blob = new Blob([jsonStr], { type: "application/json" });
+                    return await writeAssetFileDirectly("assets/data/tournaments.json", blob);
+                } catch (err) {
+                    console.error("Error writing tournaments.json:", err);
+                    return false;
+                }
+            }
+
+            // Ghi đè contact.json trực tiếp vào đĩa cứng
+            async function writeContactJsonDirectly() {
+                if (!projectDirHandle) return false;
+                try {
+                    const jsonStr = JSON.stringify(contactData, null, 2);
+                    const blob = new Blob([jsonStr], { type: "application/json" });
+                    return await writeAssetFileDirectly("assets/data/contact.json", blob);
+                } catch (err) {
+                    console.error("Error writing contact.json:", err);
+                    return false;
+                }
+            }
+
+            async function connectProjectDirectory(interactive = true) {
+                if (!window.showDirectoryPicker) {
+                    if (interactive) showToast("Trình duyệt không hỗ trợ File System API. Đang sử dụng chế độ lưu LocalStorage & Tải file.", "info");
+                    return false;
+                }
+                try {
+                    const handle = await window.showDirectoryPicker({
+                        mode: "readwrite"
+                    });
+                    if (!handle) return false;
+
+                    projectDirHandle = handle;
+                    updateFsStatusUI(true, handle.name);
+                    showToast(`Đã kết nối thư mục dự án [${handle.name}] thành công! Mọi ảnh mới và dữ liệu sẽ được tự động ghi thẳng vào assets/ trên máy tính.`, "success");
+                    return true;
+                } catch (err) {
+                    if (err.name !== "AbortError") {
+                        console.error(err);
+                        if (interactive) showToast("Không thể kết nối thư mục: " + err.message, "danger");
+                    }
+                    return false;
+                }
+            }
+
+            function updateFsStatusUI(connected, folderName = "") {
+                const dot = document.getElementById("fsStatusDot");
+                const title = document.getElementById("fsStatusTitle");
+                const desc = document.getElementById("fsStatusDesc");
+                const btn = document.getElementById("btnConnectFolder");
+
+                if (connected) {
+                    if (dot) {
+                        dot.style.background = "#10b981";
+                        dot.style.boxShadow = "0 0 8px rgba(16, 185, 129, 0.6)";
+                    }
+                    if (title) title.innerHTML = `<span style="color: #10b981;">● Đã kết nối thư mục dự án [${folderName}]</span> (Tự động ghi đĩa cứng)`;
+                    if (desc) desc.textContent = "Mọi ảnh bìa, ảnh giải đấu và tournaments.json được tự động lưu trực tiếp vào ổ cứng!";
+                    if (btn) {
+                        btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> Đổi Thư Mục Kết Nối`;
+                        btn.style.color = "#10b981";
+                        btn.style.borderColor = "#10b981";
+                    }
+                } else {
+                    if (dot) {
+                        dot.style.background = "#f59e0b";
+                        dot.style.boxShadow = "0 0 8px rgba(245, 158, 11, 0.5)";
+                    }
+                    if (title) title.textContent = "Chế độ lưu: Trình duyệt & Bộ nhớ tạm (Chưa kết nối thư mục dự án)";
+                    if (desc) desc.innerHTML = "Kết nối thư mục dự án <code>pro5</code> để ảnh mới và dữ liệu tự động ghi thẳng vào thư mục <code>assets/</code> trên máy tính.";
+                    if (btn) {
+                        btn.innerHTML = `<i class="fa-solid fa-folder-open"></i> Kết Nối Thư Mục Dự Án (Auto-Save vào Asset)`;
+                        btn.style.color = "var(--primary)";
+                        btn.style.borderColor = "var(--primary)";
+                    }
+                }
+            }
+
             function saveData() {
                 try {
                     tournamentsData._customizedByAdmin = true;
@@ -1115,8 +1308,10 @@
                 const coverEl = document.getElementById("inputCatCover");
                 if (coverEl && coverEl.value.trim()) {
                     const cVal = coverEl.value.trim();
-                    if (!cVal.startsWith("data:")) {
+                    const currentDisplay = (cat.cover && cat.cover.startsWith("data:")) ? (cat.coverAssetPath || `assets/images/tournaments/${getAssetPrefix(activeCatKey)}-cover.jpg`) : (cat.cover || "");
+                    if (cVal !== currentDisplay) {
                         cat.cover = normalizeImagePath(cVal);
+                        cat.coverAssetPath = cat.cover;
                     }
                 }
                 const descEl = document.getElementById("inputCatDesc");
@@ -1164,6 +1359,10 @@
                 document.getElementById("inputCatRole").value = cat.role || "";
                 const displayCover = (cat.cover && cat.cover.startsWith("data:")) ? (cat.coverAssetPath || `assets/images/tournaments/${getAssetPrefix(activeCatKey)}-cover.jpg`) : (cat.cover || "");
                 document.getElementById("inputCatCover").value = displayCover;
+                const coverPreview = document.getElementById("catCoverPreview");
+                if (coverPreview) {
+                    coverPreview.src = cat.cover || `assets/images/tournaments/${getAssetPrefix(activeCatKey)}-cover.jpg`;
+                }
                 document.getElementById("inputCatDesc").value = cat.description || "";
 
                 // Render 4 Photos Editor Grid
@@ -1272,15 +1471,83 @@
                 });
 
                 document.querySelectorAll(".btn-set-cover").forEach(btn => {
-                    btn.onclick = () => {
+                    btn.onclick = async () => {
                         const idx = parseInt(btn.dataset.index);
+                        const prefix = getAssetPrefix(activeCatKey);
+                        const standardCoverPath = `assets/images/tournaments/${prefix}-cover.jpg`;
+
                         cat.cover = cat.photos[idx].src;
-                        cat.coverAssetPath = cat.photos[idx].assetPath || getStandardAssetPath(activeCatKey, idx);
-                        document.getElementById("inputCatCover").value = cat.coverAssetPath || cat.cover;
+                        cat.coverAssetPath = standardCoverPath;
+
+                        const coverPreview = document.getElementById("catCoverPreview");
+                        if (coverPreview) coverPreview.src = cat.cover;
+
+                        const inputCover = document.getElementById("inputCatCover");
+                        if (inputCover) inputCover.value = standardCoverPath;
+
+                        let fsSaved = false;
+                        if (projectDirHandle) {
+                            fsSaved = await writeAssetFileDirectly(standardCoverPath, cat.cover);
+                            await writeTournamentsJsonDirectly();
+                        }
+
                         saveData();
-                        showToast(`Đã đặt ảnh #${idx + 1} làm ảnh bìa Card giải đấu và đồng bộ!`, "success");
+                        if (fsSaved) {
+                            showToast(`Đã đặt ảnh #${idx + 1} làm ảnh bìa Card và ghi trực tiếp vào ${standardCoverPath}!`, "success");
+                        } else {
+                            showToast(`Đã đặt ảnh #${idx + 1} làm ảnh bìa Card giải đấu và đồng bộ!`, "success");
+                        }
                     };
                 });
+            }
+
+            // Tournament Cover Direct Upload from Computer
+            const btnUploadCatCover = document.getElementById("btnUploadCatCover");
+            const coverFileInput = document.getElementById("coverFileInput");
+            if (btnUploadCatCover && coverFileInput) {
+                btnUploadCatCover.onclick = () => coverFileInput.click();
+                coverFileInput.onchange = async (e) => {
+                    if (e.target.files && e.target.files[0]) {
+                        const file = e.target.files[0];
+                        try {
+                            const cat = tournamentsData[activeCatKey];
+                            const prefix = getAssetPrefix(activeCatKey);
+                            const standardCoverPath = `assets/images/tournaments/${prefix}-cover.jpg`;
+                            const standardCoverFileName = `${prefix}-cover.jpg`;
+
+                            showToast(`Đang nén ảnh bìa [${file.name}]...`, "info");
+                            const compressed = await compressImageFile(file);
+
+                            cat.cover = compressed;
+                            cat.coverAssetPath = standardCoverPath;
+
+                            const coverPreview = document.getElementById("catCoverPreview");
+                            if (coverPreview) coverPreview.src = compressed;
+
+                            const inputCover = document.getElementById("inputCatCover");
+                            if (inputCover) inputCover.value = standardCoverPath;
+
+                            let fsSaved = false;
+                            if (projectDirHandle) {
+                                fsSaved = await writeAssetFileDirectly(standardCoverPath, compressed);
+                                await writeTournamentsJsonDirectly();
+                            } else {
+                                triggerDownloadAsset(file, standardCoverFileName);
+                            }
+
+                            saveData();
+
+                            if (fsSaved) {
+                                showToast(`Đổi ảnh bìa thành công! Đã tự động ghi vào ${standardCoverPath} trên ổ cứng.`, "success");
+                            } else {
+                                showToast(`Đổi ảnh bìa thành công! Đã tự động cập nhật và đồng bộ sang Trang chủ.`, "success");
+                            }
+                        } catch (err) {
+                            showToast("Lỗi khi tải ảnh bìa: " + err.message, "danger");
+                        }
+                        coverFileInput.value = "";
+                    }
+                };
             }
 
             // Single Photo Replacement: Tự động cập nhật vào asset khi chọn ảnh
@@ -1301,8 +1568,14 @@
                         cat.photos[replacingPhotoIndex].src = compressed;
                         cat.photos[replacingPhotoIndex].assetPath = standardAssetPath;
 
-                        // Tự động tải về file ảnh chuẩn hóa để người dùng lưu vào thư mục assets
-                        triggerDownloadAsset(file, standardFileName);
+                        let fsSaved = false;
+                        if (projectDirHandle) {
+                            fsSaved = await writeAssetFileDirectly(standardAssetPath, compressed);
+                            await writeTournamentsJsonDirectly();
+                        } else {
+                            // Tự động tải về file ảnh chuẩn hóa để người dùng lưu vào thư mục assets
+                            triggerDownloadAsset(file, standardFileName);
+                        }
 
                         // Lưu dữ liệu vào LocalStorage và phát tín hiệu Realtime Sync tới index.html
                         saveData();
@@ -1310,7 +1583,11 @@
                         // Render lại giao diện Admin để cập nhật card và thumbnail
                         renderActiveCategory();
 
-                        showToast(`Đổi ảnh #${replacingPhotoIndex + 1} thành công! Đã tự động cập nhật và đồng bộ sang Trang chủ.`, "success");
+                        if (fsSaved) {
+                            showToast(`Đổi ảnh #${replacingPhotoIndex + 1} thành công! Đã ghi vào ${standardAssetPath} và tournaments.json trên máy tính.`, "success");
+                        } else {
+                            showToast(`Đổi ảnh #${replacingPhotoIndex + 1} thành công! Đã tự động cập nhật và đồng bộ sang Trang chủ.`, "success");
+                        }
                     } catch (err) {
                         showToast("Không thể tải ảnh: " + err.message, "danger");
                     }
@@ -1400,7 +1677,7 @@
                 });
 
                 document.querySelectorAll(".btn-assign-pos").forEach(btn => {
-                    btn.onclick = () => {
+                    btn.onclick = async () => {
                         const sIdx = parseInt(btn.dataset.sidx);
                         const pos = parseInt(btn.dataset.pos);
                         const cat = tournamentsData[activeCatKey];
@@ -1414,15 +1691,22 @@
                         cat.photos[pos].src = item.src;
                         cat.photos[pos].assetPath = standardAssetPath;
 
-                        // Tải file về máy để người dùng lưu vào assets
-                        if (item.file) {
+                        let fsSaved = false;
+                        if (projectDirHandle) {
+                            fsSaved = await writeAssetFileDirectly(standardAssetPath, item.src);
+                            await writeTournamentsJsonDirectly();
+                        } else if (item.file) {
                             triggerDownloadAsset(item.file, standardFileName);
                         }
 
                         saveData();
                         renderActiveCategory();
 
-                        showToast(`Đã gán ảnh mới vào Vị trí #${pos + 1} (${standardAssetPath}) và đồng bộ sang Trang chủ!`, "success");
+                        if (fsSaved) {
+                            showToast(`Đã gán ảnh mới vào Vị trí #${pos + 1} và ghi trực tiếp vào ${standardAssetPath}!`, "success");
+                        } else {
+                            showToast(`Đã gán ảnh mới vào Vị trí #${pos + 1} (${standardAssetPath}) và đồng bộ sang Trang chủ!`, "success");
+                        }
                     };
                 });
             }
@@ -1513,11 +1797,16 @@
             // Save All Button
             const btnSaveAll = document.getElementById("btnSaveAllData");
             if (btnSaveAll) {
-                btnSaveAll.onclick = () => {
+                btnSaveAll.onclick = async () => {
                     saveActiveInputsToMemory();
                     saveData();
                     if (activeCatKey === "contact-info") {
                         saveContactData();
+                    }
+                    if (projectDirHandle) {
+                        await writeTournamentsJsonDirectly();
+                        await writeContactJsonDirectly();
+                        showToast("Đã lưu và ghi trực tiếp vào tournaments.json và contact.json trên máy tính!", "success");
                     }
                 };
             }
@@ -1525,10 +1814,13 @@
             // Reset Defaults Button
             const btnReset = document.getElementById("btnResetDefaults");
             if (btnReset) {
-                btnReset.onclick = () => {
+                btnReset.onclick = async () => {
                     if (confirm("Khôi phục toàn bộ 4 giải đấu và 16 ảnh về dữ liệu mẫu ban đầu?")) {
                         tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
                         saveData();
+                        if (projectDirHandle) {
+                            await writeTournamentsJsonDirectly();
+                        }
                         renderTabs();
                         renderActiveCategory();
                         showToast("Đã khôi phục dữ liệu ban đầu!", "success");
@@ -1588,12 +1880,15 @@
             }
 
             // Input change listeners for tournament metadata
-            ["inputCatTitle", "inputCatBadge", "inputCatRole", "inputCatCover", "inputCatDesc"].forEach(id => {
+            ["inputCatTitle", "inputCatBadge", "inputCatRole", "inputCatDesc"].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
-                    el.onchange = () => {
+                    el.onchange = async () => {
                         saveActiveInputsToMemory();
                         saveData();
+                        if (projectDirHandle) {
+                            await writeTournamentsJsonDirectly();
+                        }
                         renderTabs();
                     };
                 }
@@ -1602,17 +1897,28 @@
             // Tự động chuẩn hóa đường dẫn ảnh bìa khi người dùng nhập
             const inputCover = document.getElementById("inputCatCover");
             if (inputCover) {
-                inputCover.onchange = (e) => {
+                inputCover.onchange = async (e) => {
                     let val = normalizeImagePath(e.target.value.trim());
                     e.target.value = val;
                     const cat = tournamentsData[activeCatKey];
                     if (cat) {
                         cat.cover = val;
                         cat.coverAssetPath = val;
+                        const coverPreview = document.getElementById("catCoverPreview");
+                        if (coverPreview) coverPreview.src = val;
                         saveData();
+                        if (projectDirHandle) {
+                            await writeTournamentsJsonDirectly();
+                        }
                     }
                     showToast(`Đã cập nhật ảnh bìa: ${val}`, "success");
                 };
+            }
+
+            // Bind Connect Project Folder button
+            const btnConnect = document.getElementById("btnConnectFolder");
+            if (btnConnect) {
+                btnConnect.onclick = () => connectProjectDirectory(true);
             }
 
             // Async Initialization
