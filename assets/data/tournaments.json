@@ -1,0 +1,142 @@
+{
+  "an-nhiet-cup": {
+    "id": "an-nhiet-cup",
+    "title": "An Nhiệt Premier Cup",
+    "badge": "GIẢI ĐẤU DOANH NGHIỆP & CLB",
+    "icon": "fa-trophy",
+    "role": "Trưởng ban Media & Sản xuất hình ảnh",
+    "description": "Trực tiếp chỉ đạo hình ảnh, thiết kế bộ nhận diện cúp, huy chương và ghi lại toàn bộ khoảnh khắc thi đấu kịch tính tại siêu giải đấu An Nhiệt Cup.",
+    "cover": "assets/images/tournaments/annhiet-cover.jpg",
+    "photos": [
+      {
+        "id": "annhiet-1",
+        "src": "assets/images/tournaments/annhiet-1.jpg",
+        "caption": "Bộ cúp vô địch, huy chương vàng & áo đấu chính thức An Nhiệt Cup",
+        "subtitle": "Thiết kế & nhận diện sự kiện"
+      },
+      {
+        "id": "annhiet-2",
+        "src": "assets/images/tournaments/annhiet-2.jpg",
+        "caption": "Không gian thảm đấu và hệ thống ánh sáng chuẩn quốc tế tại An Nhiệt Cup",
+        "subtitle": "Hiện trường thi đấu"
+      },
+      {
+        "id": "annhiet-3",
+        "src": "assets/images/tournaments/annhiet-3.jpg",
+        "caption": "Trận chung kết nghẹt thở tranh cúp vô địch An Nhiệt Premier",
+        "subtitle": "Khoảnh khắc thi đấu"
+      },
+      {
+        "id": "annhiet-4",
+        "src": "assets/images/tournaments/annhiet-4.jpg",
+        "caption": "Lễ bế mạc và vinh danh trao cúp cho tân vương giải đấu",
+        "subtitle": "Lễ vinh danh"
+      }
+    ]
+  },
+  "setup-ky-thuat": {
+    "id": "setup-ky-thuat",
+    "title": "Setup & Kĩ Thuật",
+    "badge": "LIVE PRODUCTION & BROADCAST",
+    "icon": "fa-video",
+    "role": "Kỹ thuật viên Livestream & Vận hành OBS/vMix",
+    "description": "Vận hành hệ thống phát sóng trực tiếp đa góc máy chuyên nghiệp, điều phối luồng stream ổn định và cắt highlight triệu view thời gian thực.",
+    "cover": "assets/images/tournaments/setup-cover.jpg",
+    "photos": [
+      {
+        "id": "setup-1",
+        "src": "assets/images/tournaments/setup-1.jpg",
+        "caption": "Bàn điều khiển kỹ thuật OBS Studio & vMix phát sóng trực tiếp",
+        "subtitle": "Control Desk Hiện Trường"
+      },
+      {
+        "id": "setup-2",
+        "src": "assets/images/tournaments/setup-2.jpg",
+        "caption": "Thiết lập góc máy quay cận cảnh bi cái và toàn cảnh bàn thi đấu",
+        "subtitle": "Căn chỉnh camera hiện trường"
+      },
+      {
+        "id": "setup-3",
+        "src": "assets/images/tournaments/setup-3.jpg",
+        "caption": "Điều phối luồng stream và kỹ thuật âm thanh bình luận viên trực tiếp",
+        "subtitle": "Hệ thống truyền dẫn luồng"
+      },
+      {
+        "id": "setup-4",
+        "src": "assets/images/tournaments/setup-4.jpg",
+        "caption": "Ekip Media phối hợp vận hành sự kiện và trực ban kỹ thuật 24/7",
+        "subtitle": "Ekip Production Hậu Trường"
+      }
+    ]
+  },
+  "wpa-the-gioi": {
+    "id": "wpa-the-gioi",
+    "title": "WPA Thế Giới",
+    "badge": "SIÊU GIẢI ĐẤU QUỐC TẾ",
+    "icon": "fa-globe",
+    "role": "Chuyên viên Tác nghiệp & Truyền thông Quốc tế",
+    "description": "Tác nghiệp báo chí hình ảnh và video ngắn bắt trend tại các chặng đấu thuộc Hiệp hội Billiards Thế giới (WPA) tổ chức tại Việt Nam.",
+    "cover": "assets/images/tournaments/wpa-cover.jpg",
+    "photos": [
+      {
+        "id": "wpa-1",
+        "src": "assets/images/tournaments/wpa-1.jpg",
+        "caption": "Tác nghiệp chụp ảnh cơ thủ quốc tế tập trung cao độ tại WPA",
+        "subtitle": "Chân dung cơ thủ thế giới"
+      },
+      {
+        "id": "wpa-2",
+        "src": "assets/images/tournaments/wpa-2.jpg",
+        "caption": "Pha giải bi cứu thua đẳng cấp thế giới được ghi hình trực tiếp",
+        "subtitle": "Highlight thi đấu đỉnh cao"
+      },
+      {
+        "id": "wpa-3",
+        "src": "assets/images/tournaments/wpa-3.jpg",
+        "caption": "Đấu trường WPA sôi động với khán giả theo dõi chật kín khán đài",
+        "subtitle": "Không khí sự kiện WPA"
+      },
+      {
+        "id": "wpa-4",
+        "src": "assets/images/tournaments/wpa-4.jpg",
+        "caption": "Phỏng vấn cơ thủ quốc tế sau khi giành chiến thắng vào vòng chung kết",
+        "subtitle": "Tác nghiệp phỏng vấn cơ thủ"
+      }
+    ]
+  },
+  "chau-a-quoc-gia": {
+    "id": "chau-a-quoc-gia",
+    "title": "Vô Địch Châu Á vs Quốc Gia",
+    "badge": "ĐẤU TRƯỜNG ĐỈNH CAO",
+    "icon": "fa-medal",
+    "role": "Media Partnership Sales & Nội dung TikTok",
+    "description": "Khai thác thương mại hóa hình ảnh, đồng hành cùng các đội tuyển tại giải Vô địch Châu Á (Asia Pool) và giải Vô địch Quốc gia (VĐQG).",
+    "cover": "assets/images/tournaments/asia-cover.jpg",
+    "photos": [
+      {
+        "id": "asia-1",
+        "src": "assets/images/tournaments/asia-1.jpg",
+        "caption": "Toàn cảnh lễ khai mạc giải Vô địch Billiards Quốc Gia",
+        "subtitle": "Khai mạc Đấu Trường Quốc Gia"
+      },
+      {
+        "id": "asia-2",
+        "src": "assets/images/tournaments/asia-2.jpg",
+        "caption": "Cơ thủ tuyển Việt Nam tranh tài cùng các đối thủ hàng đầu Châu Á",
+        "subtitle": "Đại chiến Châu Á (Asia Pool)"
+      },
+      {
+        "id": "asia-3",
+        "src": "assets/images/tournaments/asia-3.jpg",
+        "caption": "Phòng truyền thông tác nghiệp cắt clip highlight triệu view cho TikTok",
+        "subtitle": "Sáng tạo nội dung viral"
+      },
+      {
+        "id": "asia-4",
+        "src": "assets/images/tournaments/asia-4.jpg",
+        "caption": "Lễ trao huy chương vàng danh giá tại giải Vô địch Quốc Gia",
+        "subtitle": "Vinh quang bục nhận thưởng"
+      }
+    ]
+  }
+}

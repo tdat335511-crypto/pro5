@@ -1290,12 +1290,13 @@
         </p>
     </footer>
 
-    <!-- JAVASCRIPT: LOGIC RENDER 4 CARDS, POPUP ALBUM 4 ẢNH & LIGHTBOX -->
+        <!-- JAVASCRIPT: LOGIC RENDER 4 CARDS, POPUP ALBUM 4 ANH & LIGHTBOX (ENTERPRISE STATIC DATA-DRIVEN) -->
     <script>
         (function() {
             const STORAGE_KEY = "billiards_tournaments_v3";
+            const CONTACT_STORAGE_KEY = "billiards_contact_info_v1";
 
-            // Dữ liệu 4 giải đấu tiêu chuẩn thực chiến
+            // Du lieu 4 giai dau thuc chien mac dinh (Single Source of Truth Fallback)
             const DEFAULT_TOURNAMENTS_DATA = {
                 "an-nhiet-cup": {
                     id: "an-nhiet-cup",
@@ -1304,34 +1305,29 @@
                     icon: "fa-trophy",
                     role: "Trưởng ban Media & Sản xuất hình ảnh",
                     description: "Trực tiếp chỉ đạo hình ảnh, thiết kế bộ nhận diện cúp, huy chương và ghi lại toàn bộ khoảnh khắc thi đấu kịch tính tại siêu giải đấu An Nhiệt Cup.",
-                    cover: "assets/images/image_974469.jpg",
-                    coverFallback: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=80",
+                    cover: "assets/images/tournaments/annhiet-cover.jpg",
                     photos: [
                         {
                             id: "annhiet-1",
-                            src: "assets/images/image_974469.jpg",
-                            fallback: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/annhiet-1.jpg",
                             caption: "Bộ cúp vô địch, huy chương vàng & áo đấu chính thức An Nhiệt Cup",
                             subtitle: "Thiết kế & nhận diện sự kiện"
                         },
                         {
                             id: "annhiet-2",
-                            src: "assets/images/image_9741b7.jpg",
-                            fallback: "https://images.unsplash.com/photo-1588497859490-85d1c17db96d?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/annhiet-2.jpg",
                             caption: "Không gian thảm đấu và hệ thống ánh sáng chuẩn quốc tế tại An Nhiệt Cup",
                             subtitle: "Hiện trường thi đấu"
                         },
                         {
                             id: "annhiet-3",
-                            src: "assets/images/image_9739fd.jpg",
-                            fallback: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/annhiet-3.jpg",
                             caption: "Trận chung kết nghẹt thở tranh cúp vô địch An Nhiệt Premier",
                             subtitle: "Khoảnh khắc thi đấu"
                         },
                         {
                             id: "annhiet-4",
-                            src: "assets/images/image_974143.jpg",
-                            fallback: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/annhiet-4.jpg",
                             caption: "Lễ bế mạc và vinh danh trao cúp cho tân vương giải đấu",
                             subtitle: "Lễ vinh danh"
                         }
@@ -1344,34 +1340,29 @@
                     icon: "fa-video",
                     role: "Kỹ thuật viên Livestream & Vận hành OBS/vMix",
                     description: "Vận hành hệ thống phát sóng trực tiếp đa góc máy chuyên nghiệp, điều phối luồng stream ổn định và cắt highlight triệu view thời gian thực.",
-                    cover: "assets/images/image_973dc0.jpg",
-                    coverFallback: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000&auto=format&fit=crop&q=80",
+                    cover: "assets/images/tournaments/setup-cover.jpg",
                     photos: [
                         {
                             id: "setup-1",
-                            src: "assets/images/image_973dc0.jpg",
-                            fallback: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/setup-1.jpg",
                             caption: "Bàn điều khiển kỹ thuật OBS Studio & vMix phát sóng trực tiếp",
                             subtitle: "Control Desk Hiện Trường"
                         },
                         {
                             id: "setup-2",
-                            src: "assets/images/image_974143.jpg",
-                            fallback: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/setup-2.jpg",
                             caption: "Thiết lập góc máy quay cận cảnh bi cái và toàn cảnh bàn thi đấu",
                             subtitle: "Căn chỉnh camera hiện trường"
                         },
                         {
                             id: "setup-3",
-                            src: "assets/images/image_9741b7.jpg",
-                            fallback: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/setup-3.jpg",
                             caption: "Điều phối luồng stream và kỹ thuật âm thanh bình luận viên trực tiếp",
                             subtitle: "Hệ thống truyền dẫn luồng"
                         },
                         {
                             id: "setup-4",
-                            src: "assets/images/image_974469.jpg",
-                            fallback: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/setup-4.jpg",
                             caption: "Ekip Media phối hợp vận hành sự kiện và trực ban kỹ thuật 24/7",
                             subtitle: "Ekip Production Hậu Trường"
                         }
@@ -1384,34 +1375,29 @@
                     icon: "fa-globe",
                     role: "Chuyên viên Tác nghiệp & Truyền thông Quốc tế",
                     description: "Tác nghiệp báo chí hình ảnh và video ngắn bắt trend tại các chặng đấu thuộc Hiệp hội Billiards Thế giới (WPA) tổ chức tại Việt Nam.",
-                    cover: "assets/images/image_973a17.jpg",
-                    coverFallback: "https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=1000&auto=format&fit=crop&q=80",
+                    cover: "assets/images/tournaments/wpa-cover.jpg",
                     photos: [
                         {
                             id: "wpa-1",
-                            src: "assets/images/image_973a17.jpg",
-                            fallback: "https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/wpa-1.jpg",
                             caption: "Tác nghiệp chụp ảnh cơ thủ quốc tế tập trung cao độ tại WPA",
                             subtitle: "Chân dung cơ thủ thế giới"
                         },
                         {
                             id: "wpa-2",
-                            src: "assets/images/image_9739fd.jpg",
-                            fallback: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/wpa-2.jpg",
                             caption: "Pha giải bi cứu thua đẳng cấp thế giới được ghi hình trực tiếp",
                             subtitle: "Highlight thi đấu đỉnh cao"
                         },
                         {
                             id: "wpa-3",
-                            src: "assets/images/image_9741b7.jpg",
-                            fallback: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/wpa-3.jpg",
                             caption: "Đấu trường WPA sôi động với khán giả theo dõi chật kín khán đài",
                             subtitle: "Không khí sự kiện WPA"
                         },
                         {
                             id: "wpa-4",
-                            src: "assets/images/image_974143.jpg",
-                            fallback: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/wpa-4.jpg",
                             caption: "Phỏng vấn cơ thủ quốc tế sau khi giành chiến thắng vào vòng chung kết",
                             subtitle: "Tác nghiệp phỏng vấn cơ thủ"
                         }
@@ -1424,34 +1410,29 @@
                     icon: "fa-medal",
                     role: "Media Partnership Sales & Nội dung TikTok",
                     description: "Khai thác thương mại hóa hình ảnh, đồng hành cùng các đội tuyển tại giải Vô địch Châu Á (Asia Pool) và giải Vô địch Quốc gia (VĐQG).",
-                    cover: "assets/images/image_9741b7.jpg",
-                    coverFallback: "https://images.unsplash.com/photo-1588497859490-85d1c17db96d?w=1000&auto=format&fit=crop&q=80",
+                    cover: "assets/images/tournaments/asia-cover.jpg",
                     photos: [
                         {
                             id: "asia-1",
-                            src: "assets/images/image_9741b7.jpg",
-                            fallback: "https://images.unsplash.com/photo-1588497859490-85d1c17db96d?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/asia-1.jpg",
                             caption: "Toàn cảnh lễ khai mạc giải Vô địch Billiards Quốc Gia",
                             subtitle: "Khai mạc Đấu Trường Quốc Gia"
                         },
                         {
                             id: "asia-2",
-                            src: "assets/images/image_973a17.jpg",
-                            fallback: "https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/asia-2.jpg",
                             caption: "Cơ thủ tuyển Việt Nam tranh tài cùng các đối thủ hàng đầu Châu Á",
                             subtitle: "Đại chiến Châu Á (Asia Pool)"
                         },
                         {
                             id: "asia-3",
-                            src: "assets/images/image_973dc0.jpg",
-                            fallback: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/asia-3.jpg",
                             caption: "Phòng truyền thông tác nghiệp cắt clip highlight triệu view cho TikTok",
                             subtitle: "Sáng tạo nội dung viral"
                         },
                         {
                             id: "asia-4",
-                            src: "assets/images/image_974469.jpg",
-                            fallback: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&auto=format&fit=crop&q=80",
+                            src: "assets/images/tournaments/asia-4.jpg",
                             caption: "Lễ trao huy chương vàng danh giá tại giải Vô địch Quốc Gia",
                             subtitle: "Vinh quang bục nhận thưởng"
                         }
@@ -1465,34 +1446,62 @@
             let activeCategoryPhotos = [];
             let currentLightboxIndex = 0;
 
-            function loadData() {
+            function normalizeImagePath(path) {
+                if (!path) return "";
+                if (path.startsWith("data:") || path.startsWith("http://") || path.startsWith("https://")) return path;
+                if (path.startsWith("assets/images/")) return path;
+                if (path.startsWith("image_")) return "assets/images/" + path;
+                if (path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".webp")) {
+                    return "assets/images/tournaments/" + path;
+                }
+                return path;
+            }
+
+            function normalizeTournamentsData(data) {
+                if (!data || typeof data !== "object") return;
+                Object.keys(data).forEach(k => {
+                    const cat = data[k];
+                    if (cat) {
+                        if (cat.cover) cat.cover = normalizeImagePath(cat.cover);
+                        if (cat.photos && Array.isArray(cat.photos)) {
+                            cat.photos.forEach(p => {
+                                if (p.src) p.src = normalizeImagePath(p.src);
+                            });
+                        }
+                    }
+                });
+            }
+
+            // Enterprise Async Data Loader: Fetch JSON tu file tinh, fallback vao LocalStorage/Default
+            async function loadData() {
+                let remoteData = null;
                 try {
-                    const saved = localStorage.getItem(STORAGE_KEY);
-                    if (saved) {
-                        tournamentsData = JSON.parse(saved);
-                    } else {
-                        tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
+                    const res = await fetch("assets/data/tournaments.json?v=" + Date.now());
+                    if (res.ok) {
+                        remoteData = await res.json();
                     }
                 } catch (e) {
+                    // Offline hoac fetch loi
+                }
+
+                let localSaved = null;
+                try {
+                    const saved = localStorage.getItem(STORAGE_KEY);
+                    if (saved) localSaved = JSON.parse(saved);
+                } catch (e) {}
+
+                // Priority: Neu admin co tuy bien tai may nay thi uu tien local, nguoc lai dung server truth (Vercel)
+                if (localSaved && localSaved._customizedByAdmin) {
+                    tournamentsData = localSaved;
+                } else if (remoteData) {
+                    tournamentsData = remoteData;
+                } else if (localSaved) {
+                    tournamentsData = localSaved;
+                } else {
                     tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
                 }
 
-                // Tự động chuẩn hóa đường dẫn ảnh từ phiên bản cũ
-                if (tournamentsData && typeof tournamentsData === "object") {
-                    Object.keys(tournamentsData).forEach(k => {
-                        const cat = tournamentsData[k];
-                        if (cat && cat.cover && cat.cover.startsWith("image_")) {
-                            cat.cover = "assets/images/" + cat.cover;
-                        }
-                        if (cat && cat.photos && Array.isArray(cat.photos)) {
-                            cat.photos.forEach(p => {
-                                if (p.src && p.src.startsWith("image_")) {
-                                    p.src = "assets/images/" + p.src;
-                                }
-                            });
-                        }
-                    });
-                }
+                normalizeTournamentsData(tournamentsData);
             }
 
             // Render 4 Tournament Cards
@@ -1513,23 +1522,23 @@
                     const coverSrc = cat.cover || (cat.photos && cat.photos[0] ? cat.photos[0].src : "");
                     const fallbackSrc = cat.coverFallback || (cat.photos && cat.photos[0] ? cat.photos[0].fallback : SVG_FALLBACK);
 
-                    card.innerHTML = `
-                        <img class="tournament-card-bg" src="${coverSrc}" alt="${cat.title}" onerror="this.src='${fallbackSrc}'">
+                    card.innerHTML = 
+                        <img class="tournament-card-bg" src="" alt="" onerror="this.src=''">
                         <div class="tournament-card-overlay"></div>
                         <div class="tournament-card-top">
-                            <span class="tournament-badge">${cat.badge}</span>
-                            <div class="tournament-icon-pill"><i class="fa-solid ${cat.icon}"></i></div>
+                            <span class="tournament-badge"></span>
+                            <div class="tournament-icon-pill"><i class="fa-solid "></i></div>
                         </div>
                         <div class="tournament-card-content">
-                            <h3 class="tournament-card-title">${cat.title}</h3>
-                            <div class="tournament-card-role"><i class="fa-solid fa-bullseye"></i> ${cat.role}</div>
-                            <p class="tournament-card-desc">${cat.description}</p>
+                            <h3 class="tournament-card-title"></h3>
+                            <div class="tournament-card-role"><i class="fa-solid fa-bullseye"></i> </div>
+                            <p class="tournament-card-desc"></p>
                             <div class="tournament-card-footer">
                                 <span class="tournament-chip"><i class="fa-solid fa-images"></i> 4 Hình ảnh tiêu biểu</span>
                                 <span class="tournament-action-cta">Khám phá album <i class="fa-solid fa-arrow-right"></i></span>
                             </div>
                         </div>
-                    `;
+                    ;
                     grid.appendChild(card);
                 });
             }
@@ -1561,16 +1570,16 @@
                     item.className = "modal-photo-item";
                     item.onclick = () => openLightbox(activeCategoryPhotos, idx, cat.title);
 
-                    item.innerHTML = `
+                    item.innerHTML = 
                         <div class="modal-photo-thumb">
-                            <span class="modal-photo-subtitle">${photo.subtitle || ('Ảnh #' + (idx + 1))}</span>
-                            <img src="${photo.src}" alt="${photo.caption}" onerror="this.src='${photo.fallback || SVG_FALLBACK}'">
+                            <span class="modal-photo-subtitle"></span>
+                            <img src="" alt="" onerror="this.src=''">
                             <div class="modal-photo-zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                         </div>
                         <div class="modal-photo-caption">
-                            ${photo.caption}
+                            
                         </div>
-                    `;
+                    ;
                     modalPhotosGrid.appendChild(item);
                 });
 
@@ -1628,7 +1637,7 @@
                 lightboxCaption.textContent = photo.caption;
                 lightboxCategory.textContent = currentCategoryName;
                 lightboxSubtitle.textContent = photo.subtitle || "";
-                lightboxCounter.textContent = `Ảnh ${currentLightboxIndex + 1} / ${currentLightboxPhotos.length}`;
+                lightboxCounter.textContent = Ảnh  / ;
             }
 
             function lightboxNext() {
@@ -1659,8 +1668,6 @@
                 }
             });
 
-            const CONTACT_STORAGE_KEY = "billiards_contact_info_v1";
-
             const DEFAULT_CONTACT_DATA = {
                 phone: "0325.321.006",
                 zalo: "0559.326.660",
@@ -1670,16 +1677,21 @@
                 email: "namdat.media@gmail.com"
             };
 
-            function loadContactData() {
+            async function loadContactData() {
                 let data = DEFAULT_CONTACT_DATA;
+                try {
+                    const res = await fetch("assets/data/contact.json?v=" + Date.now());
+                    if (res.ok) {
+                        data = Object.assign({}, DEFAULT_CONTACT_DATA, await res.json());
+                    }
+                } catch(e) {}
+
                 try {
                     const saved = localStorage.getItem(CONTACT_STORAGE_KEY);
                     if (saved) {
-                        data = Object.assign({}, DEFAULT_CONTACT_DATA, JSON.parse(saved));
+                        data = Object.assign({}, data, JSON.parse(saved));
                     }
-                } catch(e) {
-                    data = DEFAULT_CONTACT_DATA;
-                }
+                } catch(e) {}
 
                 const rawPhone = (data.phone || "").replace(/[^0-9+]/g, "");
                 const rawZalo = (data.zalo || "").replace(/[^0-9]/g, "");
@@ -1696,19 +1708,23 @@
             }
 
             // Listen for changes from admin.html via storage event
-            window.addEventListener("storage", (e) => {
+            window.addEventListener("storage", async (e) => {
                 if (e.key === STORAGE_KEY) {
-                    loadData();
+                    await loadData();
                     renderTournamentCards();
                 } else if (e.key === CONTACT_STORAGE_KEY) {
-                    loadContactData();
+                    await loadContactData();
                 }
             });
 
-            // Init
-            loadData();
-            loadContactData();
-            renderTournamentCards();
+            // Async Initialization
+            async function init() {
+                await loadContactData();
+                await loadData();
+                renderTournamentCards();
+            }
+
+            init();
         })();
     </script>
 </body>

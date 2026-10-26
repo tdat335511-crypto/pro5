@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -533,20 +533,37 @@
 
     <div class="main-container">
 
+        <!-- Enterprise Git & Vercel Sync Toolbar -->
+        <div class="git-sync-bar" style="background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
+                <div>
+                    <div style="font-weight: 750; font-size: 0.95rem; color: var(--dark);">Đồng Bộ Dữ Liệu Git & Vercel Production</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tất cả thay đổi sẽ đồng bộ chuẩn xác giữa Local và Vercel</div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 0.65rem; flex-wrap: wrap;">
+                <button type="button" class="btn btn-outline" id="btnExportJsonFile" title="Tải file tournaments.json về máy">
+                    <i class="fa-solid fa-cloud-arrow-down" style="color: var(--accent);"></i> Tải tournaments.json (Git Sync)
+                </button>
+                <button type="button" class="btn btn-outline" id="btnImportJsonFile" title="Nạp file tournaments.json từ máy">
+                    <i class="fa-solid fa-cloud-arrow-up" style="color: #10b981;"></i> Nhập JSON File
+                </button>
+                <button type="button" class="btn btn-outline" id="btnExportJson" title="Sao chép JSON vào Clipboard">
+                    <i class="fa-solid fa-copy"></i> Copy JSON
+                </button>
+                <button type="button" class="btn btn-outline" id="btnResetDefaults" style="color: var(--danger); border-color: #fecaca;" title="Khôi phục dữ liệu gốc">
+                    <i class="fa-solid fa-rotate-left"></i> Khôi Phục Gốc
+                </button>
+            </div>
+        </div>
+        <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+
         <div class="page-title-box">
             <div>
                 <h1><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> Quản Lý Thư Viện 4 Giải Đấu Tiêu Biểu</h1>
                 <p>Tải ảnh lên, cập nhật tiêu đề, và quản lý đúng 4 hình ảnh tiêu biểu cho mỗi giải đấu hiển thị trên trang chủ.</p>
             </div>
-            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                <button type="button" class="btn btn-outline" id="btnExportJson">
-                    <i class="fa-solid fa-file-code"></i> Xuất JSON
-                </button>
-                <button type="button" class="btn btn-danger" id="btnResetDefaults">
-                    <i class="fa-solid fa-rotate-left"></i> Đặt Lại Mặc Định
-                </button>
-            </div>
-        </div>
 
         <!-- 4 Tournament Category Tabs -->
         <div class="category-tabs" id="categoryTabs">
@@ -743,176 +760,156 @@
             const CONTACT_STORAGE_KEY = "billiards_contact_info_v1";
 
             const DEFAULT_CONTACT_DATA = {
-                phone: "0900.000.000",
-                zalo: "0900.000.000",
-                zaloUrl: "",
-                facebookUrl: "https://www.facebook.com/profile.php?id=61591715682693",
-                facebookName: "Trần Nam Đạt",
+                phone: "0325.321.006",
+                zalo: "0559.326.660",
+                zaloUrl: "https://zalo.me/0559326660",
+                facebookUrl: "https://www.facebook.com/profile.php?id=100083205826444",
+                facebookName: "Tráº§n Nam Äáº¡t",
                 email: "namdat.media@gmail.com",
                 facebook2Url: "https://www.facebook.com/profile.php?id=61584374816308"
             };
 
             let contactData = Object.assign({}, DEFAULT_CONTACT_DATA);
 
-            // Dữ liệu 4 giải đấu tiêu chuẩn chuyên nghiệp
+            // Dá»¯ liá»‡u 4 giáº£i Ä‘áº¥u tiÃªu chuáº©n thá»±c chiáº¿n (Single Source of Truth Fallback)
             const DEFAULT_TOURNAMENTS_DATA = {
                 "an-nhiet-cup": {
                     id: "an-nhiet-cup",
-                    title: "An Nhiệt Premier Cup",
-                    badge: "GIẢI ĐẤU DOANH NGHIỆP & CLB",
+                    title: "An Nhiá»‡t Premier Cup",
+                    badge: "GIáº¢I Äáº¤U DOANH NGHIá»†P & CLB",
                     icon: "fa-trophy",
-                    role: "Trưởng ban Media & Sản xuất hình ảnh",
-                    description: "Trực tiếp chỉ đạo hình ảnh, thiết kế bộ nhận diện cúp, huy chương và ghi lại toàn bộ khoảnh khắc thi đấu kịch tính tại siêu giải đấu An Nhiệt Cup.",
-                    cover: "assets/images/image_974469.jpg",
-                    coverFallback: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=80",
+                    role: "TrÆ°á»Ÿng ban Media & Sáº£n xuáº¥t hÃ¬nh áº£nh",
+                    description: "Trá»±c tiáº¿p chá»‰ Ä‘áº¡o hÃ¬nh áº£nh, thiáº¿t káº¿ bá»™ nháº­n diá»‡n cÃºp, huy chÆ°Æ¡ng vÃ  ghi láº¡i toÃ n bá»™ khoáº£nh kháº¯c thi Ä‘áº¥u ká»‹ch tÃ­nh táº¡i siÃªu giáº£i Ä‘áº¥u An Nhiá»‡t Cup.",
+                    cover: "assets/images/tournaments/annhiet-cover.jpg",
                     photos: [
                         {
                             id: "annhiet-1",
-                            src: "assets/images/image_974469.jpg",
-                            fallback: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Bộ cúp vô địch, huy chương vàng & áo đấu chính thức An Nhiệt Cup",
-                            subtitle: "Thiết kế & nhận diện sự kiện"
+                            src: "assets/images/tournaments/annhiet-1.jpg",
+                            caption: "Bá»™ cÃºp vÃ´ Ä‘á»‹ch, huy chÆ°Æ¡ng vÃ ng & Ã¡o Ä‘áº¥u chÃ­nh thá»©c An Nhiá»‡t Cup",
+                            subtitle: "Thiáº¿t káº¿ & nháº­n diá»‡n sá»± kiá»‡n"
                         },
                         {
                             id: "annhiet-2",
-                            src: "assets/images/image_9741b7.jpg",
-                            fallback: "https://images.unsplash.com/photo-1588497859490-85d1c17db96d?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Không gian thảm đấu và hệ thống ánh sáng chuẩn quốc tế tại An Nhiệt Cup",
-                            subtitle: "Hiện trường thi đấu"
+                            src: "assets/images/tournaments/annhiet-2.jpg",
+                            caption: "KhÃ´ng gian tháº£m Ä‘áº¥u vÃ  há»‡ thá»‘ng Ã¡nh sÃ¡ng chuáº©n quá»‘c táº¿ táº¡i An Nhiá»‡t Cup",
+                            subtitle: "Hiá»‡n trÆ°á»ng thi Ä‘áº¥u"
                         },
                         {
                             id: "annhiet-3",
-                            src: "assets/images/image_9739fd.jpg",
-                            fallback: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Trận chung kết nghẹt thở tranh cúp vô địch An Nhiệt Premier",
-                            subtitle: "Khoảnh khắc thi đấu"
+                            src: "assets/images/tournaments/annhiet-3.jpg",
+                            caption: "Tráº­n chung káº¿t ngháº¹t thá»Ÿ tranh cÃºp vÃ´ Ä‘á»‹ch An Nhiá»‡t Premier",
+                            subtitle: "Khoáº£nh kháº¯c thi Ä‘áº¥u"
                         },
                         {
                             id: "annhiet-4",
-                            src: "assets/images/image_974143.jpg",
-                            fallback: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Lễ bế mạc và vinh danh trao cúp cho tân vương giải đấu",
-                            subtitle: "Lễ vinh danh"
+                            src: "assets/images/tournaments/annhiet-4.jpg",
+                            caption: "Lá»… báº¿ máº¡c vÃ  vinh danh trao cÃºp cho tÃ¢n vÆ°Æ¡ng giáº£i Ä‘áº¥u",
+                            subtitle: "Lá»… vinh danh"
                         }
                     ]
                 },
                 "setup-ky-thuat": {
                     id: "setup-ky-thuat",
-                    title: "Setup & Kĩ Thuật",
+                    title: "Setup & KÄ© Thuáº­t",
                     badge: "LIVE PRODUCTION & BROADCAST",
                     icon: "fa-video",
-                    role: "Kỹ thuật viên Livestream & Vận hành OBS/vMix",
-                    description: "Vận hành hệ thống phát sóng trực tiếp đa góc máy chuyên nghiệp, điều phối luồng stream ổn định và cắt highlight triệu view thời gian thực.",
-                    cover: "assets/images/image_973dc0.jpg",
-                    coverFallback: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000&auto=format&fit=crop&q=80",
+                    role: "Ká»¹ thuáº­t viÃªn Livestream & Váº­n hÃ nh OBS/vMix",
+                    description: "Váº­n hÃ nh há»‡ thá»‘ng phÃ¡t sÃ³ng trá»±c tiáº¿p Ä‘a gÃ³c mÃ¡y chuyÃªn nghiá»‡p, Ä‘iá»u phá»‘i luá»“ng stream á»•n Ä‘á»‹nh vÃ  cáº¯t highlight triá»‡u view thá»i gian thá»±c.",
+                    cover: "assets/images/tournaments/setup-cover.jpg",
                     photos: [
                         {
                             id: "setup-1",
-                            src: "assets/images/image_973dc0.jpg",
-                            fallback: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Bàn điều khiển kỹ thuật OBS Studio & vMix phát sóng trực tiếp",
-                            subtitle: "Control Desk Hiện Trường"
+                            src: "assets/images/tournaments/setup-1.jpg",
+                            caption: "BÃ n Ä‘iá»u khiá»ƒn ká»¹ thuáº­t OBS Studio & vMix phÃ¡t sÃ³ng trá»±c tiáº¿p",
+                            subtitle: "Control Desk Hiá»‡n TrÆ°á»ng"
                         },
                         {
                             id: "setup-2",
-                            src: "assets/images/image_974143.jpg",
-                            fallback: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Thiết lập góc máy quay cận cảnh bi cái và toàn cảnh bàn thi đấu",
-                            subtitle: "Căn chỉnh camera hiện trường"
+                            src: "assets/images/tournaments/setup-2.jpg",
+                            caption: "Thiáº¿t láº­p gÃ³c mÃ¡y quay cáº­n cáº£nh bi cÃ¡i vÃ  toÃ n cáº£nh bÃ n thi Ä‘áº¥u",
+                            subtitle: "CÄƒn chá»‰nh camera hiá»‡n trÆ°á»ng"
                         },
                         {
                             id: "setup-3",
-                            src: "assets/images/image_9741b7.jpg",
-                            fallback: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Điều phối luồng stream và kỹ thuật âm thanh bình luận viên trực tiếp",
-                            subtitle: "Hệ thống truyền dẫn luồng"
+                            src: "assets/images/tournaments/setup-3.jpg",
+                            caption: "Äiá»u phá»‘i luá»“ng stream vÃ  ká»¹ thuáº­t Ã¢m thanh bÃ¬nh luáº­n viÃªn trá»±c tiáº¿p",
+                            subtitle: "Há»‡ thá»‘ng truyá»n dáº«n luá»“ng"
                         },
                         {
                             id: "setup-4",
-                            src: "assets/images/image_974469.jpg",
-                            fallback: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Ekip Media phối hợp vận hành sự kiện và trực ban kỹ thuật 24/7",
-                            subtitle: "Ekip Production Hậu Trường"
+                            src: "assets/images/tournaments/setup-4.jpg",
+                            caption: "Ekip Media phá»‘i há»£p váº­n hÃ nh sá»± kiá»‡n vÃ  trá»±c ban ká»¹ thuáº­t 24/7",
+                            subtitle: "Ekip Production Háº­u TrÆ°á»ng"
                         }
                     ]
                 },
                 "wpa-the-gioi": {
                     id: "wpa-the-gioi",
-                    title: "WPA Thế Giới",
-                    badge: "SIÊU GIẢI ĐẤU QUỐC TẾ",
+                    title: "WPA Tháº¿ Giá»›i",
+                    badge: "SIÃŠU GIáº¢I Äáº¤U QUá»C Táº¾",
                     icon: "fa-globe",
-                    role: "Chuyên viên Tác nghiệp & Truyền thông Quốc tế",
-                    description: "Tác nghiệp báo chí hình ảnh và video ngắn bắt trend tại các chặng đấu thuộc Hiệp hội Billiards Thế giới (WPA) tổ chức tại Việt Nam.",
-                    cover: "assets/images/image_973a17.jpg",
-                    coverFallback: "https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=1000&auto=format&fit=crop&q=80",
+                    role: "ChuyÃªn viÃªn TÃ¡c nghiá»‡p & Truyá»n thÃ´ng Quá»‘c táº¿",
+                    description: "TÃ¡c nghiá»‡p bÃ¡o chÃ­ hÃ¬nh áº£nh vÃ  video ngáº¯n báº¯t trend táº¡i cÃ¡c cháº·ng Ä‘áº¥u thuá»™c Hiá»‡p há»™i Billiards Tháº¿ giá»›i (WPA) tá»• chá»©c táº¡i Viá»‡t Nam.",
+                    cover: "assets/images/tournaments/wpa-cover.jpg",
                     photos: [
                         {
                             id: "wpa-1",
-                            src: "assets/images/image_973a17.jpg",
-                            fallback: "https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Tác nghiệp chụp ảnh cơ thủ quốc tế tập trung cao độ tại WPA",
-                            subtitle: "Chân dung cơ thủ thế giới"
+                            src: "assets/images/tournaments/wpa-1.jpg",
+                            caption: "TÃ¡c nghiá»‡p chá»¥p áº£nh cÆ¡ thá»§ quá»‘c táº¿ táº­p trung cao Ä‘á»™ táº¡i WPA",
+                            subtitle: "ChÃ¢n dung cÆ¡ thá»§ tháº¿ giá»›i"
                         },
                         {
                             id: "wpa-2",
-                            src: "assets/images/image_9739fd.jpg",
-                            fallback: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Pha giải bi cứu thua đẳng cấp thế giới được ghi hình trực tiếp",
-                            subtitle: "Highlight thi đấu đỉnh cao"
+                            src: "assets/images/tournaments/wpa-2.jpg",
+                            caption: "Pha giáº£i bi cá»©u thua Ä‘áº³ng cáº¥p tháº¿ giá»›i Ä‘Æ°á»£c ghi hÃ¬nh trá»±c tiáº¿p",
+                            subtitle: "Highlight thi Ä‘áº¥u Ä‘á»‰nh cao"
                         },
                         {
                             id: "wpa-3",
-                            src: "assets/images/image_9741b7.jpg",
-                            fallback: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Đấu trường WPA sôi động với khán giả theo dõi chật kín khán đài",
-                            subtitle: "Không khí sự kiện WPA"
+                            src: "assets/images/tournaments/wpa-3.jpg",
+                            caption: "Äáº¥u trÆ°á»ng WPA sÃ´i Ä‘á»™ng vá»›i khÃ¡n giáº£ theo dÃµi cháº­t kÃ­n khÃ¡n Ä‘Ã i",
+                            subtitle: "KhÃ´ng khÃ­ sá»± kiá»‡n WPA"
                         },
                         {
                             id: "wpa-4",
-                            src: "assets/images/image_974143.jpg",
-                            fallback: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Phỏng vấn cơ thủ quốc tế sau khi giành chiến thắng vào vòng chung kết",
-                            subtitle: "Tác nghiệp phỏng vấn cơ thủ"
+                            src: "assets/images/tournaments/wpa-4.jpg",
+                            caption: "Phá»ng váº¥n cÆ¡ thá»§ quá»‘c táº¿ sau khi giÃ nh chiáº¿n tháº¯ng vÃ o vÃ²ng chung káº¿t",
+                            subtitle: "TÃ¡c nghiá»‡p phá»ng váº¥n cÆ¡ thá»§"
                         }
                     ]
                 },
                 "chau-a-quoc-gia": {
                     id: "chau-a-quoc-gia",
-                    title: "Vô Địch Châu Á vs Quốc Gia",
-                    badge: "ĐẤU TRƯỜNG ĐỈNH CAO",
+                    title: "VÃ´ Äá»‹ch ChÃ¢u Ã vs Quá»‘c Gia",
+                    badge: "Äáº¤U TRÆ¯á»œNG Äá»ˆNH CAO",
                     icon: "fa-medal",
-                    role: "Media Partnership Sales & Nội dung TikTok",
-                    description: "Khai thác thương mại hóa hình ảnh, đồng hành cùng các đội tuyển tại giải Vô địch Châu Á (Asia Pool) và giải Vô địch Quốc gia (VĐQG).",
-                    cover: "assets/images/image_9741b7.jpg",
-                    coverFallback: "https://images.unsplash.com/photo-1588497859490-85d1c17db96d?w=1000&auto=format&fit=crop&q=80",
+                    role: "Media Partnership Sales & Ná»™i dung TikTok",
+                    description: "Khai thÃ¡c thÆ°Æ¡ng máº¡i hÃ³a hÃ¬nh áº£nh, Ä‘á»“ng hÃ nh cÃ¹ng cÃ¡c Ä‘á»™i tuyá»ƒn táº¡i giáº£i VÃ´ Ä‘á»‹ch ChÃ¢u Ã (Asia Pool) vÃ  giáº£i VÃ´ Ä‘á»‹ch Quá»‘c gia (VÄQG).",
+                    cover: "assets/images/tournaments/asia-cover.jpg",
                     photos: [
                         {
                             id: "asia-1",
-                            src: "assets/images/image_9741b7.jpg",
-                            fallback: "https://images.unsplash.com/photo-1588497859490-85d1c17db96d?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Toàn cảnh lễ khai mạc giải Vô địch Billiards Quốc Gia",
-                            subtitle: "Khai mạc Đấu Trường Quốc Gia"
+                            src: "assets/images/tournaments/asia-1.jpg",
+                            caption: "ToÃ n cáº£nh lá»… khai máº¡c giáº£i VÃ´ Ä‘á»‹ch Billiards Quá»‘c Gia",
+                            subtitle: "Khai máº¡c Äáº¥u TrÆ°á»ng Quá»‘c Gia"
                         },
                         {
                             id: "asia-2",
-                            src: "assets/images/image_973a17.jpg",
-                            fallback: "https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Cơ thủ tuyển Việt Nam tranh tài cùng các đối thủ hàng đầu Châu Á",
-                            subtitle: "Đại chiến Châu Á (Asia Pool)"
+                            src: "assets/images/tournaments/asia-2.jpg",
+                            caption: "CÆ¡ thá»§ tuyá»ƒn Viá»‡t Nam tranh tÃ i cÃ¹ng cÃ¡c Ä‘á»‘i thá»§ hÃ ng Ä‘áº§u ChÃ¢u Ã",
+                            subtitle: "Äáº¡i chiáº¿n ChÃ¢u Ã (Asia Pool)"
                         },
                         {
                             id: "asia-3",
-                            src: "assets/images/image_973dc0.jpg",
-                            fallback: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Phòng truyền thông tác nghiệp cắt clip highlight triệu view cho TikTok",
-                            subtitle: "Sáng tạo nội dung viral"
+                            src: "assets/images/tournaments/asia-3.jpg",
+                            caption: "PhÃ²ng truyá»n thÃ´ng tÃ¡c nghiá»‡p cáº¯t clip highlight triá»‡u view cho TikTok",
+                            subtitle: "SÃ¡ng táº¡o ná»™i dung viral"
                         },
                         {
                             id: "asia-4",
-                            src: "assets/images/image_974469.jpg",
-                            fallback: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&auto=format&fit=crop&q=80",
-                            caption: "Lễ trao huy chương vàng danh giá tại giải Vô địch Quốc Gia",
-                            subtitle: "Vinh quang bục nhận thưởng"
+                            src: "assets/images/tournaments/asia-4.jpg",
+                            caption: "Lá»… trao huy chÆ°Æ¡ng vÃ ng danh giÃ¡ táº¡i giáº£i VÃ´ Ä‘á»‹ch Quá»‘c Gia",
+                            subtitle: "Vinh quang bá»¥c nháº­n thÆ°á»Ÿng"
                         }
                     ]
                 }
@@ -928,52 +925,78 @@
             // Toast helper
             function showToast(msg, type = "info") {
                 const c = document.getElementById("toastContainer");
+                if (!c) return;
                 const item = document.createElement("div");
                 item.className = "toast-item " + type;
                 let icon = '<i class="fa-solid fa-circle-check" style="color: #10b981;"></i>';
                 if (type === "danger") icon = '<i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i>';
                 item.innerHTML = icon + '<span>' + msg + '</span>';
                 c.appendChild(item);
-                setTimeout(() => item.remove(), 3200);
+                setTimeout(() => item.remove(), 3500);
             }
 
-            // Load from LocalStorage
-            function loadData() {
+            function normalizeImagePath(path) {
+                if (!path) return "";
+                if (path.startsWith("data:") || path.startsWith("http://") || path.startsWith("https://")) return path;
+                if (path.startsWith("assets/images/")) return path;
+                if (path.startsWith("image_")) return "assets/images/" + path;
+                if (path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".webp")) {
+                    return "assets/images/tournaments/" + path;
+                }
+                return path;
+            }
+
+            function normalizeTournamentsData(data) {
+                if (!data || typeof data !== "object") return;
+                Object.keys(data).forEach(k => {
+                    const cat = data[k];
+                    if (cat) {
+                        if (cat.cover) cat.cover = normalizeImagePath(cat.cover);
+                        if (cat.photos && Array.isArray(cat.photos)) {
+                            cat.photos.forEach(p => {
+                                if (p.src) p.src = normalizeImagePath(p.src);
+                            });
+                        }
+                    }
+                });
+            }
+
+            // Enterprise Async Data Loader: Fetch JSON tu file tinh, fallback vao LocalStorage/Default
+            async function loadData() {
+                let remoteData = null;
+                try {
+                    const res = await fetch("assets/data/tournaments.json?v=" + Date.now());
+                    if (res.ok) {
+                        remoteData = await res.json();
+                    }
+                } catch (e) {}
+
+                let localSaved = null;
                 try {
                     const saved = localStorage.getItem(STORAGE_KEY);
-                    if (saved) {
-                        tournamentsData = JSON.parse(saved);
-                    } else {
-                        tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
-                    }
-                } catch (e) {
+                    if (saved) localSaved = JSON.parse(saved);
+                } catch (e) {}
+
+                if (localSaved && localSaved._customizedByAdmin) {
+                    tournamentsData = localSaved;
+                } else if (remoteData) {
+                    tournamentsData = remoteData;
+                } else if (localSaved) {
+                    tournamentsData = localSaved;
+                } else {
                     tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
                 }
 
-                // Tự động chuẩn hóa đường dẫn ảnh từ phiên bản cũ
-                if (tournamentsData && typeof tournamentsData === "object") {
-                    Object.keys(tournamentsData).forEach(k => {
-                        const cat = tournamentsData[k];
-                        if (cat && cat.cover && cat.cover.startsWith("image_")) {
-                            cat.cover = "assets/images/" + cat.cover;
-                        }
-                        if (cat && cat.photos && Array.isArray(cat.photos)) {
-                            cat.photos.forEach(p => {
-                                if (p.src && p.src.startsWith("image_")) {
-                                    p.src = "assets/images/" + p.src;
-                                }
-                            });
-                        }
-                    });
-                }
+                normalizeTournamentsData(tournamentsData);
             }
 
             function saveData() {
                 try {
+                    tournamentsData._customizedByAdmin = true;
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(tournamentsData));
-                    showToast("Đã lưu tất cả thay đổi thành công!", "success");
+                    showToast("ÄÃ£ lÆ°u vÃ o bá»™ nhá»› trÃ¬nh duyá»‡t thÃ nh cÃ´ng!", "success");
                 } catch (e) {
-                    showToast("Bộ nhớ trình duyệt đầy, vui lòng nén ảnh nhỏ hơn!", "danger");
+                    showToast("Bá»™ nhá»› trÃ¬nh duyá»‡t Ä‘áº§y, vui lÃ²ng nÃ©n áº£nh nhá» hÆ¡n!", "danger");
                 }
             }
 
@@ -1018,13 +1041,13 @@
 
                     const btn = document.createElement("div");
                     btn.className = "category-tab-btn " + (activeCatKey === key ? "active" : "");
-                    btn.innerHTML = `
-                        <div class="tab-icon-wrap"><i class="fa-solid ${cat.icon}"></i></div>
+                    btn.innerHTML = 
+                        <div class="tab-icon-wrap"><i class="fa-solid "></i></div>
                         <div>
-                            <div class="tab-title-text">${cat.title}</div>
-                            <div class="tab-subtitle-text">${cat.badge} • 4 ảnh</div>
+                            <div class="tab-title-text"></div>
+                            <div class="tab-subtitle-text"> â€¢ 4 áº£nh</div>
                         </div>
-                    `;
+                    ;
                     btn.onclick = () => {
                         saveActiveInputsToMemory();
                         activeCatKey = key;
@@ -1037,15 +1060,15 @@
                 // Tab 5: Contact Info
                 const contactBtn = document.createElement("div");
                 contactBtn.className = "category-tab-btn " + (activeCatKey === "contact-info" ? "active" : "");
-                contactBtn.innerHTML = `
-                    <div class="tab-icon-wrap" style="${activeCatKey === "contact-info" ? 'background: #10b981; color: #fff;' : 'color: #10b981;'}">
+                contactBtn.innerHTML = 
+                    <div class="tab-icon-wrap" style="">
                         <i class="fa-solid fa-address-book"></i>
                     </div>
                     <div>
-                        <div class="tab-title-text">Liên Hệ & Kênh Media</div>
-                        <div class="tab-subtitle-text">Hotline • Zalo • Facebook</div>
+                        <div class="tab-title-text">LiÃªn Há»‡ & KÃªnh Media</div>
+                        <div class="tab-subtitle-text">Hotline â€¢ Zalo â€¢ Facebook</div>
                     </div>
-                `;
+                ;
                 contactBtn.onclick = () => {
                     saveActiveInputsToMemory();
                     activeCatKey = "contact-info";
@@ -1055,38 +1078,48 @@
                 tabsContainer.appendChild(contactBtn);
             }
 
-            // Save active text inputs to memory
             function saveActiveInputsToMemory() {
                 if (activeCatKey === "contact-info") {
                     saveContactInputsToMemory();
                     return;
                 }
+
                 const cat = tournamentsData[activeCatKey];
                 if (!cat) return;
+
                 cat.title = document.getElementById("inputCatTitle").value.trim() || cat.title;
                 cat.badge = document.getElementById("inputCatBadge").value.trim() || cat.badge;
                 cat.role = document.getElementById("inputCatRole").value.trim() || cat.role;
                 cat.cover = document.getElementById("inputCatCover").value.trim() || cat.cover;
                 cat.description = document.getElementById("inputCatDesc").value.trim() || cat.description;
+
+                // Save captions
+                if (cat.photos) {
+                    cat.photos.forEach((photo, idx) => {
+                        const capInput = document.getElementById(photoCaption_);
+                        const subInput = document.getElementById(photoSubtitle_);
+                        if (capInput) photo.caption = capInput.value.trim();
+                        if (subInput) photo.subtitle = subInput.value.trim();
+                    });
+                }
             }
 
-            // Render Active Category Editor or Contact Editor
             function renderActiveCategory() {
-                const catEditor = document.getElementById("activeCategoryEditor");
-                const uploadBox = document.querySelector(".upload-section-box");
-                const contactEditor = document.getElementById("contactEditorSection");
+                const tournamentSection = document.getElementById("tournamentEditorSection");
+                const batchUploadSection = document.getElementById("batchUploadSection");
+                const contactSection = document.getElementById("contactEditorSection");
 
                 if (activeCatKey === "contact-info") {
-                    catEditor.style.display = "none";
-                    uploadBox.style.display = "none";
-                    contactEditor.style.display = "block";
+                    tournamentSection.style.display = "none";
+                    batchUploadSection.style.display = "none";
+                    contactSection.style.display = "block";
                     populateContactEditor();
                     return;
                 }
 
-                catEditor.style.display = "block";
-                uploadBox.style.display = "block";
-                contactEditor.style.display = "none";
+                tournamentSection.style.display = "block";
+                batchUploadSection.style.display = "block";
+                contactSection.style.display = "none";
 
                 const cat = tournamentsData[activeCatKey];
                 if (!cat) return;
@@ -1094,174 +1127,134 @@
                 document.getElementById("catEditorName").textContent = cat.title;
                 document.getElementById("catEditorBadge").textContent = cat.badge;
 
-                document.getElementById("inputCatTitle").value = cat.title;
-                document.getElementById("inputCatBadge").value = cat.badge;
-                document.getElementById("inputCatRole").value = cat.role;
-                document.getElementById("inputCatCover").value = cat.cover;
-                document.getElementById("inputCatDesc").value = cat.description;
+                document.getElementById("inputCatTitle").value = cat.title || "";
+                document.getElementById("inputCatBadge").value = cat.badge || "";
+                document.getElementById("inputCatRole").value = cat.role || "";
+                document.getElementById("inputCatCover").value = cat.cover || "";
+                document.getElementById("inputCatDesc").value = cat.description || "";
 
-                // Render 4 Photos Editor Grid
+                // Render 4 photos
                 const photosGrid = document.getElementById("photosEditorGrid");
                 photosGrid.innerHTML = "";
 
-                cat.photos.forEach((photo, idx) => {
+                const photos = cat.photos || [];
+                for (let i = 0; i < 4; i++) {
+                    const photo = photos[i] || { id: ${cat.id}-, src: "", caption: "", subtitle: "" };
                     const card = document.createElement("div");
-                    card.className = "photo-card-box";
-
-                    card.innerHTML = `
-                        <div class="photo-card-thumb">
-                            <span class="photo-index-badge">Ảnh #${idx + 1} Tiêu Biểu</span>
-                            <img src="${photo.src}" alt="Photo ${idx + 1}" onerror="this.src='${photo.fallback || SVG_FALLBACK}'">
+                    card.className = "photo-edit-card";
+                    card.innerHTML = 
+                        <div class="photo-edit-thumb-wrap">
+                            <span class="photo-pos-badge">Vá»‹ trÃ­ #</span>
+                            <img src="" class="photo-edit-thumb" id="thumbImg_" onerror="this.src=''">
+                            <button type="button" class="btn-change-photo" onclick="triggerReplacePhoto()">
+                                <i class="fa-solid fa-camera"></i> Äá»•i áº¢nh
+                            </button>
                         </div>
-                        <div class="photo-card-body">
+                        <div class="photo-edit-fields">
                             <div>
-                                <label class="form-label" style="font-size: 0.8rem; margin-bottom: 0.25rem;">Tiêu đề / Chú thích ảnh</label>
-                                <input type="text" class="form-input photo-caption-input" data-index="${idx}" value="${photo.caption || ''}" placeholder="Nhập chú thích ảnh...">
+                                <label class="field-label">Phá»¥ Ä‘á» (Badge nhá»)</label>
+                                <input type="text" class="field-input" id="photoSubtitle_" value="" placeholder="VÃ­ dá»¥: Thiáº¿t káº¿ cÃºp">
                             </div>
                             <div>
-                                <label class="form-label" style="font-size: 0.8rem; margin-bottom: 0.25rem;">Nhãn phụ / Vị trí</label>
-                                <input type="text" class="form-input photo-sub-input" data-index="${idx}" value="${photo.subtitle || ''}" placeholder="VD: Khai mạc, Trao giải...">
-                            </div>
-                            <div class="photo-card-actions">
-                                <button type="button" class="btn btn-outline btn-replace-photo" data-index="${idx}" style="flex: 1; padding: 0.45rem 0.5rem; font-size: 0.82rem;">
-                                    <i class="fa-solid fa-upload"></i> Đổi Ảnh Mới
-                                </button>
-                                <button type="button" class="btn btn-outline btn-set-cover" data-index="${idx}" title="Đặt làm ảnh bìa Card giải đấu" style="padding: 0.45rem 0.65rem; font-size: 0.82rem;">
-                                    <i class="fa-solid fa-star"></i>
-                                </button>
+                                <label class="field-label">ChÃº thÃ­ch áº£nh hiá»ƒn thá»‹</label>
+                                <textarea class="field-textarea" id="photoCaption_" placeholder="MÃ´ táº£ khoáº£nh kháº¯c..."></textarea>
                             </div>
                         </div>
-                    `;
+                    ;
                     photosGrid.appendChild(card);
-                });
-
-                // Attach events to photo inputs
-                document.querySelectorAll(".photo-caption-input").forEach(input => {
-                    input.oninput = (e) => {
-                        const idx = parseInt(e.target.dataset.index);
-                        cat.photos[idx].caption = e.target.value;
-                    };
-                });
-
-                document.querySelectorAll(".photo-sub-input").forEach(input => {
-                    input.oninput = (e) => {
-                        const idx = parseInt(e.target.dataset.index);
-                        cat.photos[idx].subtitle = e.target.value;
-                    };
-                });
-
-                document.querySelectorAll(".btn-replace-photo").forEach(btn => {
-                    btn.onclick = (e) => {
-                        replacingPhotoIndex = parseInt(btn.dataset.index);
-                        document.getElementById("singleReplaceFileInput").click();
-                    };
-                });
-
-                document.querySelectorAll(".btn-set-cover").forEach(btn => {
-                    btn.onclick = () => {
-                        const idx = parseInt(btn.dataset.index);
-                        cat.cover = cat.photos[idx].src;
-                        document.getElementById("inputCatCover").value = cat.cover;
-                        showToast(`Đã đặt Ảnh #${idx + 1} làm ảnh bìa Card giải đấu!`, "success");
-                    };
-                });
+                }
             }
 
             // Single Photo Replacement
-            const singleReplaceFileInput = document.getElementById("singleReplaceFileInput");
-            singleReplaceFileInput.onchange = async (e) => {
-                if (e.target.files && e.target.files[0] && replacingPhotoIndex >= 0) {
-                    try {
-                        const compressed = await compressImageFile(e.target.files[0]);
-                        const cat = tournamentsData[activeCatKey];
-                        cat.photos[replacingPhotoIndex].src = compressed;
-                        renderActiveCategory();
-                        showToast(`Đã thay thế thành công Ảnh #${replacingPhotoIndex + 1}!`, "success");
-                    } catch (err) {
-                        showToast("Không thể tải ảnh!", "danger");
+            window.triggerReplacePhoto = function(photoIndex) {
+                replacingPhotoIndex = photoIndex;
+                const fileInput = document.getElementById("singleReplaceFileInput");
+                fileInput.value = "";
+                fileInput.click();
+            };
+
+            document.getElementById("singleReplaceFileInput").onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file || replacingPhotoIndex < 0) return;
+
+                try {
+                    const base64 = await compressImageFile(file);
+                    const cat = tournamentsData[activeCatKey];
+                    if (cat && cat.photos && cat.photos[replacingPhotoIndex]) {
+                        cat.photos[replacingPhotoIndex].src = base64;
+                        document.getElementById(	humbImg_).src = base64;
+                        showToast(ÄÃ£ cáº­p nháº­t áº£nh vá»‹ trÃ­ #! Báº¥m 'LÆ°u Thay Äá»•i' Ä‘á»ƒ hoÃ n táº¥t., "success");
                     }
-                    singleReplaceFileInput.value = "";
+                } catch (err) {
+                    showToast("Lá»—i nÃ©n áº£nh: " + err.message, "danger");
                 }
             };
 
-            // Multi-Image Upload Dropzone
-            const uploadDropzone = document.getElementById("uploadDropzone");
-            const multiFileInput = document.getElementById("multiFileInput");
-            uploadDropzone.onclick = () => multiFileInput.click();
+            // Batch Upload
+            const dropzone = document.getElementById("dropzone");
+            const batchFileInput = document.getElementById("batchFileInput");
 
-            uploadDropzone.ondragover = (e) => { e.preventDefault(); uploadDropzone.classList.add("dragover"); };
-            uploadDropzone.ondragleave = () => uploadDropzone.classList.remove("dragover");
-            uploadDropzone.ondrop = async (e) => {
+            dropzone.onclick = () => batchFileInput.click();
+            batchFileInput.onchange = (e) => handleBatchFiles(e.target.files);
+
+            dropzone.ondragover = (e) => { e.preventDefault(); dropzone.classList.add("dragover"); };
+            dropzone.ondragleave = () => dropzone.classList.remove("dragover");
+            dropzone.ondrop = (e) => {
                 e.preventDefault();
-                uploadDropzone.classList.remove("dragover");
-                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                    await handleStagedFiles(Array.from(e.dataTransfer.files));
-                }
+                dropzone.classList.remove("dragover");
+                handleBatchFiles(e.dataTransfer.files);
             };
 
-            multiFileInput.onchange = async (e) => {
-                if (e.target.files && e.target.files.length > 0) {
-                    await handleStagedFiles(Array.from(e.target.files));
-                    multiFileInput.value = "";
-                }
-            };
+            async function handleBatchFiles(files) {
+                if (!files || files.length === 0) return;
+                showToast(Äang xá»­ lÃ½  áº£nh..., "info");
 
-            async function handleStagedFiles(files) {
-                const imgFiles = files.filter(f => f.type.startsWith("image/"));
-                if (imgFiles.length === 0) {
-                    showToast("Vui lòng chọn file hình ảnh hợp lệ!", "danger");
-                    return;
-                }
-
-                showToast(`Đang nén ${imgFiles.length} ảnh...`, "info");
-                for (let file of imgFiles) {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    if (!file.type.startsWith("image/")) continue;
                     try {
                         const base64 = await compressImageFile(file);
                         stagedUploads.push({
-                            src: base64,
-                            name: file.name
+                            name: file.name,
+                            src: base64
                         });
-                    } catch (err) {
-                        console.error(err);
+                    } catch (e) {
+                        console.error(e);
                     }
                 }
-                renderStagedGrid();
-                showToast(`Đã nén xong ${imgFiles.length} ảnh mới!`, "success");
+
+                renderStagedImages();
+                showToast(ÄÃ£ thÃªm  áº£nh vÃ o hÃ ng chá»! Chá»n vá»‹ trÃ­ Ä‘á»ƒ gÃ¡n áº£nh., "success");
             }
 
-            function renderStagedGrid() {
-                const box = document.getElementById("stagedUploadBox");
+            function renderStagedImages() {
+                const wrap = document.getElementById("stagedImagesWrap");
                 const grid = document.getElementById("stagedGrid");
-                const countText = document.getElementById("stagedCountText");
+                const countBadge = document.getElementById("stagedCountBadge");
 
                 if (stagedUploads.length === 0) {
-                    box.style.display = "none";
+                    wrap.style.display = "none";
                     return;
                 }
 
-                box.style.display = "block";
-                countText.textContent = `Đã tải lên ${stagedUploads.length} ảnh mới chờ gán:`;
+                wrap.style.display = "block";
+                countBadge.textContent = stagedUploads.length + " áº£nh";
                 grid.innerHTML = "";
 
                 stagedUploads.forEach((item, sIdx) => {
-                    const card = document.createElement("div");
-                    card.style.background = "#ffffff";
-                    card.style.border = "1px solid var(--border)";
-                    card.style.borderRadius = "12px";
-                    card.style.padding = "0.75rem";
-                    card.style.textAlign = "center";
-
-                    card.innerHTML = `
-                        <img src="${item.src}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 0.5rem;">
-                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${item.name}</div>
-                        <div style="display: flex; gap: 0.25rem; flex-wrap: wrap; justify-content: center;">
-                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="${sIdx}" data-pos="0" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Gán Vị Trí #1</button>
-                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="${sIdx}" data-pos="1" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Gán Vị Trí #2</button>
-                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="${sIdx}" data-pos="2" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Gán Vị Trí #3</button>
-                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="${sIdx}" data-pos="3" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Gán Vị Trí #4</button>
+                    const box = document.createElement("div");
+                    box.style.cssText = "background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 0.75rem; text-align: center;";
+                    box.innerHTML = 
+                        <img src="" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 0.5rem;">
+                        <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"></div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem;">
+                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="28354" data-pos="0" style="padding: 0.3rem; font-size: 0.75rem;">Vá»‹ trÃ­ 1</button>
+                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="28354" data-pos="1" style="padding: 0.3rem; font-size: 0.75rem;">Vá»‹ trÃ­ 2</button>
+                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="28354" data-pos="2" style="padding: 0.3rem; font-size: 0.75rem;">Vá»‹ trÃ­ 3</button>
+                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="28354" data-pos="3" style="padding: 0.3rem; font-size: 0.75rem;">Vá»‹ trÃ­ 4</button>
                         </div>
-                    `;
-                    grid.appendChild(card);
+                    ;
+                    grid.appendChild(box);
                 });
 
                 document.querySelectorAll(".btn-assign-pos").forEach(btn => {
@@ -1271,32 +1264,35 @@
                         const cat = tournamentsData[activeCatKey];
                         cat.photos[pos].src = stagedUploads[sIdx].src;
                         renderActiveCategory();
-                        showToast(`Đã gán ảnh vào Vị trí #${pos + 1} của ${cat.title}!`, "success");
+                        showToast(ÄÃ£ gÃ¡n áº£nh vÃ o Vá»‹ trÃ­ # cá»§a !, "success");
                     };
                 });
             }
 
             // Contact Data Functions
-            function loadContactData() {
+            async function loadContactData() {
+                try {
+                    const res = await fetch("assets/data/contact.json?v=" + Date.now());
+                    if (res.ok) {
+                        contactData = Object.assign({}, DEFAULT_CONTACT_DATA, await res.json());
+                    }
+                } catch (e) {}
+
                 try {
                     const saved = localStorage.getItem(CONTACT_STORAGE_KEY);
                     if (saved) {
-                        contactData = Object.assign({}, DEFAULT_CONTACT_DATA, JSON.parse(saved));
-                    } else {
-                        contactData = Object.assign({}, DEFAULT_CONTACT_DATA);
+                        contactData = Object.assign({}, contactData, JSON.parse(saved));
                     }
-                } catch (e) {
-                    contactData = Object.assign({}, DEFAULT_CONTACT_DATA);
-                }
+                } catch (e) {}
             }
 
             function saveContactData() {
                 saveContactInputsToMemory();
                 try {
                     localStorage.setItem(CONTACT_STORAGE_KEY, JSON.stringify(contactData));
-                    showToast("Đã lưu thông tin liên hệ thành công!", "success");
+                    showToast("ÄÃ£ lÆ°u thÃ´ng tin liÃªn há»‡ thÃ nh cÃ´ng!", "success");
                 } catch(e) {
-                    showToast("Lỗi khi lưu thông tin liên hệ: " + e.message, "error");
+                    showToast("Lá»—i khi lÆ°u thÃ´ng tin liÃªn há»‡: " + e.message, "danger");
                 }
             }
 
@@ -1322,7 +1318,7 @@
             function updateContactPreview() {
                 const phone = document.getElementById("inputContactPhone").value.trim() || contactData.phone || "09xx.xxx.xxx";
                 const zalo = document.getElementById("inputContactZalo").value.trim() || contactData.zalo || "09xx.xxx.xxx";
-                const fbName = document.getElementById("inputContactFbName").value.trim() || contactData.facebookName || "Trần Nam Đạt";
+                const fbName = document.getElementById("inputContactFbName").value.trim() || contactData.facebookName || "Tráº§n Nam Äáº¡t";
                 const fbUrl = document.getElementById("inputContactFbUrl").value.trim() || contactData.facebookUrl || "#";
 
                 const rawPhone = phone.replace(/[^0-9+]/g, "");
@@ -1341,53 +1337,125 @@
 
             // Contact input live preview listeners
             ["inputContactPhone", "inputContactZalo", "inputContactFbUrl", "inputContactFbName"].forEach(id => {
-                document.getElementById(id).addEventListener("input", updateContactPreview);
+                const el = document.getElementById(id);
+                if (el) el.addEventListener("input", updateContactPreview);
             });
 
-            document.getElementById("btnSaveContactData").onclick = saveContactData;
+            const btnSaveContact = document.getElementById("btnSaveContactData");
+            if (btnSaveContact) btnSaveContact.onclick = saveContactData;
 
             // Save All Button
-            document.getElementById("btnSaveAllData").onclick = () => {
-                saveActiveInputsToMemory();
-                saveData();
-                if (activeCatKey === "contact-info") {
-                    saveContactData();
-                }
-            };
+            const btnSaveAll = document.getElementById("btnSaveAllData");
+            if (btnSaveAll) {
+                btnSaveAll.onclick = () => {
+                    saveActiveInputsToMemory();
+                    saveData();
+                    if (activeCatKey === "contact-info") {
+                        saveContactData();
+                    }
+                    showToast("ÄÃ£ lÆ°u vÃ o bá»™ nhá»› trÃ¬nh duyá»‡t! Äá»ƒ cáº­p nháº­t lÃªn Vercel, hÃ£y báº¥m 'Táº£i tournaments.json' vÃ  push Git.", "success");
+                };
+            }
+
+            // Export JSON File Button (1-Click Download for Git Sync)
+            const btnExportFile = document.getElementById("btnExportJsonFile");
+            if (btnExportFile) {
+                btnExportFile.onclick = () => {
+                    saveActiveInputsToMemory();
+                    const exportCopy = JSON.parse(JSON.stringify(tournamentsData));
+                    delete exportCopy._customizedByAdmin;
+                    const jsonStr = JSON.stringify(exportCopy, null, 2);
+                    const blob = new Blob([jsonStr], { type: "application/json" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "tournaments.json";
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    showToast("ÄÃ£ táº£i file tournaments.json vá» mÃ¡y! HÃ£y copy vÃ o assets/data/ vÃ  push lÃªn GitHub/Vercel.", "success");
+                };
+            }
+
+            // Import JSON File
+            const btnImportFile = document.getElementById("btnImportJsonFile");
+            const jsonFileInput = document.getElementById("jsonFileInput");
+            if (btnImportFile && jsonFileInput) {
+                btnImportFile.onclick = () => jsonFileInput.click();
+                jsonFileInput.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (evt) => {
+                        try {
+                            const imported = JSON.parse(evt.target.result);
+                            if (imported && (imported["an-nhiet-cup"] || imported["setup-ky-thuat"])) {
+                                tournamentsData = imported;
+                                tournamentsData._customizedByAdmin = true;
+                                saveData();
+                                renderTabs();
+                                renderActiveCategory();
+                                showToast("ÄÃ£ náº¡p file tournaments.json thÃ nh cÃ´ng!", "success");
+                            } else {
+                                showToast("File JSON khÃ´ng Ä‘Ãºng cáº¥u trÃºc giáº£i Ä‘áº¥u!", "danger");
+                            }
+                        } catch(err) {
+                            showToast("Lá»—i Ä‘á»c file JSON: " + err.message, "danger");
+                        }
+                    };
+                    reader.readAsText(file);
+                };
+            }
+
+            // Export JSON to Clipboard Button
+            const btnExportJson = document.getElementById("btnExportJson");
+            if (btnExportJson) {
+                btnExportJson.onclick = () => {
+                    saveActiveInputsToMemory();
+                    const exportCopy = JSON.parse(JSON.stringify(tournamentsData));
+                    delete exportCopy._customizedByAdmin;
+                    const jsonStr = JSON.stringify(exportCopy, null, 2);
+                    navigator.clipboard.writeText(jsonStr).then(() => {
+                        showToast("ÄÃ£ sao chÃ©p dá»¯ liá»‡u JSON vÃ o Clipboard!", "success");
+                    });
+                };
+            }
 
             // Reset Defaults Button
-            document.getElementById("btnResetDefaults").onclick = () => {
-                if (confirm("Khôi phục toàn bộ 4 giải đấu và 16 ảnh về dữ liệu mẫu ban đầu?")) {
-                    tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
-                    saveData();
-                    renderTabs();
-                    renderActiveCategory();
-                    showToast("Đã khôi phục dữ liệu ban đầu!", "success");
-                }
-            };
-
-            // Export JSON
-            document.getElementById("btnExportJson").onclick = () => {
-                saveActiveInputsToMemory();
-                const jsonStr = JSON.stringify(tournamentsData, null, 2);
-                navigator.clipboard.writeText(jsonStr).then(() => {
-                    showToast("Đã sao chép dữ liệu JSON vào Clipboard!", "success");
-                });
-            };
+            const btnReset = document.getElementById("btnResetDefaults");
+            if (btnReset) {
+                btnReset.onclick = () => {
+                    if (confirm("KhÃ´i phá»¥c toÃ n bá»™ 4 giáº£i Ä‘áº¥u vá» dá»¯ liá»‡u gá»‘c?")) {
+                        tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
+                        saveData();
+                        renderTabs();
+                        renderActiveCategory();
+                        showToast("ÄÃ£ khÃ´i phá»¥c dá»¯ liá»‡u ban Ä‘áº§u!", "success");
+                    }
+                };
+            }
 
             // Input change listeners
             ["inputCatTitle", "inputCatBadge", "inputCatRole", "inputCatCover", "inputCatDesc"].forEach(id => {
-                document.getElementById(id).onchange = () => {
-                    saveActiveInputsToMemory();
-                    renderTabs();
-                };
+                const el = document.getElementById(id);
+                if (el) {
+                    el.onchange = () => {
+                        saveActiveInputsToMemory();
+                        renderTabs();
+                    };
+                }
             });
 
-            // Init
-            loadData();
-            loadContactData();
-            renderTabs();
-            renderActiveCategory();
+            // Async Initialization
+            async function init() {
+                await loadContactData();
+                await loadData();
+                renderTabs();
+                renderActiveCategory();
+            }
+
+            init();
         })();
     </script>
 </body>
