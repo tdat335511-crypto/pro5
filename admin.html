@@ -5,68 +5,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Trị Media Thư Viện Giải Đấu - Trần Nam Đạt</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
             --primary: #f59e0b;
-            --primary-dark: #d97706;
-            --accent: #3b82f6;
+            --primary-hover: #d97706;
+            --accent: #2563eb;
             --dark: #0f172a;
-            --light: #f8fafc;
-            --card-bg: #ffffff;
+            --card-bg: #1e293b;
+            --light-bg: #f8fafc;
+            --border: #e2e8f0;
             --text-main: #334155;
             --text-muted: #64748b;
-            --border: #e2e8f0;
-            --success: #10b981;
             --danger: #ef4444;
+            --success: #10b981;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f1f5f9;
             color: var(--text-main);
-            line-height: 1.6;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
+        /* Top Header */
         header {
             background: #ffffff;
             border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
         }
 
         .header-container {
-            max-width: 1280px;
+            max-width: 1300px;
             margin: 0 auto;
-            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
         }
 
         .header-logo {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--dark);
             text-decoration: none;
+            color: var(--dark);
+            font-weight: 800;
+            font-size: 1.25rem;
         }
 
         .header-logo span {
@@ -75,19 +73,20 @@
 
         .badge-admin {
             background: #fef3c7;
-            color: var(--primary-dark);
+            color: #92400e;
             font-size: 0.75rem;
             font-weight: 700;
-            padding: 0.25rem 0.65rem;
-            border-radius: 6px;
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
             border: 1px solid #fde68a;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
         }
 
         .btn {
@@ -98,31 +97,23 @@
             border-radius: 10px;
             font-weight: 600;
             font-size: 0.9rem;
-            border: none;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.2s;
             text-decoration: none;
+            border: none;
+            font-family: inherit;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #ffffff;
-            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+            background: var(--primary);
+            color: #0f172a;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(245, 158, 11, 0.45);
-        }
-
-        .btn-dark {
-            background: var(--dark);
+            background: var(--primary-hover);
             color: #ffffff;
-        }
-
-        .btn-dark:hover {
-            background: #1e293b;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         .btn-outline {
@@ -139,77 +130,38 @@
 
         .btn-danger {
             background: #fee2e2;
-            color: #dc2626;
+            color: var(--danger);
             border: 1px solid #fecaca;
         }
 
         .btn-danger:hover {
-            background: #fecaca;
-        }
-
-        .btn-hotline {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: #ffffff;
-            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
-        }
-
-        .btn-hotline:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+            background: var(--danger);
             color: #ffffff;
         }
 
-        .btn-zalo {
-            background: linear-gradient(135deg, #0068ff 0%, #0052cc 100%);
-            color: #ffffff;
-            box-shadow: 0 4px 14px rgba(0, 104, 255, 0.35);
-        }
-
-        .btn-zalo:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 104, 255, 0.45);
-            color: #ffffff;
-        }
-
-        .btn-fb {
-            background: #1877f2;
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(24, 119, 242, 0.3);
-        }
-
-        .btn-fb:hover {
-            background: #0c5dc7;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(24, 119, 242, 0.4);
-            color: #ffffff;
-        }
-
+        /* Main Container */
         .main-container {
-            max-width: 1280px;
+            max-width: 1300px;
             margin: 2rem auto;
-            padding: 0 2rem;
-            flex: 1;
+            padding: 0 1.5rem;
             width: 100%;
+            flex: 1;
         }
 
+        /* Page Title Box */
         .page-title-box {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-end;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .page-title-box h1 {
-            font-size: 1.75rem;
-            color: var(--dark);
+            font-size: 1.85rem;
             font-weight: 800;
+            color: var(--dark);
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -217,41 +169,42 @@
 
         .page-title-box p {
             color: var(--text-muted);
-            margin-top: 0.35rem;
             font-size: 0.95rem;
+            margin-top: 0.35rem;
         }
 
         /* 4 Tournament Tabs */
         .category-tabs {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 1rem;
             margin-bottom: 2rem;
         }
 
         .category-tab-btn {
             background: #ffffff;
-            border: 2px solid var(--border);
-            border-radius: 14px;
+            border: 2px solid transparent;
+            border-radius: 16px;
             padding: 1.25rem;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.25s ease;
             display: flex;
             align-items: center;
             gap: 1rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            text-align: left;
         }
 
         .category-tab-btn:hover {
-            border-color: var(--primary);
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            border-color: #cbd5e1;
         }
 
         .category-tab-btn.active {
             border-color: var(--primary);
-            background: #fffbeb;
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.15);
+            background: #fffdf5;
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.15);
         }
 
         .tab-icon-wrap {
@@ -259,25 +212,25 @@
             height: 48px;
             border-radius: 12px;
             background: #f8fafc;
-            color: var(--dark);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1.35rem;
+            color: var(--primary);
             flex-shrink: 0;
-            transition: 0.25s;
+            transition: 0.2s;
         }
 
         .category-tab-btn.active .tab-icon-wrap {
             background: var(--primary);
-            color: #ffffff;
+            color: #0f172a;
         }
 
         .tab-title-text {
-            font-weight: 700;
-            color: var(--dark);
+            font-weight: 750;
             font-size: 1rem;
-            margin-bottom: 0.2rem;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
         }
 
         .tab-subtitle-text {
@@ -285,13 +238,13 @@
             color: var(--text-muted);
         }
 
-        /* Category Editor Box */
+        /* Editor Section */
         .editor-section {
             background: #ffffff;
             border-radius: 20px;
             border: 1px solid var(--border);
             padding: 2.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
         }
 
@@ -463,40 +416,48 @@
             font-size: 0.85rem;
         }
 
-        /* Toast notifications */
+        /* Toast Notifications */
         .toast-container {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
+            bottom: 2rem;
+            right: 2rem;
             z-index: 9999;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            pointer-events: none;
+            gap: 0.75rem;
         }
 
         .toast-item {
-            background: var(--dark);
+            background: #0f172a;
             color: #ffffff;
-            padding: 0.85rem 1.35rem;
+            padding: 1rem 1.5rem;
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            pointer-events: auto;
-            border-left: 4px solid var(--primary);
-            animation: slideInRight 0.3s ease;
+            animation: slideIn 0.3s ease forwards;
         }
 
-        .toast-item.success { border-left-color: var(--success); }
-        .toast-item.danger { border-left-color: var(--danger); }
+        .toast-item.success {
+            border-left: 4px solid var(--success);
+        }
 
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .toast-item.danger {
+            border-left: 4px solid var(--danger);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         footer {
@@ -533,37 +494,20 @@
 
     <div class="main-container">
 
-        <!-- Enterprise Git & Vercel Sync Toolbar -->
-        <div class="git-sync-bar" style="background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <span style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
-                <div>
-                    <div style="font-weight: 750; font-size: 0.95rem; color: var(--dark);">Đồng Bộ Dữ Liệu Git & Vercel Production</div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tất cả thay đổi sẽ đồng bộ chuẩn xác giữa Local và Vercel</div>
-                </div>
-            </div>
-            <div style="display: flex; gap: 0.65rem; flex-wrap: wrap;">
-                <button type="button" class="btn btn-outline" id="btnExportJsonFile" title="Tải file tournaments.json về máy">
-                    <i class="fa-solid fa-cloud-arrow-down" style="color: var(--accent);"></i> Tải tournaments.json (Git Sync)
-                </button>
-                <button type="button" class="btn btn-outline" id="btnImportJsonFile" title="Nạp file tournaments.json từ máy">
-                    <i class="fa-solid fa-cloud-arrow-up" style="color: #10b981;"></i> Nhập JSON File
-                </button>
-                <button type="button" class="btn btn-outline" id="btnExportJson" title="Sao chép JSON vào Clipboard">
-                    <i class="fa-solid fa-copy"></i> Copy JSON
-                </button>
-                <button type="button" class="btn btn-outline" id="btnResetDefaults" style="color: var(--danger); border-color: #fecaca;" title="Khôi phục dữ liệu gốc">
-                    <i class="fa-solid fa-rotate-left"></i> Khôi Phục Gốc
-                </button>
-            </div>
-        </div>
-        <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
-
         <div class="page-title-box">
             <div>
                 <h1><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> Quản Lý Thư Viện 4 Giải Đấu Tiêu Biểu</h1>
                 <p>Tải ảnh lên, cập nhật tiêu đề, và quản lý đúng 4 hình ảnh tiêu biểu cho mỗi giải đấu hiển thị trên trang chủ.</p>
             </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <button type="button" class="btn btn-outline" id="btnExportJson">
+                    <i class="fa-solid fa-file-code"></i> Xuất JSON
+                </button>
+                <button type="button" class="btn btn-danger" id="btnResetDefaults">
+                    <i class="fa-solid fa-rotate-left"></i> Đặt Lại Mặc Định
+                </button>
+            </div>
+        </div>
 
         <!-- 4 Tournament Category Tabs -->
         <div class="category-tabs" id="categoryTabs">
@@ -669,7 +613,7 @@
                     <label class="form-label" for="inputContactPhone">
                         <i class="fa-solid fa-phone" style="color: #10b981;"></i> Số Điện Thoại / Hotline Gọi Đến
                     </label>
-                    <input type="text" id="inputContactPhone" class="form-input" placeholder="Ví dụ: 0988 123 456">
+                    <input type="text" id="inputContactPhone" class="form-input" placeholder="Ví dụ: 0325.321.006">
                     <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.25rem; display: block;">
                         Dùng cho nút bấm gọi trực tiếp (tel:) trên điện thoại và máy tính.
                     </small>
@@ -679,7 +623,7 @@
                     <label class="form-label" for="inputContactZalo">
                         <i class="fa-solid fa-comment-dots" style="color: #0068ff;"></i> Số Zalo Hoặc Link Chat Zalo
                     </label>
-                    <input type="text" id="inputContactZalo" class="form-input" placeholder="Ví dụ: 0988123456 hoặc https://zalo.me/0988123456">
+                    <input type="text" id="inputContactZalo" class="form-input" placeholder="Ví dụ: 0559.326.660 hoặc https://zalo.me/0559326660">
                     <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.25rem; display: block;">
                         Khách nhấp vào sẽ mở thẳng cửa sổ chat Zalo 1-1 với bạn.
                     </small>
@@ -691,7 +635,7 @@
                     <label class="form-label" for="inputContactFbUrl">
                         <i class="fa-brands fa-facebook" style="color: #1877f2;"></i> Link Facebook Cá Nhân
                     </label>
-                    <input type="text" id="inputContactFbUrl" class="form-input" placeholder="Ví dụ: https://www.facebook.com/profile.php?id=61591715682693">
+                    <input type="text" id="inputContactFbUrl" class="form-input" placeholder="Ví dụ: https://www.facebook.com/profile.php?id=100083205826444">
                 </div>
 
                 <div class="form-group">
@@ -724,19 +668,19 @@
                     <i class="fa-solid fa-eye" style="color: var(--primary);"></i> Xem Trước Nút Liên Hệ Thực Tế:
                 </h4>
                 <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;" id="adminContactPreviewRow">
-                    <a href="#" id="previewBtnPhone" class="btn btn-hotline" target="_blank" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
-                        <i class="fa-solid fa-phone"></i> Hotline: <span id="previewPhoneVal">09xx.xxx.xxx</span>
+                    <a href="#" id="previewBtnPhone" class="btn btn-outline" target="_blank" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                        <i class="fa-solid fa-phone" style="color: #10b981;"></i> Hotline: <span id="previewPhoneVal">0325.321.006</span>
                     </a>
-                    <a href="#" id="previewBtnZalo" class="btn btn-zalo" target="_blank" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
-                        <i class="fa-solid fa-comment-dots"></i> Chat Zalo: <span id="previewZaloVal">09xx.xxx.xxx</span>
+                    <a href="#" id="previewBtnZalo" class="btn btn-outline" target="_blank" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                        <i class="fa-solid fa-comment-dots" style="color: #0068ff;"></i> Zalo: <span id="previewZaloVal">0559.326.660</span>
                     </a>
-                    <a href="#" id="previewBtnFb" class="btn btn-fb" target="_blank" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
-                        <i class="fa-brands fa-facebook"></i> Facebook: <span id="previewFbVal">Trần Nam Đạt</span>
+                    <a href="#" id="previewBtnFb" class="btn btn-outline" target="_blank" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                        <i class="fa-brands fa-facebook" style="color: #1877f2;"></i> Facebook: <span id="previewFbVal">Trần Nam Đạt</span>
                     </a>
                 </div>
             </div>
 
-            <div style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem;">
+            <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
                 <button type="button" class="btn btn-primary" id="btnSaveContactData">
                     <i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin Liên Hệ
                 </button>
@@ -764,152 +708,152 @@
                 zalo: "0559.326.660",
                 zaloUrl: "https://zalo.me/0559326660",
                 facebookUrl: "https://www.facebook.com/profile.php?id=100083205826444",
-                facebookName: "Tráº§n Nam Äáº¡t",
+                facebookName: "Trần Nam Đạt",
                 email: "namdat.media@gmail.com",
                 facebook2Url: "https://www.facebook.com/profile.php?id=61584374816308"
             };
 
             let contactData = Object.assign({}, DEFAULT_CONTACT_DATA);
 
-            // Dá»¯ liá»‡u 4 giáº£i Ä‘áº¥u tiÃªu chuáº©n thá»±c chiáº¿n (Single Source of Truth Fallback)
+            // Dữ liệu 4 giải đấu tiêu chuẩn thực chiến (Single Source of Truth Fallback)
             const DEFAULT_TOURNAMENTS_DATA = {
                 "an-nhiet-cup": {
                     id: "an-nhiet-cup",
-                    title: "An Nhiá»‡t Premier Cup",
-                    badge: "GIáº¢I Äáº¤U DOANH NGHIá»†P & CLB",
+                    title: "An Nhiệt Premier Cup",
+                    badge: "GIẢI ĐẤU DOANH NGHIỆP & CLB",
                     icon: "fa-trophy",
-                    role: "TrÆ°á»Ÿng ban Media & Sáº£n xuáº¥t hÃ¬nh áº£nh",
-                    description: "Trá»±c tiáº¿p chá»‰ Ä‘áº¡o hÃ¬nh áº£nh, thiáº¿t káº¿ bá»™ nháº­n diá»‡n cÃºp, huy chÆ°Æ¡ng vÃ  ghi láº¡i toÃ n bá»™ khoáº£nh kháº¯c thi Ä‘áº¥u ká»‹ch tÃ­nh táº¡i siÃªu giáº£i Ä‘áº¥u An Nhiá»‡t Cup.",
+                    role: "Trưởng ban Media & Sản xuất hình ảnh",
+                    description: "Trực tiếp chỉ đạo hình ảnh, thiết kế bộ nhận diện cúp, huy chương và ghi lại toàn bộ khoảnh khắc thi đấu kịch tính tại siêu giải đấu An Nhiệt Cup.",
                     cover: "assets/images/tournaments/annhiet-cover.jpg",
                     photos: [
                         {
                             id: "annhiet-1",
                             src: "assets/images/tournaments/annhiet-1.jpg",
-                            caption: "Bá»™ cÃºp vÃ´ Ä‘á»‹ch, huy chÆ°Æ¡ng vÃ ng & Ã¡o Ä‘áº¥u chÃ­nh thá»©c An Nhiá»‡t Cup",
-                            subtitle: "Thiáº¿t káº¿ & nháº­n diá»‡n sá»± kiá»‡n"
+                            caption: "Bộ cúp vô địch, huy chương vàng & áo đấu chính thức An Nhiệt Cup",
+                            subtitle: "Thiết kế & nhận diện sự kiện"
                         },
                         {
                             id: "annhiet-2",
                             src: "assets/images/tournaments/annhiet-2.jpg",
-                            caption: "KhÃ´ng gian tháº£m Ä‘áº¥u vÃ  há»‡ thá»‘ng Ã¡nh sÃ¡ng chuáº©n quá»‘c táº¿ táº¡i An Nhiá»‡t Cup",
-                            subtitle: "Hiá»‡n trÆ°á»ng thi Ä‘áº¥u"
+                            caption: "Không gian thảm đấu và hệ thống ánh sáng chuẩn quốc tế tại An Nhiệt Cup",
+                            subtitle: "Hiện trường thi đấu"
                         },
                         {
                             id: "annhiet-3",
                             src: "assets/images/tournaments/annhiet-3.jpg",
-                            caption: "Tráº­n chung káº¿t ngháº¹t thá»Ÿ tranh cÃºp vÃ´ Ä‘á»‹ch An Nhiá»‡t Premier",
-                            subtitle: "Khoáº£nh kháº¯c thi Ä‘áº¥u"
+                            caption: "Trận chung kết nghẹt thở tranh cúp vô địch An Nhiệt Premier",
+                            subtitle: "Khoảnh khắc thi đấu"
                         },
                         {
                             id: "annhiet-4",
                             src: "assets/images/tournaments/annhiet-4.jpg",
-                            caption: "Lá»… báº¿ máº¡c vÃ  vinh danh trao cÃºp cho tÃ¢n vÆ°Æ¡ng giáº£i Ä‘áº¥u",
-                            subtitle: "Lá»… vinh danh"
+                            caption: "Lễ bế mạc và vinh danh trao cúp cho tân vương giải đấu",
+                            subtitle: "Lễ vinh danh"
                         }
                     ]
                 },
                 "setup-ky-thuat": {
                     id: "setup-ky-thuat",
-                    title: "Setup & KÄ© Thuáº­t",
+                    title: "Setup & Kĩ Thuật",
                     badge: "LIVE PRODUCTION & BROADCAST",
                     icon: "fa-video",
-                    role: "Ká»¹ thuáº­t viÃªn Livestream & Váº­n hÃ nh OBS/vMix",
-                    description: "Váº­n hÃ nh há»‡ thá»‘ng phÃ¡t sÃ³ng trá»±c tiáº¿p Ä‘a gÃ³c mÃ¡y chuyÃªn nghiá»‡p, Ä‘iá»u phá»‘i luá»“ng stream á»•n Ä‘á»‹nh vÃ  cáº¯t highlight triá»‡u view thá»i gian thá»±c.",
+                    role: "Kỹ thuật viên Livestream & Vận hành OBS/vMix",
+                    description: "Vận hành hệ thống phát sóng trực tiếp đa góc máy chuyên nghiệp, điều phối luồng stream ổn định và cắt highlight triệu view thời gian thực.",
                     cover: "assets/images/tournaments/setup-cover.jpg",
                     photos: [
                         {
                             id: "setup-1",
                             src: "assets/images/tournaments/setup-1.jpg",
-                            caption: "BÃ n Ä‘iá»u khiá»ƒn ká»¹ thuáº­t OBS Studio & vMix phÃ¡t sÃ³ng trá»±c tiáº¿p",
-                            subtitle: "Control Desk Hiá»‡n TrÆ°á»ng"
+                            caption: "Bàn điều khiển kỹ thuật OBS Studio & vMix phát sóng trực tiếp",
+                            subtitle: "Control Desk Hiện Trường"
                         },
                         {
                             id: "setup-2",
                             src: "assets/images/tournaments/setup-2.jpg",
-                            caption: "Thiáº¿t láº­p gÃ³c mÃ¡y quay cáº­n cáº£nh bi cÃ¡i vÃ  toÃ n cáº£nh bÃ n thi Ä‘áº¥u",
-                            subtitle: "CÄƒn chá»‰nh camera hiá»‡n trÆ°á»ng"
+                            caption: "Thiết lập góc máy quay cận cảnh bi cái và toàn cảnh bàn thi đấu",
+                            subtitle: "Căn chỉnh camera hiện trường"
                         },
                         {
                             id: "setup-3",
                             src: "assets/images/tournaments/setup-3.jpg",
-                            caption: "Äiá»u phá»‘i luá»“ng stream vÃ  ká»¹ thuáº­t Ã¢m thanh bÃ¬nh luáº­n viÃªn trá»±c tiáº¿p",
-                            subtitle: "Há»‡ thá»‘ng truyá»n dáº«n luá»“ng"
+                            caption: "Điều phối luồng stream và kỹ thuật âm thanh bình luận viên trực tiếp",
+                            subtitle: "Hệ thống truyền dẫn luồng"
                         },
                         {
                             id: "setup-4",
                             src: "assets/images/tournaments/setup-4.jpg",
-                            caption: "Ekip Media phá»‘i há»£p váº­n hÃ nh sá»± kiá»‡n vÃ  trá»±c ban ká»¹ thuáº­t 24/7",
-                            subtitle: "Ekip Production Háº­u TrÆ°á»ng"
+                            caption: "Ekip Media phối hợp vận hành sự kiện và trực ban kỹ thuật 24/7",
+                            subtitle: "Ekip Production Hậu Trường"
                         }
                     ]
                 },
                 "wpa-the-gioi": {
                     id: "wpa-the-gioi",
-                    title: "WPA Tháº¿ Giá»›i",
-                    badge: "SIÃŠU GIáº¢I Äáº¤U QUá»C Táº¾",
+                    title: "WPA Thế Giới",
+                    badge: "SIÊU GIẢI ĐẤU QUỐC TẾ",
                     icon: "fa-globe",
-                    role: "ChuyÃªn viÃªn TÃ¡c nghiá»‡p & Truyá»n thÃ´ng Quá»‘c táº¿",
-                    description: "TÃ¡c nghiá»‡p bÃ¡o chÃ­ hÃ¬nh áº£nh vÃ  video ngáº¯n báº¯t trend táº¡i cÃ¡c cháº·ng Ä‘áº¥u thuá»™c Hiá»‡p há»™i Billiards Tháº¿ giá»›i (WPA) tá»• chá»©c táº¡i Viá»‡t Nam.",
+                    role: "Chuyên viên Tác nghiệp & Truyền thông Quốc tế",
+                    description: "Tác nghiệp báo chí hình ảnh và video ngắn bắt trend tại các chặng đấu thuộc Hiệp hội Billiards Thế giới (WPA) tổ chức tại Việt Nam.",
                     cover: "assets/images/tournaments/wpa-cover.jpg",
                     photos: [
                         {
                             id: "wpa-1",
                             src: "assets/images/tournaments/wpa-1.jpg",
-                            caption: "TÃ¡c nghiá»‡p chá»¥p áº£nh cÆ¡ thá»§ quá»‘c táº¿ táº­p trung cao Ä‘á»™ táº¡i WPA",
-                            subtitle: "ChÃ¢n dung cÆ¡ thá»§ tháº¿ giá»›i"
+                            caption: "Tác nghiệp chụp ảnh cơ thủ quốc tế tập trung cao độ tại WPA",
+                            subtitle: "Chân dung cơ thủ thế giới"
                         },
                         {
                             id: "wpa-2",
                             src: "assets/images/tournaments/wpa-2.jpg",
-                            caption: "Pha giáº£i bi cá»©u thua Ä‘áº³ng cáº¥p tháº¿ giá»›i Ä‘Æ°á»£c ghi hÃ¬nh trá»±c tiáº¿p",
-                            subtitle: "Highlight thi Ä‘áº¥u Ä‘á»‰nh cao"
+                            caption: "Pha giải bi cứu thua đẳng cấp thế giới được ghi hình trực tiếp",
+                            subtitle: "Highlight thi đấu đỉnh cao"
                         },
                         {
                             id: "wpa-3",
                             src: "assets/images/tournaments/wpa-3.jpg",
-                            caption: "Äáº¥u trÆ°á»ng WPA sÃ´i Ä‘á»™ng vá»›i khÃ¡n giáº£ theo dÃµi cháº­t kÃ­n khÃ¡n Ä‘Ã i",
-                            subtitle: "KhÃ´ng khÃ­ sá»± kiá»‡n WPA"
+                            caption: "Đấu trường WPA sôi động với khán giả theo dõi chật kín khán đài",
+                            subtitle: "Không khí sự kiện WPA"
                         },
                         {
                             id: "wpa-4",
                             src: "assets/images/tournaments/wpa-4.jpg",
-                            caption: "Phá»ng váº¥n cÆ¡ thá»§ quá»‘c táº¿ sau khi giÃ nh chiáº¿n tháº¯ng vÃ o vÃ²ng chung káº¿t",
-                            subtitle: "TÃ¡c nghiá»‡p phá»ng váº¥n cÆ¡ thá»§"
+                            caption: "Phỏng vấn cơ thủ quốc tế sau khi giành chiến thắng vào vòng chung kết",
+                            subtitle: "Tác nghiệp phỏng vấn cơ thủ"
                         }
                     ]
                 },
                 "chau-a-quoc-gia": {
                     id: "chau-a-quoc-gia",
-                    title: "VÃ´ Äá»‹ch ChÃ¢u Ã vs Quá»‘c Gia",
-                    badge: "Äáº¤U TRÆ¯á»œNG Äá»ˆNH CAO",
+                    title: "Vô Địch Châu Á vs Quốc Gia",
+                    badge: "ĐẤU TRƯỜNG ĐỈNH CAO",
                     icon: "fa-medal",
-                    role: "Media Partnership Sales & Ná»™i dung TikTok",
-                    description: "Khai thÃ¡c thÆ°Æ¡ng máº¡i hÃ³a hÃ¬nh áº£nh, Ä‘á»“ng hÃ nh cÃ¹ng cÃ¡c Ä‘á»™i tuyá»ƒn táº¡i giáº£i VÃ´ Ä‘á»‹ch ChÃ¢u Ã (Asia Pool) vÃ  giáº£i VÃ´ Ä‘á»‹ch Quá»‘c gia (VÄQG).",
+                    role: "Media Partnership Sales & Nội dung TikTok",
+                    description: "Khai thác thương mại hóa hình ảnh, đồng hành cùng các đội tuyển tại giải Vô địch Châu Á (Asia Pool) và giải Vô địch Quốc gia (VĐQG).",
                     cover: "assets/images/tournaments/asia-cover.jpg",
                     photos: [
                         {
                             id: "asia-1",
                             src: "assets/images/tournaments/asia-1.jpg",
-                            caption: "ToÃ n cáº£nh lá»… khai máº¡c giáº£i VÃ´ Ä‘á»‹ch Billiards Quá»‘c Gia",
-                            subtitle: "Khai máº¡c Äáº¥u TrÆ°á»ng Quá»‘c Gia"
+                            caption: "Toàn cảnh lễ khai mạc giải Vô địch Billiards Quốc Gia",
+                            subtitle: "Khai mạc Đấu Trường Quốc Gia"
                         },
                         {
                             id: "asia-2",
                             src: "assets/images/tournaments/asia-2.jpg",
-                            caption: "CÆ¡ thá»§ tuyá»ƒn Viá»‡t Nam tranh tÃ i cÃ¹ng cÃ¡c Ä‘á»‘i thá»§ hÃ ng Ä‘áº§u ChÃ¢u Ã",
-                            subtitle: "Äáº¡i chiáº¿n ChÃ¢u Ã (Asia Pool)"
+                            caption: "Cơ thủ tuyển Việt Nam tranh tài cùng các đối thủ hàng đầu Châu Á",
+                            subtitle: "Đại chiến Châu Á (Asia Pool)"
                         },
                         {
                             id: "asia-3",
                             src: "assets/images/tournaments/asia-3.jpg",
-                            caption: "PhÃ²ng truyá»n thÃ´ng tÃ¡c nghiá»‡p cáº¯t clip highlight triá»‡u view cho TikTok",
-                            subtitle: "SÃ¡ng táº¡o ná»™i dung viral"
+                            caption: "Phòng truyền thông tác nghiệp cắt clip highlight triệu view cho TikTok",
+                            subtitle: "Sáng tạo nội dung viral"
                         },
                         {
                             id: "asia-4",
                             src: "assets/images/tournaments/asia-4.jpg",
-                            caption: "Lá»… trao huy chÆ°Æ¡ng vÃ ng danh giÃ¡ táº¡i giáº£i VÃ´ Ä‘á»‹ch Quá»‘c Gia",
-                            subtitle: "Vinh quang bá»¥c nháº­n thÆ°á»Ÿng"
+                            caption: "Lễ trao huy chương vàng danh giá tại giải Vô địch Quốc Gia",
+                            subtitle: "Vinh quang bục nhận thưởng"
                         }
                     ]
                 }
@@ -922,6 +866,23 @@
             let replacingPhotoIndex = -1;
             let stagedUploads = [];
 
+            // Helper: Lấy prefix file asset theo danh mục giải đấu
+            function getAssetPrefix(catKey) {
+                const map = {
+                    "an-nhiet-cup": "annhiet",
+                    "setup-ky-thuat": "setup",
+                    "wpa-the-gioi": "wpa",
+                    "chau-a-quoc-gia": "asia"
+                };
+                return map[catKey] || catKey;
+            }
+
+            // Helper: Tạo đường dẫn asset chuẩn
+            function getStandardAssetPath(catKey, idx) {
+                const prefix = getAssetPrefix(catKey);
+                return `assets/images/tournaments/${prefix}-${idx + 1}.jpg`;
+            }
+
             // Toast helper
             function showToast(msg, type = "info") {
                 const c = document.getElementById("toastContainer");
@@ -932,15 +893,19 @@
                 if (type === "danger") icon = '<i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i>';
                 item.innerHTML = icon + '<span>' + msg + '</span>';
                 c.appendChild(item);
-                setTimeout(() => item.remove(), 3500);
+                setTimeout(() => item.remove(), 4000);
             }
 
+            // Tự động chuẩn hóa đường dẫn ảnh vào thư mục asset
             function normalizeImagePath(path) {
                 if (!path) return "";
+                path = path.trim();
                 if (path.startsWith("data:") || path.startsWith("http://") || path.startsWith("https://")) return path;
                 if (path.startsWith("assets/images/")) return path;
+                if (path.startsWith("assets/")) return path;
                 if (path.startsWith("image_")) return "assets/images/" + path;
-                if (path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".webp")) {
+                // Nếu người dùng chỉ gõ tên file: tự động chuyển thành assets/images/tournaments/...
+                if (path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".webp") || path.endsWith(".jpeg") || path.endsWith(".svg")) {
                     return "assets/images/tournaments/" + path;
                 }
                 return path;
@@ -961,7 +926,23 @@
                 });
             }
 
-            // Enterprise Async Data Loader: Fetch JSON tu file tinh, fallback vao LocalStorage/Default
+            // Trigger download một file asset về máy người dùng
+            function triggerDownloadAsset(blobOrFile, filename) {
+                try {
+                    const url = URL.createObjectURL(blobOrFile);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(url), 2000);
+                } catch (e) {
+                    console.error("Error triggering download:", e);
+                }
+            }
+
+            // Async Data Loader: Fetch JSON từ file tĩnh, fallback vào LocalStorage/Default
             async function loadData() {
                 let remoteData = null;
                 try {
@@ -994,9 +975,9 @@
                 try {
                     tournamentsData._customizedByAdmin = true;
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(tournamentsData));
-                    showToast("ÄÃ£ lÆ°u vÃ o bá»™ nhá»› trÃ¬nh duyá»‡t thÃ nh cÃ´ng!", "success");
+                    showToast("Đã lưu vào bộ nhớ trình duyệt thành công!", "success");
                 } catch (e) {
-                    showToast("Bá»™ nhá»› trÃ¬nh duyá»‡t Ä‘áº§y, vui lÃ²ng nÃ©n áº£nh nhá» hÆ¡n!", "danger");
+                    showToast("Bộ nhớ trình duyệt đầy, vui lòng nén ảnh nhỏ hơn!", "danger");
                 }
             }
 
@@ -1041,13 +1022,13 @@
 
                     const btn = document.createElement("div");
                     btn.className = "category-tab-btn " + (activeCatKey === key ? "active" : "");
-                    btn.innerHTML = 
-                        <div class="tab-icon-wrap"><i class="fa-solid "></i></div>
+                    btn.innerHTML = `
+                        <div class="tab-icon-wrap"><i class="fa-solid ${cat.icon || 'fa-trophy'}"></i></div>
                         <div>
-                            <div class="tab-title-text"></div>
-                            <div class="tab-subtitle-text"> â€¢ 4 áº£nh</div>
+                            <div class="tab-title-text">${cat.title}</div>
+                            <div class="tab-subtitle-text">${cat.badge || ''} • 4 ảnh</div>
                         </div>
-                    ;
+                    `;
                     btn.onclick = () => {
                         saveActiveInputsToMemory();
                         activeCatKey = key;
@@ -1060,15 +1041,15 @@
                 // Tab 5: Contact Info
                 const contactBtn = document.createElement("div");
                 contactBtn.className = "category-tab-btn " + (activeCatKey === "contact-info" ? "active" : "");
-                contactBtn.innerHTML = 
-                    <div class="tab-icon-wrap" style="">
+                contactBtn.innerHTML = `
+                    <div class="tab-icon-wrap" style="${activeCatKey === "contact-info" ? 'background: #10b981; color: #fff;' : 'color: #10b981;'}">
                         <i class="fa-solid fa-address-book"></i>
                     </div>
                     <div>
-                        <div class="tab-title-text">LiÃªn Há»‡ & KÃªnh Media</div>
-                        <div class="tab-subtitle-text">Hotline â€¢ Zalo â€¢ Facebook</div>
+                        <div class="tab-title-text">Liên Hệ & Kênh Media</div>
+                        <div class="tab-subtitle-text">Hotline • Zalo • Facebook</div>
                     </div>
-                ;
+                `;
                 contactBtn.onclick = () => {
                     saveActiveInputsToMemory();
                     activeCatKey = "contact-info";
@@ -1078,48 +1059,38 @@
                 tabsContainer.appendChild(contactBtn);
             }
 
+            // Save active text inputs to memory
             function saveActiveInputsToMemory() {
                 if (activeCatKey === "contact-info") {
                     saveContactInputsToMemory();
                     return;
                 }
-
                 const cat = tournamentsData[activeCatKey];
                 if (!cat) return;
-
                 cat.title = document.getElementById("inputCatTitle").value.trim() || cat.title;
                 cat.badge = document.getElementById("inputCatBadge").value.trim() || cat.badge;
                 cat.role = document.getElementById("inputCatRole").value.trim() || cat.role;
-                cat.cover = document.getElementById("inputCatCover").value.trim() || cat.cover;
+                cat.cover = normalizeImagePath(document.getElementById("inputCatCover").value.trim()) || cat.cover;
                 cat.description = document.getElementById("inputCatDesc").value.trim() || cat.description;
-
-                // Save captions
-                if (cat.photos) {
-                    cat.photos.forEach((photo, idx) => {
-                        const capInput = document.getElementById(photoCaption_);
-                        const subInput = document.getElementById(photoSubtitle_);
-                        if (capInput) photo.caption = capInput.value.trim();
-                        if (subInput) photo.subtitle = subInput.value.trim();
-                    });
-                }
             }
 
+            // Render Active Category Editor or Contact Editor
             function renderActiveCategory() {
-                const tournamentSection = document.getElementById("tournamentEditorSection");
-                const batchUploadSection = document.getElementById("batchUploadSection");
-                const contactSection = document.getElementById("contactEditorSection");
+                const catEditor = document.getElementById("activeCategoryEditor");
+                const uploadBox = document.querySelector(".upload-section-box");
+                const contactEditor = document.getElementById("contactEditorSection");
 
                 if (activeCatKey === "contact-info") {
-                    tournamentSection.style.display = "none";
-                    batchUploadSection.style.display = "none";
-                    contactSection.style.display = "block";
+                    catEditor.style.display = "none";
+                    uploadBox.style.display = "none";
+                    contactEditor.style.display = "block";
                     populateContactEditor();
                     return;
                 }
 
-                tournamentSection.style.display = "block";
-                batchUploadSection.style.display = "block";
-                contactSection.style.display = "none";
+                catEditor.style.display = "block";
+                uploadBox.style.display = "block";
+                contactEditor.style.display = "none";
 
                 const cat = tournamentsData[activeCatKey];
                 if (!cat) return;
@@ -1133,128 +1104,227 @@
                 document.getElementById("inputCatCover").value = cat.cover || "";
                 document.getElementById("inputCatDesc").value = cat.description || "";
 
-                // Render 4 photos
+                // Render 4 Photos Editor Grid
                 const photosGrid = document.getElementById("photosEditorGrid");
                 photosGrid.innerHTML = "";
 
-                const photos = cat.photos || [];
-                for (let i = 0; i < 4; i++) {
-                    const photo = photos[i] || { id: ${cat.id}-, src: "", caption: "", subtitle: "" };
+                if (!cat.photos || !Array.isArray(cat.photos)) {
+                    cat.photos = [];
+                }
+
+                for (let idx = 0; idx < 4; idx++) {
+                    const photo = cat.photos[idx] || {
+                        id: `${getAssetPrefix(activeCatKey)}-${idx + 1}`,
+                        src: getStandardAssetPath(activeCatKey, idx),
+                        caption: "",
+                        subtitle: ""
+                    };
+                    cat.photos[idx] = photo;
+
                     const card = document.createElement("div");
-                    card.className = "photo-edit-card";
-                    card.innerHTML = 
-                        <div class="photo-edit-thumb-wrap">
-                            <span class="photo-pos-badge">Vá»‹ trÃ­ #</span>
-                            <img src="" class="photo-edit-thumb" id="thumbImg_" onerror="this.src=''">
-                            <button type="button" class="btn-change-photo" onclick="triggerReplacePhoto()">
-                                <i class="fa-solid fa-camera"></i> Äá»•i áº¢nh
-                            </button>
+                    card.className = "photo-card-box";
+
+                    card.innerHTML = `
+                        <div class="photo-card-thumb">
+                            <span class="photo-index-badge">Ảnh #${idx + 1} Tiêu Biểu</span>
+                            <img src="${photo.src}" alt="Photo ${idx + 1}" id="thumbImg_${idx}" onerror="this.src='${SVG_FALLBACK}'">
                         </div>
-                        <div class="photo-edit-fields">
+                        <div class="photo-card-body">
                             <div>
-                                <label class="field-label">Phá»¥ Ä‘á» (Badge nhá»)</label>
-                                <input type="text" class="field-input" id="photoSubtitle_" value="" placeholder="VÃ­ dá»¥: Thiáº¿t káº¿ cÃºp">
+                                <label class="form-label" style="font-size: 0.8rem; margin-bottom: 0.25rem;">
+                                    <i class="fa-solid fa-link" style="color: var(--primary);"></i> Đường dẫn ảnh Asset / File
+                                </label>
+                                <input type="text" class="form-input photo-src-input" data-index="${idx}" value="${photo.src || ''}" placeholder="VD: assets/images/tournaments/annhiet-1.jpg hoặc tên file...">
                             </div>
                             <div>
-                                <label class="field-label">ChÃº thÃ­ch áº£nh hiá»ƒn thá»‹</label>
-                                <textarea class="field-textarea" id="photoCaption_" placeholder="MÃ´ táº£ khoáº£nh kháº¯c..."></textarea>
+                                <label class="form-label" style="font-size: 0.8rem; margin-bottom: 0.25rem;">Tiêu đề / Chú thích ảnh</label>
+                                <input type="text" class="form-input photo-caption-input" data-index="${idx}" value="${photo.caption || ''}" placeholder="Nhập chú thích ảnh...">
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size: 0.8rem; margin-bottom: 0.25rem;">Nhãn phụ / Vị trí</label>
+                                <input type="text" class="form-input photo-sub-input" data-index="${idx}" value="${photo.subtitle || ''}" placeholder="VD: Khai mạc, Trao giải...">
+                            </div>
+                            <div class="photo-card-actions">
+                                <button type="button" class="btn btn-outline btn-replace-photo" data-index="${idx}" style="flex: 1; padding: 0.45rem 0.5rem; font-size: 0.82rem;" title="Tải ảnh mới từ máy tính để tự động cập nhật vào asset">
+                                    <i class="fa-solid fa-upload"></i> Đổi Ảnh Mới
+                                </button>
+                                <button type="button" class="btn btn-outline btn-set-cover" data-index="${idx}" title="Đặt làm ảnh bìa Card giải đấu" style="padding: 0.45rem 0.65rem; font-size: 0.82rem;">
+                                    <i class="fa-solid fa-star"></i>
+                                </button>
                             </div>
                         </div>
-                    ;
+                    `;
                     photosGrid.appendChild(card);
                 }
+
+                // Khi người dùng nhập đường dẫn/tên file ảnh cho từng card: tự động cập nhật vào asset
+                document.querySelectorAll(".photo-src-input").forEach(input => {
+                    input.oninput = (e) => {
+                        const idx = parseInt(e.target.dataset.index);
+                        let val = e.target.value.trim();
+                        // Tự động chuẩn hóa vào asset nếu chỉ nhập tên file
+                        if (val && !val.startsWith("http") && !val.startsWith("data:") && !val.startsWith("assets/")) {
+                            val = "assets/images/tournaments/" + val;
+                        }
+                        cat.photos[idx].src = val;
+                        const thumb = document.getElementById(`thumbImg_${idx}`);
+                        if (thumb) thumb.src = val;
+                    };
+                    input.onchange = (e) => {
+                        const idx = parseInt(e.target.dataset.index);
+                        let val = normalizeImagePath(e.target.value.trim());
+                        e.target.value = val;
+                        cat.photos[idx].src = val;
+                        const thumb = document.getElementById(`thumbImg_${idx}`);
+                        if (thumb) thumb.src = val;
+                        showToast(`Đã cập nhật asset cho ảnh #${idx + 1}: ${val}`, "success");
+                    };
+                });
+
+                // Attach events to photo inputs
+                document.querySelectorAll(".photo-caption-input").forEach(input => {
+                    input.oninput = (e) => {
+                        const idx = parseInt(e.target.dataset.index);
+                        cat.photos[idx].caption = e.target.value;
+                    };
+                });
+
+                document.querySelectorAll(".photo-sub-input").forEach(input => {
+                    input.oninput = (e) => {
+                        const idx = parseInt(e.target.dataset.index);
+                        cat.photos[idx].subtitle = e.target.value;
+                    };
+                });
+
+                document.querySelectorAll(".btn-replace-photo").forEach(btn => {
+                    btn.onclick = () => {
+                        replacingPhotoIndex = parseInt(btn.dataset.index);
+                        document.getElementById("singleReplaceFileInput").click();
+                    };
+                });
+
+                document.querySelectorAll(".btn-set-cover").forEach(btn => {
+                    btn.onclick = () => {
+                        const idx = parseInt(btn.dataset.index);
+                        cat.cover = cat.photos[idx].src;
+                        document.getElementById("inputCatCover").value = cat.cover;
+                        showToast(`Đã đặt ảnh #${idx + 1} (${cat.cover}) làm ảnh bìa Card!`, "success");
+                    };
+                });
             }
 
-            // Single Photo Replacement
-            window.triggerReplacePhoto = function(photoIndex) {
-                replacingPhotoIndex = photoIndex;
-                const fileInput = document.getElementById("singleReplaceFileInput");
-                fileInput.value = "";
-                fileInput.click();
-            };
-
-            document.getElementById("singleReplaceFileInput").onchange = async (e) => {
-                const file = e.target.files[0];
-                if (!file || replacingPhotoIndex < 0) return;
-
-                try {
-                    const base64 = await compressImageFile(file);
-                    const cat = tournamentsData[activeCatKey];
-                    if (cat && cat.photos && cat.photos[replacingPhotoIndex]) {
-                        cat.photos[replacingPhotoIndex].src = base64;
-                        document.getElementById(	humbImg_).src = base64;
-                        showToast(ÄÃ£ cáº­p nháº­t áº£nh vá»‹ trÃ­ #! Báº¥m 'LÆ°u Thay Äá»•i' Ä‘á»ƒ hoÃ n táº¥t., "success");
-                    }
-                } catch (err) {
-                    showToast("Lá»—i nÃ©n áº£nh: " + err.message, "danger");
-                }
-            };
-
-            // Batch Upload
-            const dropzone = document.getElementById("dropzone");
-            const batchFileInput = document.getElementById("batchFileInput");
-
-            dropzone.onclick = () => batchFileInput.click();
-            batchFileInput.onchange = (e) => handleBatchFiles(e.target.files);
-
-            dropzone.ondragover = (e) => { e.preventDefault(); dropzone.classList.add("dragover"); };
-            dropzone.ondragleave = () => dropzone.classList.remove("dragover");
-            dropzone.ondrop = (e) => {
-                e.preventDefault();
-                dropzone.classList.remove("dragover");
-                handleBatchFiles(e.dataTransfer.files);
-            };
-
-            async function handleBatchFiles(files) {
-                if (!files || files.length === 0) return;
-                showToast(Äang xá»­ lÃ½  áº£nh..., "info");
-
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    if (!file.type.startsWith("image/")) continue;
+            // Single Photo Replacement: Tự động cập nhật vào asset khi chọn ảnh
+            const singleReplaceFileInput = document.getElementById("singleReplaceFileInput");
+            singleReplaceFileInput.onchange = async (e) => {
+                if (e.target.files && e.target.files[0] && replacingPhotoIndex >= 0) {
+                    const file = e.target.files[0];
                     try {
-                        const base64 = await compressImageFile(file);
-                        stagedUploads.push({
-                            name: file.name,
-                            src: base64
-                        });
-                    } catch (e) {
-                        console.error(e);
+                        const cat = tournamentsData[activeCatKey];
+                        const standardAssetPath = getStandardAssetPath(activeCatKey, replacingPhotoIndex);
+                        const standardFileName = standardAssetPath.split("/").pop();
+
+                        // Nén ảnh để xem trước tức thì
+                        const compressed = await compressImageFile(file);
+
+                        // Tự động gán đường dẫn chuẩn asset vào dữ liệu card
+                        cat.photos[replacingPhotoIndex].src = standardAssetPath;
+
+                        // Tự động tải về file ảnh với đúng tên file asset để người dùng lưu vào thư mục assets
+                        triggerDownloadAsset(file, standardFileName);
+
+                        renderActiveCategory();
+
+                        // Cập nhật ảnh thumbnail hiển thị ngay lập tức ảnh vừa chọn
+                        const thumb = document.getElementById(`thumbImg_${replacingPhotoIndex}`);
+                        if (thumb) thumb.src = compressed;
+
+                        showToast(`Đã tự động cập nhật asset: ${standardAssetPath}! File [${standardFileName}] đã được tải về để bạn lưu vào thư mục asset.`, "success");
+                    } catch (err) {
+                        showToast("Không thể tải ảnh: " + err.message, "danger");
                     }
+                    singleReplaceFileInput.value = "";
                 }
+            };
 
-                renderStagedImages();
-                showToast(ÄÃ£ thÃªm  áº£nh vÃ o hÃ ng chá»! Chá»n vá»‹ trÃ­ Ä‘á»ƒ gÃ¡n áº£nh., "success");
-            }
+            // Multi-Image Upload Dropzone
+            const uploadDropzone = document.getElementById("uploadDropzone");
+            const multiFileInput = document.getElementById("multiFileInput");
+            uploadDropzone.onclick = () => multiFileInput.click();
 
-            function renderStagedImages() {
-                const wrap = document.getElementById("stagedImagesWrap");
-                const grid = document.getElementById("stagedGrid");
-                const countBadge = document.getElementById("stagedCountBadge");
+            uploadDropzone.ondragover = (e) => { e.preventDefault(); uploadDropzone.classList.add("dragover"); };
+            uploadDropzone.ondragleave = () => uploadDropzone.classList.remove("dragover");
+            uploadDropzone.ondrop = async (e) => {
+                e.preventDefault();
+                uploadDropzone.classList.remove("dragover");
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    await handleStagedFiles(Array.from(e.dataTransfer.files));
+                }
+            };
 
-                if (stagedUploads.length === 0) {
-                    wrap.style.display = "none";
+            multiFileInput.onchange = async (e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                    await handleStagedFiles(Array.from(e.target.files));
+                    multiFileInput.value = "";
+                }
+            };
+
+            async function handleStagedFiles(files) {
+                const imgFiles = files.filter(f => f.type.startsWith("image/"));
+                if (imgFiles.length === 0) {
+                    showToast("Vui lòng chọn file hình ảnh hợp lệ!", "danger");
                     return;
                 }
 
-                wrap.style.display = "block";
-                countBadge.textContent = stagedUploads.length + " áº£nh";
+                showToast(`Đang nén ${imgFiles.length} ảnh...`, "info");
+                for (let file of imgFiles) {
+                    try {
+                        const base64 = await compressImageFile(file);
+                        stagedUploads.push({
+                            src: base64,
+                            name: file.name,
+                            file: file
+                        });
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }
+                renderStagedGrid();
+                showToast(`Đã nén xong ${imgFiles.length} ảnh mới sẵn sàng gán!`, "success");
+            }
+
+            function renderStagedGrid() {
+                const box = document.getElementById("stagedUploadBox");
+                const grid = document.getElementById("stagedGrid");
+                const countText = document.getElementById("stagedCountText");
+
+                if (stagedUploads.length === 0) {
+                    box.style.display = "none";
+                    return;
+                }
+
+                box.style.display = "block";
+                countText.textContent = `Đã tải lên ${stagedUploads.length} ảnh mới chờ gán:`;
                 grid.innerHTML = "";
 
                 stagedUploads.forEach((item, sIdx) => {
-                    const box = document.createElement("div");
-                    box.style.cssText = "background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 0.75rem; text-align: center;";
-                    box.innerHTML = 
-                        <img src="" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 0.5rem;">
-                        <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"></div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem;">
-                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="28354" data-pos="0" style="padding: 0.3rem; font-size: 0.75rem;">Vá»‹ trÃ­ 1</button>
-                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="28354" data-pos="1" style="padding: 0.3rem; font-size: 0.75rem;">Vá»‹ trÃ­ 2</button>
-                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="28354" data-pos="2" style="padding: 0.3rem; font-size: 0.75rem;">Vá»‹ trÃ­ 3</button>
-                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="28354" data-pos="3" style="padding: 0.3rem; font-size: 0.75rem;">Vá»‹ trÃ­ 4</button>
+                    const card = document.createElement("div");
+                    card.style.background = "#ffffff";
+                    card.style.border = "1px solid var(--border)";
+                    card.style.borderRadius = "12px";
+                    card.style.padding = "0.75rem";
+                    card.style.textAlign = "center";
+
+                    card.innerHTML = `
+                        <img src="${item.src}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 0.5rem;">
+                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${item.name}</div>
+                        <div style="display: flex; gap: 0.25rem; flex-wrap: wrap; justify-content: center;">
+                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="${sIdx}" data-pos="0" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Gán Vị Trí #1</button>
+                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="${sIdx}" data-pos="1" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Gán Vị Trí #2</button>
+                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="${sIdx}" data-pos="2" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Gán Vị Trí #3</button>
+                            <button type="button" class="btn btn-outline btn-assign-pos" data-sidx="${sIdx}" data-pos="3" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Gán Vị Trí #4</button>
                         </div>
-                    ;
-                    grid.appendChild(box);
+                    `;
+                    grid.appendChild(card);
                 });
 
                 document.querySelectorAll(".btn-assign-pos").forEach(btn => {
@@ -1262,37 +1332,60 @@
                         const sIdx = parseInt(btn.dataset.sidx);
                         const pos = parseInt(btn.dataset.pos);
                         const cat = tournamentsData[activeCatKey];
-                        cat.photos[pos].src = stagedUploads[sIdx].src;
+                        const item = stagedUploads[sIdx];
+
+                        const standardAssetPath = getStandardAssetPath(activeCatKey, pos);
+                        const standardFileName = standardAssetPath.split("/").pop();
+
+                        // Tự động gán đường dẫn asset chuẩn
+                        cat.photos[pos].src = standardAssetPath;
+
+                        // Tải file về máy để tiện lưu vào assets
+                        if (item.file) {
+                            triggerDownloadAsset(item.file, standardFileName);
+                        }
+
                         renderActiveCategory();
-                        showToast(ÄÃ£ gÃ¡n áº£nh vÃ o Vá»‹ trÃ­ # cá»§a !, "success");
+
+                        const thumb = document.getElementById(`thumbImg_${pos}`);
+                        if (thumb) thumb.src = item.src;
+
+                        showToast(`Đã gán ảnh vào Vị trí #${pos + 1} (${standardAssetPath})!`, "success");
                     };
                 });
             }
 
             // Contact Data Functions
             async function loadContactData() {
+                let remoteContact = null;
                 try {
                     const res = await fetch("assets/data/contact.json?v=" + Date.now());
                     if (res.ok) {
-                        contactData = Object.assign({}, DEFAULT_CONTACT_DATA, await res.json());
+                        remoteContact = await res.json();
                     }
                 } catch (e) {}
 
                 try {
                     const saved = localStorage.getItem(CONTACT_STORAGE_KEY);
                     if (saved) {
-                        contactData = Object.assign({}, contactData, JSON.parse(saved));
+                        contactData = Object.assign({}, DEFAULT_CONTACT_DATA, JSON.parse(saved));
+                    } else if (remoteContact) {
+                        contactData = Object.assign({}, DEFAULT_CONTACT_DATA, remoteContact);
+                    } else {
+                        contactData = Object.assign({}, DEFAULT_CONTACT_DATA);
                     }
-                } catch (e) {}
+                } catch (e) {
+                    contactData = Object.assign({}, DEFAULT_CONTACT_DATA);
+                }
             }
 
             function saveContactData() {
                 saveContactInputsToMemory();
                 try {
                     localStorage.setItem(CONTACT_STORAGE_KEY, JSON.stringify(contactData));
-                    showToast("ÄÃ£ lÆ°u thÃ´ng tin liÃªn há»‡ thÃ nh cÃ´ng!", "success");
+                    showToast("Đã lưu thông tin liên hệ thành công!", "success");
                 } catch(e) {
-                    showToast("Lá»—i khi lÆ°u thÃ´ng tin liÃªn há»‡: " + e.message, "danger");
+                    showToast("Lỗi khi lưu thông tin liên hệ: " + e.message, "danger");
                 }
             }
 
@@ -1316,9 +1409,9 @@
             }
 
             function updateContactPreview() {
-                const phone = document.getElementById("inputContactPhone").value.trim() || contactData.phone || "09xx.xxx.xxx";
-                const zalo = document.getElementById("inputContactZalo").value.trim() || contactData.zalo || "09xx.xxx.xxx";
-                const fbName = document.getElementById("inputContactFbName").value.trim() || contactData.facebookName || "Tráº§n Nam Äáº¡t";
+                const phone = document.getElementById("inputContactPhone").value.trim() || contactData.phone || "0325.321.006";
+                const zalo = document.getElementById("inputContactZalo").value.trim() || contactData.zalo || "0559.326.660";
+                const fbName = document.getElementById("inputContactFbName").value.trim() || contactData.facebookName || "Trần Nam Đạt";
                 const fbUrl = document.getElementById("inputContactFbUrl").value.trim() || contactData.facebookUrl || "#";
 
                 const rawPhone = phone.replace(/[^0-9+]/g, "");
@@ -1353,18 +1446,40 @@
                     if (activeCatKey === "contact-info") {
                         saveContactData();
                     }
-                    showToast("ÄÃ£ lÆ°u vÃ o bá»™ nhá»› trÃ¬nh duyá»‡t! Äá»ƒ cáº­p nháº­t lÃªn Vercel, hÃ£y báº¥m 'Táº£i tournaments.json' vÃ  push Git.", "success");
                 };
             }
 
-            // Export JSON File Button (1-Click Download for Git Sync)
-            const btnExportFile = document.getElementById("btnExportJsonFile");
-            if (btnExportFile) {
-                btnExportFile.onclick = () => {
+            // Reset Defaults Button
+            const btnReset = document.getElementById("btnResetDefaults");
+            if (btnReset) {
+                btnReset.onclick = () => {
+                    if (confirm("Khôi phục toàn bộ 4 giải đấu và 16 ảnh về dữ liệu mẫu ban đầu?")) {
+                        tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
+                        saveData();
+                        renderTabs();
+                        renderActiveCategory();
+                        showToast("Đã khôi phục dữ liệu ban đầu!", "success");
+                    }
+                };
+            }
+
+            // Export JSON: Sao chép Clipboard và tải file tournaments.json về máy
+            const btnExport = document.getElementById("btnExportJson");
+            if (btnExport) {
+                btnExport.onclick = () => {
                     saveActiveInputsToMemory();
                     const exportCopy = JSON.parse(JSON.stringify(tournamentsData));
                     delete exportCopy._customizedByAdmin;
                     const jsonStr = JSON.stringify(exportCopy, null, 2);
+
+                    // Copy vào Clipboard
+                    navigator.clipboard.writeText(jsonStr).then(() => {
+                        showToast("Đã sao chép dữ liệu JSON vào Clipboard! Đang tải file tournaments.json về máy...", "success");
+                    }).catch(() => {
+                        showToast("Đang tải file tournaments.json về máy...", "info");
+                    });
+
+                    // Tải file về máy để người dùng commit/lưu vào assets/data/tournaments.json
                     const blob = new Blob([jsonStr], { type: "application/json" });
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement("a");
@@ -1373,70 +1488,11 @@
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    showToast("ÄÃ£ táº£i file tournaments.json vá» mÃ¡y! HÃ£y copy vÃ o assets/data/ vÃ  push lÃªn GitHub/Vercel.", "success");
+                    setTimeout(() => URL.revokeObjectURL(url), 1500);
                 };
             }
 
-            // Import JSON File
-            const btnImportFile = document.getElementById("btnImportJsonFile");
-            const jsonFileInput = document.getElementById("jsonFileInput");
-            if (btnImportFile && jsonFileInput) {
-                btnImportFile.onclick = () => jsonFileInput.click();
-                jsonFileInput.onchange = (e) => {
-                    const file = e.target.files[0];
-                    if (!file) return;
-                    const reader = new FileReader();
-                    reader.onload = (evt) => {
-                        try {
-                            const imported = JSON.parse(evt.target.result);
-                            if (imported && (imported["an-nhiet-cup"] || imported["setup-ky-thuat"])) {
-                                tournamentsData = imported;
-                                tournamentsData._customizedByAdmin = true;
-                                saveData();
-                                renderTabs();
-                                renderActiveCategory();
-                                showToast("ÄÃ£ náº¡p file tournaments.json thÃ nh cÃ´ng!", "success");
-                            } else {
-                                showToast("File JSON khÃ´ng Ä‘Ãºng cáº¥u trÃºc giáº£i Ä‘áº¥u!", "danger");
-                            }
-                        } catch(err) {
-                            showToast("Lá»—i Ä‘á»c file JSON: " + err.message, "danger");
-                        }
-                    };
-                    reader.readAsText(file);
-                };
-            }
-
-            // Export JSON to Clipboard Button
-            const btnExportJson = document.getElementById("btnExportJson");
-            if (btnExportJson) {
-                btnExportJson.onclick = () => {
-                    saveActiveInputsToMemory();
-                    const exportCopy = JSON.parse(JSON.stringify(tournamentsData));
-                    delete exportCopy._customizedByAdmin;
-                    const jsonStr = JSON.stringify(exportCopy, null, 2);
-                    navigator.clipboard.writeText(jsonStr).then(() => {
-                        showToast("ÄÃ£ sao chÃ©p dá»¯ liá»‡u JSON vÃ o Clipboard!", "success");
-                    });
-                };
-            }
-
-            // Reset Defaults Button
-            const btnReset = document.getElementById("btnResetDefaults");
-            if (btnReset) {
-                btnReset.onclick = () => {
-                    if (confirm("KhÃ´i phá»¥c toÃ n bá»™ 4 giáº£i Ä‘áº¥u vá» dá»¯ liá»‡u gá»‘c?")) {
-                        tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
-                        saveData();
-                        renderTabs();
-                        renderActiveCategory();
-                        showToast("ÄÃ£ khÃ´i phá»¥c dá»¯ liá»‡u ban Ä‘áº§u!", "success");
-                    }
-                };
-            }
-
-            // Input change listeners
+            // Input change listeners for tournament metadata
             ["inputCatTitle", "inputCatBadge", "inputCatRole", "inputCatCover", "inputCatDesc"].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
@@ -1446,6 +1502,18 @@
                     };
                 }
             });
+
+            // Tự động chuẩn hóa đường dẫn ảnh bìa khi người dùng nhập
+            const inputCover = document.getElementById("inputCatCover");
+            if (inputCover) {
+                inputCover.onchange = (e) => {
+                    let val = normalizeImagePath(e.target.value.trim());
+                    e.target.value = val;
+                    const cat = tournamentsData[activeCatKey];
+                    if (cat) cat.cover = val;
+                    showToast(`Đã cập nhật ảnh bìa: ${val}`, "success");
+                };
+            }
 
             // Async Initialization
             async function init() {
