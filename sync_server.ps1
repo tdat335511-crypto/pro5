@@ -7,6 +7,21 @@ $port = 5555
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Definition
 if (-not $projectRoot) { $projectRoot = Get-Location }
 
+# 1. Kiem tra xem port 5555 da co sync server dang chay hay chua
+try {
+    $check = Invoke-RestMethod -Uri "http://127.0.0.1:$port/api/status" -TimeoutSec 1 -ErrorAction Stop
+    if ($check.status -eq "online") {
+        Write-Host "==========================================================" -ForegroundColor Green
+        Write-Host " [OK] Billiards Media Sync Server DANG CHAY SAN tren port $port!" -ForegroundColor Green
+        Write-Host " Thu muc du an: $($check.root)" -ForegroundColor Cyan
+        Write-Host " Server dang hoat dong tot va san sang ghi dia tu admin.html." -ForegroundColor Green
+        Write-Host " Ban co the mo admin.html de su dung ngay bay gio!" -ForegroundColor Yellow
+        Write-Host " (Khong can khoi dong them cua so server moi)" -ForegroundColor Gray
+        Write-Host "==========================================================" -ForegroundColor Green
+        exit 0
+    }
+} catch {}
+
 $listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://127.0.0.1:$port/")
 
@@ -18,7 +33,7 @@ try {
     Write-Host " Ready to receive auto-sync requests from admin.html..." -ForegroundColor Yellow
     Write-Host "==========================================================" -ForegroundColor Green
 } catch {
-    Write-Host "Error starting HTTP listener: $_" -ForegroundColor Red
+    Write-Host "Error starting HTTP listener on port $($port): $_" -ForegroundColor Red
     exit 1
 }
 

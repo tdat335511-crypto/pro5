@@ -23,14 +23,14 @@
       {
         "id": "annhiet-3",
         "src": "assets/images/tournaments/annhiet-3.jpg",
-        "caption": "Trận chung kết nghẹt thở tranh cúp vô địch An Nhiệt Premier",
-        "subtitle": "Khoảnh khắc thi đấu"
+        "caption": "",
+        "subtitle": ""
       },
       {
         "id": "annhiet-4",
         "src": "assets/images/tournaments/annhiet-4.jpg",
-        "caption": "Lễ bế mạc và vinh danh trao cúp cho tân vương giải đấu",
-        "subtitle": "Lễ vinh danh"
+        "caption": "",
+        "subtitle": ""
       }
     ]
   },
@@ -87,7 +87,7 @@
       {
         "id": "wpa-2",
         "src": "assets/images/tournaments/wpa-2.jpg",
-        "caption": "Pha giải bi cứu thua đẳng cấp thế giới được ghi hình trực tiếp",
+        "caption": "cặp đôi hotttt nhất ",
         "subtitle": "Highlight thi đấu đỉnh cao"
       },
       {
@@ -116,14 +116,14 @@
       {
         "id": "asia-1",
         "src": "assets/images/tournaments/asia-1.jpg",
-        "caption": "Toàn cảnh lễ khai mạc giải Vô địch Billiards Quốc Gia",
-        "subtitle": "Khai mạc Đấu Trường Quốc Gia"
+        "caption": "Trao Giải Vô Địch Châu Á",
+        "subtitle": "Đại chiến Châu Á (Asia Pool)"
       },
       {
         "id": "asia-2",
         "src": "assets/images/tournaments/asia-2.jpg",
-        "caption": "Cơ thủ tuyển Việt Nam tranh tài cùng các đối thủ hàng đầu Châu Á",
-        "subtitle": "Đại chiến Châu Á (Asia Pool)"
+        "caption": "",
+        "subtitle": ""
       },
       {
         "id": "asia-3",
@@ -134,7 +134,7 @@
       {
         "id": "asia-4",
         "src": "assets/images/tournaments/asia-4.jpg",
-        "caption": "Lễ trao huy chương vàng danh giá tại giải Vô địch Quốc Gia",
+        "caption": "Khung cảnh trước giờ thi đấu ",
         "subtitle": "Vinh quang bục nhận thưởng"
       }
     ]
