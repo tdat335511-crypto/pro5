@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -1472,7 +1472,13 @@
                 });
             }
 
-            // Enterprise Async Data Loader: Fetch JSON tu file tinh, fallback vao LocalStorage/Default
+            function isValidTournamentsObject(obj) {
+                if (!obj || typeof obj !== "object") return false;
+                const src = obj.tournaments || obj;
+                return !!(src["an-nhiet-cup"] || src["setup-ky-thuat"] || src["wpa-the-gioi"] || src["chau-a-quoc-gia"]);
+            }
+
+            // Enterprise Async Data Loader: Fetch JSON từ file tĩnh, fallback vào LocalStorage/Default
             async function loadData() {
                 let remoteData = null;
                 try {
@@ -1481,7 +1487,7 @@
                         remoteData = await res.json();
                     }
                 } catch (e) {
-                    // Offline hoac fetch loi
+                    // Offline hoặc CORS do mở file:///
                 }
 
                 let localSaved = null;
@@ -1490,16 +1496,39 @@
                     if (saved) localSaved = JSON.parse(saved);
                 } catch (e) {}
 
-                // Priority: Neu admin co tuy bien tai may nay thi uu tien local, nguoc lai dung server truth (Vercel)
-                if (localSaved && localSaved._customizedByAdmin) {
+                // Chọn nguồn dữ liệu hợp lệ
+                if (localSaved && localSaved._customizedByAdmin && isValidTournamentsObject(localSaved)) {
                     tournamentsData = localSaved;
-                } else if (remoteData) {
+                } else if (remoteData && isValidTournamentsObject(remoteData)) {
                     tournamentsData = remoteData;
-                } else if (localSaved) {
+                } else if (localSaved && isValidTournamentsObject(localSaved)) {
                     tournamentsData = localSaved;
                 } else {
                     tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
                 }
+
+                // Unwrap nếu dữ liệu bị lồng trong key tournaments
+                if (tournamentsData && tournamentsData.tournaments) {
+                    tournamentsData = Object.assign({}, tournamentsData.tournaments, tournamentsData);
+                    delete tournamentsData.tournaments;
+                }
+
+                // Đảm bảo cả 4 giải đấu bắt buộc luôn tồn tại đầy đủ
+                const requiredKeys = ["an-nhiet-cup", "setup-ky-thuat", "wpa-the-gioi", "chau-a-quoc-gia"];
+                requiredKeys.forEach(k => {
+                    const cat = tournamentsData[k];
+                    const defaultCat = DEFAULT_TOURNAMENTS_DATA[k];
+                    if (!cat || !cat.title || !Array.isArray(cat.photos) || cat.photos.length === 0) {
+                        tournamentsData[k] = JSON.parse(JSON.stringify(defaultCat));
+                    } else {
+                        if (!cat.cover) cat.cover = defaultCat.cover;
+                        for (let pIdx = 0; pIdx < 4; pIdx++) {
+                            if (!cat.photos[pIdx] || !cat.photos[pIdx].src) {
+                                cat.photos[pIdx] = JSON.parse(JSON.stringify(defaultCat.photos[pIdx]));
+                            }
+                        }
+                    }
+                });
 
                 normalizeTournamentsData(tournamentsData);
             }
@@ -1522,23 +1551,23 @@
                     const coverSrc = cat.cover || (cat.photos && cat.photos[0] ? cat.photos[0].src : "");
                     const fallbackSrc = cat.coverFallback || (cat.photos && cat.photos[0] ? cat.photos[0].fallback : SVG_FALLBACK);
 
-                    card.innerHTML = 
-                        <img class="tournament-card-bg" src="" alt="" onerror="this.src=''">
+                    card.innerHTML = `
+                        <img class="tournament-card-bg" src="${coverSrc}" alt="${cat.title}" onerror="this.src='${fallbackSrc}'">
                         <div class="tournament-card-overlay"></div>
                         <div class="tournament-card-top">
-                            <span class="tournament-badge"></span>
-                            <div class="tournament-icon-pill"><i class="fa-solid "></i></div>
+                            <span class="tournament-badge">${cat.badge}</span>
+                            <div class="tournament-icon-pill"><i class="fa-solid ${cat.icon}"></i></div>
                         </div>
                         <div class="tournament-card-content">
-                            <h3 class="tournament-card-title"></h3>
-                            <div class="tournament-card-role"><i class="fa-solid fa-bullseye"></i> </div>
-                            <p class="tournament-card-desc"></p>
+                            <h3 class="tournament-card-title">${cat.title}</h3>
+                            <div class="tournament-card-role"><i class="fa-solid fa-bullseye"></i> ${cat.role}</div>
+                            <p class="tournament-card-desc">${cat.description}</p>
                             <div class="tournament-card-footer">
                                 <span class="tournament-chip"><i class="fa-solid fa-images"></i> 4 Hình ảnh tiêu biểu</span>
                                 <span class="tournament-action-cta">Khám phá album <i class="fa-solid fa-arrow-right"></i></span>
                             </div>
                         </div>
-                    ;
+                    `;
                     grid.appendChild(card);
                 });
             }
@@ -1570,16 +1599,16 @@
                     item.className = "modal-photo-item";
                     item.onclick = () => openLightbox(activeCategoryPhotos, idx, cat.title);
 
-                    item.innerHTML = 
+                    item.innerHTML = `
                         <div class="modal-photo-thumb">
-                            <span class="modal-photo-subtitle"></span>
-                            <img src="" alt="" onerror="this.src=''">
+                            <span class="modal-photo-subtitle">${photo.subtitle || ('Ảnh #' + (idx + 1))}</span>
+                            <img src="${photo.src}" alt="${photo.caption}" onerror="this.src='${photo.fallback || SVG_FALLBACK}'">
                             <div class="modal-photo-zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                         </div>
                         <div class="modal-photo-caption">
-                            
+                            ${photo.caption}
                         </div>
-                    ;
+                    `;
                     modalPhotosGrid.appendChild(item);
                 });
 
@@ -1637,7 +1666,7 @@
                 lightboxCaption.textContent = photo.caption;
                 lightboxCategory.textContent = currentCategoryName;
                 lightboxSubtitle.textContent = photo.subtitle || "";
-                lightboxCounter.textContent = Ảnh  / ;
+                lightboxCounter.textContent = `Ảnh ${currentLightboxIndex + 1} / ${currentLightboxPhotos.length}`;
             }
 
             function lightboxNext() {

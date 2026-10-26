@@ -942,6 +942,12 @@
                 }
             }
 
+            function isValidTournamentsObject(obj) {
+                if (!obj || typeof obj !== "object") return false;
+                const src = obj.tournaments || obj;
+                return !!(src["an-nhiet-cup"] || src["setup-ky-thuat"] || src["wpa-the-gioi"] || src["chau-a-quoc-gia"]);
+            }
+
             // Async Data Loader: Fetch JSON từ file tĩnh, fallback vào LocalStorage/Default
             async function loadData() {
                 let remoteData = null;
@@ -958,15 +964,36 @@
                     if (saved) localSaved = JSON.parse(saved);
                 } catch (e) {}
 
-                if (localSaved && localSaved._customizedByAdmin) {
+                if (localSaved && localSaved._customizedByAdmin && isValidTournamentsObject(localSaved)) {
                     tournamentsData = localSaved;
-                } else if (remoteData) {
+                } else if (remoteData && isValidTournamentsObject(remoteData)) {
                     tournamentsData = remoteData;
-                } else if (localSaved) {
+                } else if (localSaved && isValidTournamentsObject(localSaved)) {
                     tournamentsData = localSaved;
                 } else {
                     tournamentsData = JSON.parse(JSON.stringify(DEFAULT_TOURNAMENTS_DATA));
                 }
+
+                if (tournamentsData && tournamentsData.tournaments) {
+                    tournamentsData = Object.assign({}, tournamentsData.tournaments, tournamentsData);
+                    delete tournamentsData.tournaments;
+                }
+
+                const requiredKeys = ["an-nhiet-cup", "setup-ky-thuat", "wpa-the-gioi", "chau-a-quoc-gia"];
+                requiredKeys.forEach(k => {
+                    const cat = tournamentsData[k];
+                    const defaultCat = DEFAULT_TOURNAMENTS_DATA[k];
+                    if (!cat || !cat.title || !Array.isArray(cat.photos) || cat.photos.length === 0) {
+                        tournamentsData[k] = JSON.parse(JSON.stringify(defaultCat));
+                    } else {
+                        if (!cat.cover) cat.cover = defaultCat.cover;
+                        for (let pIdx = 0; pIdx < 4; pIdx++) {
+                            if (!cat.photos[pIdx] || !cat.photos[pIdx].src) {
+                                cat.photos[pIdx] = JSON.parse(JSON.stringify(defaultCat.photos[pIdx]));
+                            }
+                        }
+                    }
+                });
 
                 normalizeTournamentsData(tournamentsData);
             }
