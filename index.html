@@ -1746,6 +1746,19 @@
                 }
             });
 
+            // Enterprise Realtime Cross-tab Sync via BroadcastChannel
+            if (typeof BroadcastChannel !== "undefined") {
+                const syncChannel = new BroadcastChannel("billiards_realtime_sync");
+                syncChannel.onmessage = async (e) => {
+                    if (e.data && e.data.type === "tournaments") {
+                        await loadData();
+                        renderTournamentCards();
+                    } else if (e.data && e.data.type === "contact") {
+                        await loadContactData();
+                    }
+                };
+            }
+
             // Async Initialization
             async function init() {
                 await loadContactData();

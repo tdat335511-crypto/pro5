@@ -998,24 +998,34 @@
                 normalizeTournamentsData(tournamentsData);
             }
 
+            const syncChannel = typeof BroadcastChannel !== "undefined" ? new BroadcastChannel("billiards_realtime_sync") : null;
+            function notifySync(type) {
+                if (syncChannel) {
+                    try {
+                        syncChannel.postMessage({ type: type, timestamp: Date.now() });
+                    } catch (e) {}
+                }
+            }
+
             function saveData() {
                 try {
                     tournamentsData._customizedByAdmin = true;
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(tournamentsData));
-                    showToast("Đã lưu vào bộ nhớ trình duyệt thành công!", "success");
+                    notifySync("tournaments");
+                    showToast("Đã lưu và đồng bộ tức thì sang Trang chủ!", "success");
                 } catch (e) {
                     showToast("Bộ nhớ trình duyệt đầy, vui lòng nén ảnh nhỏ hơn!", "danger");
                 }
             }
 
-            // Image Compression
+            // Image Compression tối ưu dung lượng và sắc nét
             function compressImageFile(file) {
                 return new Promise((resolve, reject) => {
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         const img = new Image();
                         img.onload = () => {
-                            const MAX_WIDTH = 1200;
+                            const MAX_WIDTH = 1000;
                             let w = img.width;
                             let h = img.height;
                             if (w > MAX_WIDTH) {
@@ -1027,7 +1037,7 @@
                             canvas.height = h;
                             const ctx = canvas.getContext("2d");
                             ctx.drawImage(img, 0, 0, w, h);
-                            resolve(canvas.toDataURL("image/jpeg", 0.82));
+                            resolve(canvas.toDataURL("image/jpeg", 0.78));
                         };
                         img.onerror = () => resolve(e.target.result);
                         img.src = e.target.result;
@@ -1058,6 +1068,7 @@
                     `;
                     btn.onclick = () => {
                         saveActiveInputsToMemory();
+                        saveData();
                         activeCatKey = key;
                         renderTabs();
                         renderActiveCategory();
@@ -1079,6 +1090,7 @@
                 `;
                 contactBtn.onclick = () => {
                     saveActiveInputsToMemory();
+                    saveData();
                     activeCatKey = "contact-info";
                     renderTabs();
                     renderActiveCategory();
@@ -1094,11 +1106,33 @@
                 }
                 const cat = tournamentsData[activeCatKey];
                 if (!cat) return;
-                cat.title = document.getElementById("inputCatTitle").value.trim() || cat.title;
-                cat.badge = document.getElementById("inputCatBadge").value.trim() || cat.badge;
-                cat.role = document.getElementById("inputCatRole").value.trim() || cat.role;
-                cat.cover = normalizeImagePath(document.getElementById("inputCatCover").value.trim()) || cat.cover;
-                cat.description = document.getElementById("inputCatDesc").value.trim() || cat.description;
+                const titleEl = document.getElementById("inputCatTitle");
+                if (titleEl && titleEl.value.trim()) cat.title = titleEl.value.trim();
+                const badgeEl = document.getElementById("inputCatBadge");
+                if (badgeEl && badgeEl.value.trim()) cat.badge = badgeEl.value.trim();
+                const roleEl = document.getElementById("inputCatRole");
+                if (roleEl && roleEl.value.trim()) cat.role = roleEl.value.trim();
+                const coverEl = document.getElementById("inputCatCover");
+                if (coverEl && coverEl.value.trim()) {
+                    const cVal = coverEl.value.trim();
+                    if (!cVal.startsWith("data:")) {
+                        cat.cover = normalizeImagePath(cVal);
+                    }
+                }
+                const descEl = document.getElementById("inputCatDesc");
+                if (descEl && descEl.value.trim()) cat.description = descEl.value.trim();
+
+                // Lưu các trường caption & subtitle của 4 ảnh
+                if (cat.photos && Array.isArray(cat.photos)) {
+                    document.querySelectorAll(".photo-caption-input").forEach(inp => {
+                        const idx = parseInt(inp.dataset.index);
+                        if (cat.photos[idx]) cat.photos[idx].caption = inp.value;
+                    });
+                    document.querySelectorAll(".photo-sub-input").forEach(inp => {
+                        const idx = parseInt(inp.dataset.index);
+                        if (cat.photos[idx]) cat.photos[idx].subtitle = inp.value;
+                    });
+                }
             }
 
             // Render Active Category Editor or Contact Editor
@@ -1128,7 +1162,8 @@
                 document.getElementById("inputCatTitle").value = cat.title || "";
                 document.getElementById("inputCatBadge").value = cat.badge || "";
                 document.getElementById("inputCatRole").value = cat.role || "";
-                document.getElementById("inputCatCover").value = cat.cover || "";
+                const displayCover = (cat.cover && cat.cover.startsWith("data:")) ? (cat.coverAssetPath || `assets/images/tournaments/${getAssetPrefix(activeCatKey)}-cover.jpg`) : (cat.cover || "");
+                document.getElementById("inputCatCover").value = displayCover;
                 document.getElementById("inputCatDesc").value = cat.description || "";
 
                 // Render 4 Photos Editor Grid
@@ -1148,6 +1183,8 @@
                     };
                     cat.photos[idx] = photo;
 
+                    const displaySrc = (photo.src && photo.src.startsWith("data:")) ? (photo.assetPath || getStandardAssetPath(activeCatKey, idx)) : (photo.src || "");
+
                     const card = document.createElement("div");
                     card.className = "photo-card-box";
 
@@ -1161,7 +1198,7 @@
                                 <label class="form-label" style="font-size: 0.8rem; margin-bottom: 0.25rem;">
                                     <i class="fa-solid fa-link" style="color: var(--primary);"></i> Đường dẫn ảnh Asset / File
                                 </label>
-                                <input type="text" class="form-input photo-src-input" data-index="${idx}" value="${photo.src || ''}" placeholder="VD: assets/images/tournaments/annhiet-1.jpg hoặc tên file...">
+                                <input type="text" class="form-input photo-src-input" data-index="${idx}" value="${displaySrc}" placeholder="VD: assets/images/tournaments/annhiet-1.jpg hoặc tên file...">
                             </div>
                             <div>
                                 <label class="form-label" style="font-size: 0.8rem; margin-bottom: 0.25rem;">Tiêu đề / Chú thích ảnh</label>
@@ -1202,8 +1239,10 @@
                         let val = normalizeImagePath(e.target.value.trim());
                         e.target.value = val;
                         cat.photos[idx].src = val;
+                        cat.photos[idx].assetPath = val;
                         const thumb = document.getElementById(`thumbImg_${idx}`);
                         if (thumb) thumb.src = val;
+                        saveData();
                         showToast(`Đã cập nhật asset cho ảnh #${idx + 1}: ${val}`, "success");
                     };
                 });
@@ -1214,6 +1253,7 @@
                         const idx = parseInt(e.target.dataset.index);
                         cat.photos[idx].caption = e.target.value;
                     };
+                    input.onchange = () => saveData();
                 });
 
                 document.querySelectorAll(".photo-sub-input").forEach(input => {
@@ -1221,6 +1261,7 @@
                         const idx = parseInt(e.target.dataset.index);
                         cat.photos[idx].subtitle = e.target.value;
                     };
+                    input.onchange = () => saveData();
                 });
 
                 document.querySelectorAll(".btn-replace-photo").forEach(btn => {
@@ -1234,8 +1275,10 @@
                     btn.onclick = () => {
                         const idx = parseInt(btn.dataset.index);
                         cat.cover = cat.photos[idx].src;
-                        document.getElementById("inputCatCover").value = cat.cover;
-                        showToast(`Đã đặt ảnh #${idx + 1} (${cat.cover}) làm ảnh bìa Card!`, "success");
+                        cat.coverAssetPath = cat.photos[idx].assetPath || getStandardAssetPath(activeCatKey, idx);
+                        document.getElementById("inputCatCover").value = cat.coverAssetPath || cat.cover;
+                        saveData();
+                        showToast(`Đã đặt ảnh #${idx + 1} làm ảnh bìa Card giải đấu và đồng bộ!`, "success");
                     };
                 });
             }
@@ -1250,22 +1293,24 @@
                         const standardAssetPath = getStandardAssetPath(activeCatKey, replacingPhotoIndex);
                         const standardFileName = standardAssetPath.split("/").pop();
 
-                        // Nén ảnh để xem trước tức thì
+                        showToast(`Đang xử lý và nén ảnh [${file.name}]...`, "info");
+                        // Nén ảnh để xem trước tức thì và tối ưu dung lượng LocalStorage
                         const compressed = await compressImageFile(file);
 
-                        // Tự động gán đường dẫn chuẩn asset vào dữ liệu card
-                        cat.photos[replacingPhotoIndex].src = standardAssetPath;
+                        // Lưu ảnh nén trực tiếp vào src để hiển thị ngay tức thì ở cả Admin và Trang Chủ
+                        cat.photos[replacingPhotoIndex].src = compressed;
+                        cat.photos[replacingPhotoIndex].assetPath = standardAssetPath;
 
-                        // Tự động tải về file ảnh với đúng tên file asset để người dùng lưu vào thư mục assets
+                        // Tự động tải về file ảnh chuẩn hóa để người dùng lưu vào thư mục assets
                         triggerDownloadAsset(file, standardFileName);
 
+                        // Lưu dữ liệu vào LocalStorage và phát tín hiệu Realtime Sync tới index.html
+                        saveData();
+
+                        // Render lại giao diện Admin để cập nhật card và thumbnail
                         renderActiveCategory();
 
-                        // Cập nhật ảnh thumbnail hiển thị ngay lập tức ảnh vừa chọn
-                        const thumb = document.getElementById(`thumbImg_${replacingPhotoIndex}`);
-                        if (thumb) thumb.src = compressed;
-
-                        showToast(`Đã tự động cập nhật asset: ${standardAssetPath}! File [${standardFileName}] đã được tải về để bạn lưu vào thư mục asset.`, "success");
+                        showToast(`Đổi ảnh #${replacingPhotoIndex + 1} thành công! Đã tự động cập nhật và đồng bộ sang Trang chủ.`, "success");
                     } catch (err) {
                         showToast("Không thể tải ảnh: " + err.message, "danger");
                     }
@@ -1360,24 +1405,24 @@
                         const pos = parseInt(btn.dataset.pos);
                         const cat = tournamentsData[activeCatKey];
                         const item = stagedUploads[sIdx];
+                        if (!cat || !item) return;
 
                         const standardAssetPath = getStandardAssetPath(activeCatKey, pos);
                         const standardFileName = standardAssetPath.split("/").pop();
 
-                        // Tự động gán đường dẫn asset chuẩn
-                        cat.photos[pos].src = standardAssetPath;
+                        // Gán ảnh nén vào src để hiển thị tức thì mọi nơi
+                        cat.photos[pos].src = item.src;
+                        cat.photos[pos].assetPath = standardAssetPath;
 
-                        // Tải file về máy để tiện lưu vào assets
+                        // Tải file về máy để người dùng lưu vào assets
                         if (item.file) {
                             triggerDownloadAsset(item.file, standardFileName);
                         }
 
+                        saveData();
                         renderActiveCategory();
 
-                        const thumb = document.getElementById(`thumbImg_${pos}`);
-                        if (thumb) thumb.src = item.src;
-
-                        showToast(`Đã gán ảnh vào Vị trí #${pos + 1} (${standardAssetPath})!`, "success");
+                        showToast(`Đã gán ảnh mới vào Vị trí #${pos + 1} (${standardAssetPath}) và đồng bộ sang Trang chủ!`, "success");
                     };
                 });
             }
@@ -1410,7 +1455,8 @@
                 saveContactInputsToMemory();
                 try {
                     localStorage.setItem(CONTACT_STORAGE_KEY, JSON.stringify(contactData));
-                    showToast("Đã lưu thông tin liên hệ thành công!", "success");
+                    notifySync("contact");
+                    showToast("Đã lưu thông tin liên hệ và đồng bộ sang Trang chủ thành công!", "success");
                 } catch(e) {
                     showToast("Lỗi khi lưu thông tin liên hệ: " + e.message, "danger");
                 }
@@ -1490,18 +1536,40 @@
                 };
             }
 
-            // Export JSON: Sao chép Clipboard và tải file tournaments.json về máy
+            // Export JSON: Chuẩn hóa đường dẫn sạch (không chứa base64 nặng), copy Clipboard và tải file tournaments.json
             const btnExport = document.getElementById("btnExportJson");
             if (btnExport) {
                 btnExport.onclick = () => {
                     saveActiveInputsToMemory();
                     const exportCopy = JSON.parse(JSON.stringify(tournamentsData));
                     delete exportCopy._customizedByAdmin;
+                    delete exportCopy._lastUpdated;
+
+                    // Clean all base64 data URLs to clean asset paths for Git/Vercel
+                    const categoryKeys = ["an-nhiet-cup", "setup-ky-thuat", "wpa-the-gioi", "chau-a-quoc-gia"];
+                    categoryKeys.forEach(catKey => {
+                        const cat = exportCopy[catKey];
+                        if (cat) {
+                            if (cat.cover && cat.cover.startsWith("data:")) {
+                                cat.cover = cat.coverAssetPath || `assets/images/tournaments/${getAssetPrefix(catKey)}-cover.jpg`;
+                            }
+                            delete cat.coverAssetPath;
+                            if (cat.photos && Array.isArray(cat.photos)) {
+                                cat.photos.forEach((p, pIdx) => {
+                                    if (p.src && p.src.startsWith("data:")) {
+                                        p.src = p.assetPath || getStandardAssetPath(catKey, pIdx);
+                                    }
+                                    delete p.assetPath;
+                                });
+                            }
+                        }
+                    });
+
                     const jsonStr = JSON.stringify(exportCopy, null, 2);
 
                     // Copy vào Clipboard
                     navigator.clipboard.writeText(jsonStr).then(() => {
-                        showToast("Đã sao chép dữ liệu JSON vào Clipboard! Đang tải file tournaments.json về máy...", "success");
+                        showToast("Đã sao chép dữ liệu JSON chuẩn hóa vào Clipboard! Đang tải file tournaments.json...", "success");
                     }).catch(() => {
                         showToast("Đang tải file tournaments.json về máy...", "info");
                     });
@@ -1525,6 +1593,7 @@
                 if (el) {
                     el.onchange = () => {
                         saveActiveInputsToMemory();
+                        saveData();
                         renderTabs();
                     };
                 }
@@ -1537,7 +1606,11 @@
                     let val = normalizeImagePath(e.target.value.trim());
                     e.target.value = val;
                     const cat = tournamentsData[activeCatKey];
-                    if (cat) cat.cover = val;
+                    if (cat) {
+                        cat.cover = val;
+                        cat.coverAssetPath = val;
+                        saveData();
+                    }
                     showToast(`Đã cập nhật ảnh bìa: ${val}`, "success");
                 };
             }
